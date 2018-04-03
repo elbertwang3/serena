@@ -155,10 +155,25 @@
   background-size: cover;
 }
 
+.body #rankingline {
+  background-color: black;
+
+}
+.ranking-line.svg {
+
+}
+
+.ranking-line {
+  fill: none;
+  stroke: white;
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 @media only screen and (max-width: 1107px) { 
   .title-container {
-      top: 65%;
+    top: 70%;
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -178,13 +193,12 @@
     font-size: 55px;
   }
   .title-container .subhed {
-    margin-top: 15px;
     font-size: 15px;
   }
   
 }
 
-@media only screen and (max-width: 500px) { 
+@media only screen and (max-width: 450px) { 
   .title-container .title {
     font-size: 45px;
   }

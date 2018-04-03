@@ -9,29 +9,22 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      serena_ranking_data: null
     };
-    this.type = this.type.bind(this);
-    this.setState = this.setState.bind(this);
-  
-    
   }
 
   componentDidMount() {
-    var files = ["data/serenaranking.csv"];
-    Promise.all(files.map(url => d3.csv(url, this.type))).then(function(values) {
-      console.log(values);
+    /*var files = ["data/serenaranking.csv"];
+    Promise.all(files.map(url => d3.csv(url, this.type))).then(values => {
       this.setState({
-        serena_ranking_data: values,
-  
-      })
-    })  
+        serena_ranking_data: values },
+        () => {
+          console.log(this.state.values)
+          this.refs.rankingline.createLineChart();
+        }
+      )
+    }) */ 
   }
 
-  type(d) { 
-    d['ranking'] = +d['ranking'];
-    return d;
-  }
 
   render() {
     return (
