@@ -1,10 +1,38 @@
 import React, { Component } from 'react';
-import logo from '../images/logo.svg';
-import background from '../images/background2.jpg';
-import Map from './Map.js';
+import Map from './components/Map.js';
+import RankingLine from './components/RankingLine.js';
 import '../css/App.css';
+import * as d3 from 'd3';
+
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      serena_ranking_data: null
+    };
+    this.type = this.type.bind(this);
+    this.setState = this.setState.bind(this);
+  
+    
+  }
+
+  componentDidMount() {
+    var files = ["data/serenaranking.csv"];
+    Promise.all(files.map(url => d3.csv(url, this.type))).then(function(values) {
+      console.log(values);
+      this.setState({
+        serena_ranking_data: values,
+  
+      })
+    })  
+  }
+
+  type(d) { 
+    d['ranking'] = +d['ranking'];
+    return d;
+  }
+
   render() {
     return (
       /*<div className="App">
@@ -33,7 +61,9 @@ class App extends Component {
 
         </div>
         <div className="body">
-          <div id="map"></div>
+          <div id="rankingline">
+            <RankingLine />
+          </div>
           <Map />
         </div>
 

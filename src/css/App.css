@@ -137,6 +137,7 @@
   font-size: 65px;
   white-space: nowrap;
   overflow: hidden;
+     text-shadow: 2px 2px #000000;
 }
 
 .title-container .subhed {
@@ -144,12 +145,12 @@
   font-family: "Source Sans Pro";
   font-size: 18px;
   max-width: 650px;
+     text-shadow: 1px 1px #000000;
 
 }
 
 .parallax {
   background-attachment: fixed;
-  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -157,6 +158,7 @@
 
 @media only screen and (max-width: 1107px) { 
   .title-container {
+      top: 65%;
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -173,13 +175,19 @@
 
 @media only screen and (max-width: 600px) { 
   .title-container .title {
-    font-size: 45px;
+    font-size: 55px;
   }
   .title-container .subhed {
     margin-top: 15px;
-    font-size: 13px;
+    font-size: 15px;
   }
   
+}
+
+@media only screen and (max-width: 500px) { 
+  .title-container .title {
+    font-size: 45px;
+  }
 }
 
 
