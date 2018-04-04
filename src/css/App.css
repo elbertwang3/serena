@@ -114,12 +114,18 @@
 
 .header {
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .background-container {
-  background-image: url("../images/background2.jpg");
+  background-image: -webkit-linear-gradient(rgba(0,0,0, 0) 50%,rgba(0,0,0, 1) 100%), url("../images/background2.jpg");
+  background-image:  -moz-linear-gradient(rgba(0,0,0, 0) 50%,rgba(0,0,0, 1) 100%), url("../images/background2.jpg");
+  background-image:  -o-linear-gradient(rgba(0,0,0, 0) 50%,rgba(0,0,0, 1) 100%), url("../images/background2.jpg");
+  background-image:  -ms-linear-gradient(rgba(0,0,0, 0) 50%,rgba(0,0,0, 1) 100%), url("../images/background2.jpg");
+  background-image:  linear-gradient(rgba(0,0,0, 0) 50%,rgba(0,0,0, 1) 100%), url("../images/background2.jpg");
   background-repeat: no-repeat;
-  background-size: 1437px;
+  background-size: cover;
   width: 100%;
   height: 100vh;
 }
@@ -127,14 +133,14 @@
 .title-container {
   position: absolute;
   top: 35%;
-  left: 40%;
+  left: 35%;
 }
 
 .title-container .title {
   font-family: "Source Sans Pro";
   font-weight: 900;
   color: white;
-  font-size: 65px;
+  font-size: 7vw;
   white-space: nowrap;
   overflow: hidden;
      text-shadow: 2px 2px #000000;
@@ -155,11 +161,15 @@
   background-size: cover;
 }
 
+.body {
+}
 .body #rankingline {
   background-color: black;
 
 }
-.ranking-line.svg {
+.ranking-line-svg {
+  display: block;
+  margin: 0 auto;
 
 }
 
@@ -171,6 +181,32 @@
   stroke-linejoin: round;
 }
 
+.ranking-line-svg .intro-ranking-x-axis {
+
+}
+
+.ranking-line-svg .intro-ranking-axis line  {
+   stroke: #888579;
+}
+
+.ranking-line-svg .intro-ranking-axis path  {
+   stroke: #888579;
+}
+
+.ranking-line-svg .intro-ranking-axis text  {
+   fill: #888579;
+}
+
+.ranking-line-svg .week-circle {
+  fill: white;
+  stroke: white;
+}
+
+.ranking-line-svg .swoopy-arrow {
+  stroke: white;
+  fill: none;
+}
+
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;
@@ -178,9 +214,12 @@
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
+
   }
 
   .title-container .title {
+    /*font-size: 70px;*/
+    font-size: 11vw;
   }
 
   .title-container .subhed {
@@ -190,7 +229,7 @@
 
 @media only screen and (max-width: 600px) { 
   .title-container .title {
-    font-size: 55px;
+    /*font-size: 55px;*/
   }
   .title-container .subhed {
     font-size: 15px;
@@ -198,11 +237,7 @@
   
 }
 
-@media only screen and (max-width: 450px) { 
-  .title-container .title {
-    font-size: 45px;
-  }
-}
+
 
 
 

@@ -10,6 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
     };
+
   }
 
   componentDidMount() {
@@ -40,7 +41,7 @@ class App extends Component {
 
       <div className="content">
         <div className="header">
-          <div className="background-container parallax">
+          <div className="background-container">
         
           </div>
           <div className="title-container">
@@ -48,15 +49,15 @@ class App extends Component {
               Serena The Great
             </div>
             <div className="subhed">
-              A data-driven analysis of the most dominant tennis player, male or female, of our era
+              A visual story of the most dominant tennis player, male or female, of the open era
             </div>
           </div>
 
         </div>
         <div className="body">
-          <div id="rankingline">
+         
             <RankingLine />
-          </div>
+          
           <Map />
         </div>
 
