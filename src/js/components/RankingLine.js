@@ -14,42 +14,33 @@ export default class RankingLine extends Component {
     this.state = {
       margin: {top: 50, right: 25, bottom: 25, left: 50},
       width: 500,
-      height: 4000,
+      height: 8000,
       linedata: null,
       slamdata: null,
-      g: null
+      g: null,
+      images: null
     };
-  }
-  componentDidMount() {
-    window.addEventListener('scroll', (event) => {
-      const divRect = this.divRef.current.getBoundingClientRect();
-      const topoffset = divRect.top + window.pageYOffset
-      const bottomoffset = divRect.bottom + window.pageYOffset
-      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-         d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
-      } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
 
-        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
-      }
-      /*if (topoffset <= 0 && bottomoffset >= 0) {
-        console.log(topoffset);
-        console.log(bottomoffset);
-        console.log(window.pageYOffset)
-        console.log(`translate(0, ${10 + topoffset})`)
-        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${10 + window.pageYOffset})`);
-      }*/
-      
-    //}
-      
-    })  
+  }
+
+  importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+  }
+
+
+  componentDidMount() {
     var files = ["data/serenaranking.csv", "data/slamresults.csv"];
     var types = [this.type, this.type2];
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
+      const images = this.importAll(require.context('../../images/originaltrophies', false, /\.(png|jpe?g|svg)$/));
       this.setState({
         linedata: values[0],
-        slamdata: values[1] },
+        slamdata: values[1],
+        images: images },
         () => {
           this.createLineChart()
         }
@@ -68,6 +59,7 @@ export default class RankingLine extends Component {
       this.createLineChart()
    }*/
   createLineChart() {
+
       var {width, height, margin, linedata, slamdata} = this.state
       const innerWidth = width - margin.left - margin.right
       const innerHeight =  height - margin.top - margin.bottom
@@ -115,10 +107,19 @@ export default class RankingLine extends Component {
         .append("path")
         .datum(linedata)
         .attr("class", "ranking-line")
-        .attr("d", line);
+        .attr("d", line)
+        .attr("stroke-dasharray", function(d) { return d3.select(this).node().getTotalLength() + " " + d3.select(this).node().getTotalLength()})
+        .attr("stroke-dashoffset", function(d) { return 0; })
+
+
+
+      const slamline = d3.line()
+            .curve(d3.curveStep)
+            .y(d => yScale(parseDate(d.date)))
+            .x(d => d.ranking);
 
       var that = this;
-      d3.select(this.gRef.current).append("g")
+      /*d3.select(this.gRef.current).append("g")
         .attr("class", "slams")
         .selectAll(".slam")
         .data(slamdata)
@@ -128,37 +129,90 @@ export default class RankingLine extends Component {
           console.log("hello")
           var enddate = _.cloneDeep(d)
           enddate['date'] = formatDate(d3.timeDay.offset(parseDate(d['date']), roundScale(d['result'])*14));
-          console.log(d['date']);
-          console.log(enddate['date'])
-          console.log(linedatadict[d['date']])
-          console.log("should be: " +  xScale(linedatadict[d['date']]))
-          //console.log(mainpath);
-          d['ranking'] = that.findYatXbyBisection(yScale(d['date']), mainpath.node())
-          enddate['ranking'] = that.findYatXbyBisection(yScale(enddate['date']), mainpath.node())
-                    //console.log(enddate);
-
-          console.log(d['ranking'])
-          console.log(enddate['ranking'])
+          d['ranking'] = that.findXatYbyBisection(yScale(parseDate(d['date'])), mainpath.node())
+          enddate['ranking'] = that.findXatYbyBisection(yScale(parseDate(enddate['date'])), mainpath.node())
           console.log([d, enddate]);
           return [d, enddate]; })
-        .attr("d", (d) => { 
-          const slamline = d3.line()
-            .curve(d3.curveStep)
-            .y(d => yScale(parseDate(d.ranking_date)))
-            .x(d => d.ranking);
-          return slamline
-
-        })
-       
+        .attr("d", slamline)
         .attr("fill", "none")
         .attr("stroke", function(d) {
-          console.log(slamColorScale(d['slam']))
-          return slamColorScale(d['slam'])
+          return slamColorScale(d[0]['slam'])
+        })*/
+
+      const nowins = slamdata.filter(d => d['result'] != "W")
+      const winsonly = slamdata.filter(d => d['result'] == "W")
+      var slams = d3.select(this.gRef.current).append("g")
+        .attr("class", "slams")
+        .selectAll(".slam")
+        .data(nowins)
+        .enter()
+        .append("g")
+        .attr("class", "slam")
+
+      slams.append("rect")
+        .attr("class", "slam-circle")
+        .attr("fill", "black")
+        .attr("x", d => xScale(linedatadict[d['date']])-12)
+        .attr("y", d => yScale(parseDate(d['date']))-12)
+        .attr("width", 24)
+        .attr("height", 24)
+        .on("mouseover", function(d) {
+          console.log("hello")
+          //d3.select(this).attr("fill", "white")
         })
+
+      slams.append("text")
+        .attr("class", "slam-text")
+        .text(d => d['result'])
+        .attr("fill", d => (d['result'] == 'A' ? "#D3D3D3" : slamColorScale(d['slam'])))
+        .attr("x", d => xScale(linedatadict[d['date']]))
+        .attr("y", d => yScale(parseDate(d['date'])))
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+
+    
+      //const images = this.importAll(require.context('../../images/trophies', false, /\.(png|jpe?g|svg)$/));
+      console.log(this.state.images);
+      var wins = d3.select(this.gRef.current).append("g")
+        .attr("class", "slamwins")
+        .selectAll(".slamwin")
+        .data(winsonly)
+        .enter()
+        .append("g")
+        .attr("class", "slamwin")
+        .attr("transform", d => `translate(${xScale(linedatadict[d['date']])}, ${yScale(parseDate(d['date']))})`)
+
+       wins.append("rect")
+        .attr("class", "slam-circle")
+        .attr("fill", "black")
+        .attr("x",-14)
+        .attr("y", -14)
+        .attr("width", 28)
+        .attr("height", 28)
+        .on("mouseover", function(d) {
+          console.log("hello")
+          //d3.select(this).attr("fill", "white")
+        })
+
+      wins.append("svg:image")
+        .attr("xlink:href", d => {
+          console.log(this.state.images[`${d['slam']}.png`])
+          //console.log(this.state.images[`${d['slam']}.png`]); 
+          return this.state.images[`${d['slam']}.png`]
+        })
+        .attr("class", "trophy")
+        .attr("width", 22)
+        .attr("height", 22)
+        .attr("x", -11)
+        .attr("y", -11)
+        //.attr("x", d => ${xScale(linedatadict[d['date']])})
+        //.attr("y", )
+
+      
 
       /*d3.select(this.gRef.current).append("g")
         .selectAll(".week")
-        .data(data)
+        .data(linedata)
         .enter()
         .append("circle")
         .attr("cx", d => xScale(d['ranking']))
@@ -190,52 +244,40 @@ export default class RankingLine extends Component {
         .datum([[100,200],[300,400]])
         .attr("d", swoopy)
         .attr("class", "swoopy-arrow")
-      /*const dataMax = d3.max(this.props.data)
-      const yScale = scaleLinear()
-         .domain([0, dataMax])
-         .range([0, this.props.size[1]])
-   
-          d3.select(node)
-      .selectAll('rect')
-      .data(this.props.data)
-      .enter()
-      .append('rect')
-   
-   select(node)
-      .selectAll('rect')
-      .data(this.props.data)
-      .exit()
-      .remove()
-   
-   select(node)
-      .selectAll('rect')
-      .data(this.props.data)
-      .style('fill', '#fe9922')
-      .attr('x', (d,i) => i * 25)
-      .attr('y', d => this.props.size[1] — yScale(d))
-      .attr('height', d => yScale(d))
-      .attr('width', 25)
+      
 
-   const xScale = d3.scaleTime()
-          .domain(xExtent)
-          .range([0, innerWidth]);
 
-        const yScale = d3.scaleLinear()
-          .domain(yExtent)
-          .range([innerHeight, 0])
-          .nice();
+      window.addEventListener('scroll', (event) => {
+      const divRect = this.divRef.current.getBoundingClientRect();
+      const topoffset = divRect.top + window.pageYOffset
+      const bottomoffset = divRect.bottom + window.pageYOffset
+      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
+         d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
+      } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
 
-        // Axes
-        const xAxis = d3.axisBottom(xScale)
-          .tickPadding(0);
+        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
+      }
+      /*if (topoffset <= 0 && bottomoffset >= 0) {
+        console.log(topoffset);
+        console.log(bottomoffset);
+        console.log(window.pageYOffset)
+        console.log(`translate(0, ${10 + topoffset})`)
+        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${10 + window.pageYOffset})`);
+      }*/
+      
+    //}
+      const lineLength = mainpath.node().getTotalLength()
+      const lineScrollScale = d3.scaleLinear()
+        .domain([topoffset, bottomoffset])
+        .domain([lineLength, 0])
 
-        const yAxis = d3.axisLeft(yScale)
-          .tickSize(-innerWidth - margins.left)
-          .tickPadding(0);
+      mainpath
+        .attr("stroke-dashoffset", function(d) {
+          console.log(window.pageYOffset);
+          lineScrollScale(window.pageYOffset)
+        })
+    })  
 
-        const line = d3.line()
-          .x(d => xScale(parseYear(d.year)))
-          .y(d => yScale(d.value));*/
    }
     type(d) { 
       d['ranking'] = +d['ranking'];
@@ -247,7 +289,7 @@ export default class RankingLine extends Component {
       d['date'] = formatDate(parseDate2(d['date']));
       return d;
     }
-    findYatXbyBisection(x, path, error){
+    findXatYbyBisection(y, path, error){
       var length_end = path.getTotalLength()
         , length_start = 0
         , point = path.getPointAtLength((length_end + length_start) / 2) // get the middle point
@@ -256,11 +298,11 @@ export default class RankingLine extends Component {
 
       error = error || 0.01
 
-      while (x < point.x - error || x > point.x + error) {
+      while (y < point.y - error || y > point.y + error) {
         // get the middle point
         point = path.getPointAtLength((length_end + length_start) / 2)
 
-        if (x < point.x) {
+        if (y < point.y) {
           length_end = (length_start + length_end)/2
         } else {
           length_start = (length_start + length_end)/2
@@ -270,13 +312,12 @@ export default class RankingLine extends Component {
         if(bisection_iterations_max < ++ bisection_iterations)
           break;
       }
-      return point.y
+      return point.x
     }
 
     
     render() {
-      const {width, height, margin} = this.state
-    
+      const {margin, width, height} = this.state
       return <div id="rankingline" ref={this.divRef}>
         <svg className="ranking-line-svg" width={width} height={height}>
           <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />

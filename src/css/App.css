@@ -207,6 +207,21 @@
   fill: none;
 }
 
+.slam .slam-text {
+  font-size: 18px;
+  font-family: "Roboto";
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.slam-circle {
+  cursor: pointer;
+}
+
+.slamwin .trophy {
+   pointer-events: none;
+}
+
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;
