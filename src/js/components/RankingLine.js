@@ -180,7 +180,7 @@ export default class RankingLine extends Component {
         .data(winsonly)
         .enter()
         .append("g")
-        .attr("class", "slamwin")
+        .attr("class", "slam")
         .attr("transform", d => `translate(${xScale(linedatadict[d['date']])}, ${yScale(parseDate(d['date']))})`)
 
        wins.append("rect")
@@ -206,6 +206,9 @@ export default class RankingLine extends Component {
         .attr("y", -11)
         //.attr("x", d => ${xScale(linedatadict[d['date']])})
         //.attr("y", )
+
+      d3.selectAll(".slam")
+        .attr("opacity", 0)
 
       
 
@@ -257,7 +260,7 @@ export default class RankingLine extends Component {
         var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset  - margin.top - margin.bottom + window.innerHeight/2))
         var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
         var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
-        console.log(gohere);
+        //console.log(gohere);
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
            d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`)
            
@@ -272,6 +275,22 @@ export default class RankingLine extends Component {
             .attr("stroke-dashoffset", function(d) {
               return lineLength-gohere;
             })
+
+            d3.selectAll(".slam")
+              .filter(function(d){ 
+                return y_pos >= yScale(parseDate(d['date'])); 
+              })
+              .transition()
+              .duration(250)
+              .attr("opacity", 1)
+
+            d3.selectAll(".slam")
+              .filter(function(d){ 
+                return y_pos <= yScale(parseDate(d['date'])); 
+              })
+               .transition()
+              .duration(250)
+              .attr("opacity", 0)
         } else if (window.pageYOffset <= topoffset - offset) {
           mainpath
             .attr("stroke-dashoffset", lineLength);
