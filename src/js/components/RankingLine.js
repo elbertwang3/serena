@@ -248,34 +248,35 @@ export default class RankingLine extends Component {
 
 
       window.addEventListener('scroll', (event) => {
-      const divRect = this.divRef.current.getBoundingClientRect();
-      const topoffset = divRect.top + window.pageYOffset
-      const bottomoffset = divRect.bottom + window.pageYOffset
-      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-         d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
-      } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
+        const divRect = this.divRef.current.getBoundingClientRect();
+        const topoffset = divRect.top + window.pageYOffset
+        const bottomoffset = divRect.bottom + window.pageYOffset
+        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
+           d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
+        } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
 
-        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
-      }
-      /*if (topoffset <= 0 && bottomoffset >= 0) {
-        console.log(topoffset);
-        console.log(bottomoffset);
-        console.log(window.pageYOffset)
-        console.log(`translate(0, ${10 + topoffset})`)
-        d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${10 + window.pageYOffset})`);
-      }*/
-      
-    //}
-      const lineLength = mainpath.node().getTotalLength()
-      const lineScrollScale = d3.scaleLinear()
-        .domain([topoffset, bottomoffset])
-        .domain([lineLength, 0])
+          d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
+        }
+        /*if (topoffset <= 0 && bottomoffset >= 0) {
+          console.log(topoffset);
+          console.log(bottomoffset);
+          console.log(window.pageYOffset)
+          console.log(`translate(0, ${10 + topoffset})`)
+          d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${10 + window.pageYOffset})`);
+        }*/
+        
+      //}
+        const lineLength = mainpath.node().getTotalLength()
+        const offset = window.innerHeight/2
+        const lineScrollScale = d3.scaleLinear()
+          .domain([topoffset-offset, bottomoffset-offset])
+          .range([lineLength, 0])
 
-      mainpath
-        .attr("stroke-dashoffset", function(d) {
-          console.log(window.pageYOffset);
-          lineScrollScale(window.pageYOffset)
-        })
+        mainpath
+          .attr("stroke-dashoffset", function(d) {
+            console.log(lineScrollScale(window.pageYOffset));
+            return lineScrollScale(window.pageYOffset)
+          })
     })  
 
    }
