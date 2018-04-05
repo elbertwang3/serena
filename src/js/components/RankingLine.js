@@ -2,7 +2,8 @@ import React, {Component}  from 'react';
 import '../../css/App.css';
 import * as d3 from 'd3';
 import {json as requestJson} from 'd3-request';
-import {swoopyArrow} from '../swoopyArrow'
+import {swoopyArrow} from '../swoopyArrow';
+import _ from 'lodash';
 
 export default class RankingLine extends Component {
 
@@ -20,20 +21,11 @@ export default class RankingLine extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.divRef.current);
     window.addEventListener('scroll', (event) => {
       const divRect = this.divRef.current.getBoundingClientRect();
       const topoffset = divRect.top + window.pageYOffset
       const bottomoffset = divRect.bottom + window.pageYOffset
-      /*console.log(divRect.top)
-      console.log(window.pageYOffset);
-      console.log(topoffset);
-      console.log(bottomoffset)
-      console.log(window.pageYOffset);
-      console.log(window.innerHeight);*/
       if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-      
-        console.log("getting inside");
          d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
       } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
 
@@ -51,9 +43,10 @@ export default class RankingLine extends Component {
       
     })  
     var files = ["data/serenaranking.csv", "data/slamresults.csv"];
-    Promise.all(files.map(url => d3.csv(url, this.type.bind(this)))).then(values => {
-      console.log(values[0])
-      console.log(values[1])
+    var types = [this.type, this.type2];
+    Promise.all(files.map((url,i) => { 
+      return d3.csv(url, types[i].bind(this))
+    })).then(values => {
       this.setState({
         linedata: values[0],
         slamdata: values[1] },
@@ -62,12 +55,15 @@ export default class RankingLine extends Component {
         }
       )
     })
-   
   }
+
+   
+  
   
   componentWillReceiveProps() {
     console.log(this.props.data);
   }
+  
    /*componentDidUpdate() {
       this.createLineChart()
    }*/
@@ -76,8 +72,14 @@ export default class RankingLine extends Component {
       const innerWidth = width - margin.left - margin.right
       const innerHeight =  height - margin.top - margin.bottom
 
+      const linedatadict = linedata.reduce((map, obj) => {
+        map[obj.ranking_date] = obj.ranking;
+        return map;
+      }, {});
     
       const parseDate = d3.timeParse('%Y-%m-%d');
+      const parseDate2 = d3.timeParse('%d %B %Y');
+      const formatDate = d3.timeFormat('%Y-%m-%d');
       const yExtent = d3.extent(linedata, d => 
         parseDate(d['ranking_date'])
       );
@@ -86,6 +88,7 @@ export default class RankingLine extends Component {
       const xExtent = d3.extent(linedata, d => 
         d['ranking']
       );
+
       const yScale = d3.scaleTime()
         .domain(yExtent)
         .range([0, innerHeight]);
@@ -98,30 +101,59 @@ export default class RankingLine extends Component {
         .domain(["Australian Open", "French Open", "Wimbledon", "US Open"])
         .range(["#91ceff", "#f28b02", "#4ec291", "#91ceff"])
 
+      const roundScale = d3.scaleOrdinal()
+        .domain(['A', '1R', '2R', '3R', '4R', 'QF', 'SF', 'F', 'W'])
+        .range([0, 1/8, 2/8, 3/8, 4/8, 5/8, 6/8, 7/8, 1])
+
+
       const line = d3.line()
         .curve(d3.curveStep)
         .y(d => yScale(parseDate(d.ranking_date)))
         .x(d => xScale(d.ranking));
 
-
-      d3.select(this.gRef.current).append("g")
+      const mainpath = d3.select(this.gRef.current).append("g")
         .append("path")
         .datum(linedata)
         .attr("class", "ranking-line")
         .attr("d", line);
 
+      var that = this;
       d3.select(this.gRef.current).append("g")
         .attr("class", "slams")
         .selectAll(".slam")
         .data(slamdata)
         .enter()
         .append("path")
+        .datum(function(d, i) {
+          console.log("hello")
+          var enddate = _.cloneDeep(d)
+          enddate['date'] = formatDate(d3.timeDay.offset(parseDate(d['date']), roundScale(d['result'])*14));
+          console.log(d['date']);
+          console.log(enddate['date'])
+          console.log(linedatadict[d['date']])
+          console.log("should be: " +  xScale(linedatadict[d['date']]))
+          //console.log(mainpath);
+          d['ranking'] = that.findYatXbyBisection(yScale(d['date']), mainpath.node())
+          enddate['ranking'] = that.findYatXbyBisection(yScale(enddate['date']), mainpath.node())
+                    //console.log(enddate);
+
+          console.log(d['ranking'])
+          console.log(enddate['ranking'])
+          console.log([d, enddate]);
+          return [d, enddate]; })
         .attr("d", (d) => { 
           const slamline = d3.line()
             .curve(d3.curveStep)
             .y(d => yScale(parseDate(d.ranking_date)))
-            .x(d => xScale(d.ranking));
+            .x(d => d.ranking);
           return slamline
+
+        })
+       
+        .attr("fill", "none")
+        .attr("stroke", function(d) {
+          console.log(slamColorScale(d['slam']))
+          return slamColorScale(d['slam'])
         })
 
       /*d3.select(this.gRef.current).append("g")
@@ -206,9 +238,42 @@ export default class RankingLine extends Component {
           .y(d => yScale(d.value));*/
    }
     type(d) { 
-    d['ranking'] = +d['ranking'];
-    return d;
-  }
+      d['ranking'] = +d['ranking'];
+      return d;
+    }
+    type2(d) { 
+      const parseDate2 = d3.timeParse('%d %B %Y');
+      const formatDate = d3.timeFormat('%Y-%m-%d');
+      d['date'] = formatDate(parseDate2(d['date']));
+      return d;
+    }
+    findYatXbyBisection(x, path, error){
+      var length_end = path.getTotalLength()
+        , length_start = 0
+        , point = path.getPointAtLength((length_end + length_start) / 2) // get the middle point
+        , bisection_iterations_max = 50
+        , bisection_iterations = 0
+
+      error = error || 0.01
+
+      while (x < point.x - error || x > point.x + error) {
+        // get the middle point
+        point = path.getPointAtLength((length_end + length_start) / 2)
+
+        if (x < point.x) {
+          length_end = (length_start + length_end)/2
+        } else {
+          length_start = (length_start + length_end)/2
+        }
+
+        // Increase iteration
+        if(bisection_iterations_max < ++ bisection_iterations)
+          break;
+      }
+      return point.y
+    }
+
+    
     render() {
       const {width, height, margin} = this.state
     
