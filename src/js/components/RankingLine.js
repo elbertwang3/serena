@@ -2,7 +2,8 @@ import React, {Component}  from 'react';
 import '../../css/App.css';
 import * as d3 from 'd3';
 import {json as requestJson} from 'd3-request';
-import {swoopyArrow} from '../swoopyArrow';
+import {swoopyArrow} from '../scripts/swoopyArrow';
+import {getLengthAtPoint} from '../scripts/path';
 import _ from 'lodash';
 
 export default class RankingLine extends Component {
@@ -84,6 +85,7 @@ export default class RankingLine extends Component {
       const yScale = d3.scaleTime()
         .domain(yExtent)
         .range([0, innerHeight]);
+
       const xScale = d3.scaleLinear()
         .domain([500,100,10,5,1])
         .range([0, 1*innerWidth/4, 2*innerWidth/4, 3*innerWidth/4, innerWidth])
@@ -172,7 +174,6 @@ export default class RankingLine extends Component {
 
     
       //const images = this.importAll(require.context('../../images/trophies', false, /\.(png|jpe?g|svg)$/));
-      console.log(this.state.images);
       var wins = d3.select(this.gRef.current).append("g")
         .attr("class", "slamwins")
         .selectAll(".slamwin")
@@ -196,8 +197,6 @@ export default class RankingLine extends Component {
 
       wins.append("svg:image")
         .attr("xlink:href", d => {
-          console.log(this.state.images[`${d['slam']}.png`])
-          //console.log(this.state.images[`${d['slam']}.png`]); 
           return this.state.images[`${d['slam']}.png`]
         })
         .attr("class", "trophy")
@@ -268,14 +267,19 @@ export default class RankingLine extends Component {
       //}
         const lineLength = mainpath.node().getTotalLength()
         const offset = window.innerHeight/2
-        const lineScrollScale = d3.scaleLinear()
-          .domain([topoffset-offset, bottomoffset-offset])
-          .range([lineLength, 0])
 
+
+        //console.log("where am i: " + this.getLengthAtPoint(yScale(yScale.invert(window.pageYOffset - topoffset)), mainpath);
+        //console.log(mainpath.node());
+        var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset))
+        console.log(y_pos)
+        var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
+        console.log(x_pos)
+        var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
+        console.log("where am i: " + gohere)
         mainpath
           .attr("stroke-dashoffset", function(d) {
-            console.log(lineScrollScale(window.pageYOffset));
-            return lineScrollScale(window.pageYOffset)
+            return lineLength-gohere-offset
           })
     })  
 
@@ -291,7 +295,7 @@ export default class RankingLine extends Component {
       return d;
     }
     findXatYbyBisection(y, path, error){
-      var length_end = path.getTotalLength()
+      var length_end = path.getTotalLength(path)
         , length_start = 0
         , point = path.getPointAtLength((length_end + length_start) / 2) // get the middle point
         , bisection_iterations_max = 50
@@ -315,6 +319,8 @@ export default class RankingLine extends Component {
       }
       return point.x
     }
+
+    
 
     
     render() {
