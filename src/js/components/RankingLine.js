@@ -248,13 +248,33 @@ export default class RankingLine extends Component {
 
       window.addEventListener('scroll', (event) => {
         const divRect = this.divRef.current.getBoundingClientRect();
+
         const topoffset = divRect.top + window.pageYOffset
         const bottomoffset = divRect.bottom + window.pageYOffset
+        const lineLength = mainpath.node().getTotalLength()
+        const offset = window.innerHeight/2
+
+        var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset  - margin.top - margin.bottom + window.innerHeight/2))
+        var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
+        var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
+        console.log(gohere);
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-           d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`);
-        } else if (window.pageYOffset <= topoffset && window.pageYOffset) {
+           d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`)
+           
+        } else if (window.pageYOffset <= topoffset) {
 
           d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
+          
+        }
+        if (window.pageYOffset >= topoffset - offset && window.pageYOffset <= bottomoffset - window.innerHeight + offset) {
+           console.log("starting");
+           mainpath
+            .attr("stroke-dashoffset", function(d) {
+              return lineLength-gohere;
+            })
+        } else if (window.pageYOffset <= topoffset - offset) {
+          mainpath
+            .attr("stroke-dashoffset", lineLength);
         }
         /*if (topoffset <= 0 && bottomoffset >= 0) {
           console.log(topoffset);
@@ -265,22 +285,8 @@ export default class RankingLine extends Component {
         }*/
         
       //}
-        const lineLength = mainpath.node().getTotalLength()
-        const offset = window.innerHeight/2
-
-
-        //console.log("where am i: " + this.getLengthAtPoint(yScale(yScale.invert(window.pageYOffset - topoffset)), mainpath);
-        //console.log(mainpath.node());
-        var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset))
-        console.log(y_pos)
-        var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
-        console.log(x_pos)
-        var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
-        console.log("where am i: " + gohere)
-        mainpath
-          .attr("stroke-dashoffset", function(d) {
-            return lineLength-gohere-offset
-          })
+        
+      
     })  
 
    }

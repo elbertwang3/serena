@@ -18,8 +18,7 @@ function distance(pointA,pointB){
   let d=sub(pointA,pointB)
   return Math.sqrt((d.x*d.x)+(d.y*d.y))
 }
-export function getLengthAtPoint(path,point,subdivisionsPerIteration=10,iterations=5){
-  console.log(path);
+export function getLengthAtPoint(path,point,subdivisionsPerIteration=50,iterations=10){
   let pathLength=getLength(path)
 
   return (function iterate(lower,upper){
