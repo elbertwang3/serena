@@ -222,6 +222,12 @@
    pointer-events: none;
 }
 
+.ranking-annotation text {
+  fill: white;
+  font-family: "Roboto";
+  font-size: 12px;
+}
+
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

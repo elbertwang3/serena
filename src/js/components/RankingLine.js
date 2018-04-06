@@ -18,6 +18,7 @@ export default class RankingLine extends Component {
       height: 8000,
       linedata: null,
       slamdata: null,
+      annotationdata: null,
       g: null,
       images: null
     };
@@ -32,15 +33,17 @@ export default class RankingLine extends Component {
 
 
   componentDidMount() {
-    var files = ["data/serenaranking.csv", "data/slamresults.csv"];
-    var types = [this.type, this.type2];
+    var files = ["data/serenaranking.csv", "data/slamresults.csv", "data/rankingannotations.csv"];
+    var types = [this.type, this.type2, this.type3];
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
+      console.log(values[2])
       const images = this.importAll(require.context('../../images/originaltrophies', false, /\.(png|jpe?g|svg)$/));
       this.setState({
         linedata: values[0],
         slamdata: values[1],
+        annotationdata: values[2],
         images: images },
         () => {
           this.createLineChart()
@@ -61,7 +64,7 @@ export default class RankingLine extends Component {
    }*/
   createLineChart() {
 
-      var {width, height, margin, linedata, slamdata} = this.state
+      var {width, height, margin, linedata, slamdata, annotationdata} = this.state
       const innerWidth = width - margin.left - margin.right
       const innerHeight =  height - margin.top - margin.bottom
 
@@ -238,12 +241,58 @@ export default class RankingLine extends Component {
         .x(function(d) { return d[0]; })
         .y(function(d) { return d[1]; });
 
-      const annotations = d3.select(this.gRef.current)
-        .append("g")
 
-      annotations.append("path")
+      const ranking_annotation = d3.select(this.gRef.current)
+        .append("g")
+        .attr("class", "ranking-annotations")
+        .selectAll(".ranking-annotation")
+        .data(annotationdata)
+        .enter()
+        .append("g")
+        .attr("class", "ranking-annotation")
+        .attr("transform", d => {
+          return `translate(${d['x1']}, ${d['y1']})`
+        })
+        .attr("opacity", 0)
+
+
+      ranking_annotation.append("text")
+        .text(function(d) { return d['annotation']})
+       
+        // .attr("x", d => d['x1'])
+        // .attr("y", d => d['y1'])
+        .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
+        
+          //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
+        .attr("dy", "1.25em")
+        .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
+        .call(this.wrap, 130)
+
+      ranking_annotation.selectAll("text")
+        .attr("y", function(d) {
+          return -d3.select(this).node().getBBox().height/2;
+        })
+        /*.attr("y", function(d) { 
+          console.log(d3.select(this).node().getBBox().height);
+          if ((d['y1'] > d['y2'] && d['x1'] < d['x2']) || (d['y1'] > d['y2'] && d['x1'] > d['x2'])) {
+            return -d3.select(this).node().getBBox().height/2
+          } else {
+            return d3.select(this).node().getBBox().height/2
+          }
+        })*/
+
+   
+
+      ranking_annotation.append("path")
         .attr('marker-end', 'url(#arrowhead)')
-        .datum([[100,200],[300,400]])
+        .datum(function(d) {
+          console.log(d['x1'])
+          console.log(d['y1'])
+          console.log(d['x2'])
+          console.log(d['y2'])
+          //return [[d['x1'], d['y1']], [d['x2'], d['y2']]]
+          return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
+        })
         .attr("d", swoopy)
         .attr("class", "swoopy-arrow")
       
@@ -257,11 +306,9 @@ export default class RankingLine extends Component {
         const lineLength = mainpath.node().getTotalLength()
         const offset = window.innerHeight/2
 
-        var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset  - margin.top - margin.bottom + window.innerHeight/2))
-        var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
-        var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
+        
         //console.log(gohere);
-        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
+        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
            d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`)
            
         } else if (window.pageYOffset <= topoffset) {
@@ -269,6 +316,9 @@ export default class RankingLine extends Component {
           d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, 0)`);
           
         }
+        var y_pos = yScale(yScale.invert(window.pageYOffset - topoffset  - margin.top - margin.bottom + window.innerHeight/2))
+        var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
+        var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
         if (window.pageYOffset >= topoffset - offset && window.pageYOffset <= bottomoffset - window.innerHeight + offset) {
            console.log("starting");
            mainpath
@@ -280,16 +330,25 @@ export default class RankingLine extends Component {
               .filter(function(d){ 
                 return y_pos >= yScale(parseDate(d['date'])); 
               })
-              .transition()
-              .duration(250)
+   
+              .attr("opacity", 1)
+
+            d3.selectAll(".ranking-annotation")
+              .filter(function(d){ 
+                return y_pos >= d['y2']; 
+              })
               .attr("opacity", 1)
 
             d3.selectAll(".slam")
               .filter(function(d){ 
-                return y_pos <= yScale(parseDate(d['date'])); 
+                return y_pos < yScale(parseDate(d['date'])); 
               })
-               .transition()
-              .duration(250)
+              .attr("opacity", 0)
+
+            d3.selectAll(".ranking-annotation")
+              .filter(function(d){ 
+                return y_pos < d['y2']; 
+              })
               .attr("opacity", 0)
         } else if (window.pageYOffset <= topoffset - offset) {
           mainpath
@@ -318,6 +377,38 @@ export default class RankingLine extends Component {
       const formatDate = d3.timeFormat('%Y-%m-%d');
       d['date'] = formatDate(parseDate2(d['date']));
       return d;
+    }
+    type3(d) { 
+      d['x1'] = +d['x1'];
+      d['y1'] = +d['y1'];
+      d['x2'] = +d['x2'];
+      d['y2'] = +d['y2'];
+      return d;
+    }
+
+    wrap(text, width) {
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1,
+            x = text.attr("x"), // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", +lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
     }
     findXatYbyBisection(y, path, error){
       var length_end = path.getTotalLength(path)
