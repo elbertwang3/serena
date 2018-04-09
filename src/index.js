@@ -8,5 +8,6 @@ ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
 
 window.addEventListener("resize", function() {
-	console.log(window.innerWidth);
+
 });
+
