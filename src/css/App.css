@@ -365,10 +365,20 @@
   bottom: 0;
 }
 
-.step {
+.sections {
+  pointer-events: none;
+}
+
+.sections .step:first-child {
+  padding-top: 200px;
+}
+.sections .step:last-child {
+  padding-bottom: 200px;
+}
+.sections .step {
   position: relative;
   max-width: 450px;
-  margin-bottom: 200px;
+  margin-bottom: 500px;
   padding: 1rem;
   display: block;
   margin-right: auto;

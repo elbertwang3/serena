@@ -48,7 +48,6 @@ export default class RankingLine extends Component {
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
-      console.log(values[1])
       const images = this.importAll(require.context('../../images/originaltrophies', false, /\.(png|jpe?g|svg)$/));
       const flags = this.importAllFlags(require.context('../../images/flags', false, /\.(png|jpe?g|svg)$/));
       this.setState({
