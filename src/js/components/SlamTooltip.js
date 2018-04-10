@@ -30,13 +30,11 @@ export default class SlamTooltip extends Component {
 	 	} else {
 	 		let props = this.props.data
 	 		Object.keys(props).map(function (key) {
-
-  			if (props[key] == "") {
+  			if (props[key] == " ") {
   				props[key] = '\xa0';
   			}
   		})
-
-	 		const {year, slam, result2, winner_seed, loser_seed, winner_name, loser_name, winner_ioc, loser_ioc, score} = props
+	 		const {year, slam, result2} = props
 	 		return 	<div className='slam-tooltip' style={this.props.position}>
 	 			<div className='tooltip-header'>{year} {slam}, {result2}</div>
 	 			<Bracket data={this.props.data} />

@@ -277,20 +277,11 @@ export default class RankingLine extends Component {
         const bottomoffset = divRect.bottom + window.pageYOffset
         const lineLength = mainpath.node().getTotalLength()
         const offset = window.innerHeight/2
-        console.log(this.state.height)
-        console.log(bottomoffset-topoffset);
         const realHeight = bottomoffset - topoffset
         const ratio = realHeight/this.state.height;
-        console.log(ratio);
-        console.log('pageyoffset: ' + window.pageYOffset);
-      
         var pageYOffset = (window.pageYOffset)/ratio 
         var difference = pageYOffset - window.pageYOffset
-        //pageYOffset = pageYOffset + (window.pageYOffset - pageYOffset)
-        console.log('adjusted pageyoffset: ' + pageYOffset)
-         console.log('difference: ' + difference)
-         pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
-         console.log('adjusted pageyoffset2: ' + pageYOffset)
+        pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
            xAxis.attr('transform', `translate(0, ${pageYOffset - window.innerHeight})`)
      
@@ -324,7 +315,6 @@ export default class RankingLine extends Component {
               if (currSlam != currentList[currentList.length - 1]) {
                 prevSlam = currSlam;
                 currSlam = currentList[currentList.length - 1];
-                console.log(currSlam);
                 this.setState({currSlamData: currSlam})
                 if (prevSlam != null) {
                   //console.log(prevSlam['slam'])
@@ -369,7 +359,6 @@ export default class RankingLine extends Component {
           this.setState({position: {position: 'fixed', opacity: 1}})
         }
         else if (window.pageYOffset > bottomoffset - topoffset){
-          console.log("getting to end")
           this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
         } else if (window.pageYOffset <= topoffset) {
           this.setState({position: {position:'absolute', top: 500}})

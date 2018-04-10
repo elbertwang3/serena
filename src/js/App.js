@@ -57,8 +57,43 @@ class App extends Component {
         <div className="body">
          
             <RankingLine />
-          
-          <Map />
+            
+            <div className='graphic'>
+              <div className="viz">
+
+                <Map />
+              </div>
+              <div className='sections'>
+            
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+              </div>
+             
+            </div>
+            <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+                <section className="step">
+                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                </section>
+
+
         </div>
 
       </div>
