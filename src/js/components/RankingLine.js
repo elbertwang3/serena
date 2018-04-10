@@ -11,6 +11,7 @@ export default class RankingLine extends Component {
     super(props);
     this.divRef = React.createRef(); 
     this.gRef = React.createRef();
+    this.svgRef = React.createRef();
     this.tooltipRef = React.createRef();
     this.state = {
       margin: {top: 50, right: 25, bottom: 25, left: 50},
@@ -19,7 +20,6 @@ export default class RankingLine extends Component {
       linedata: null,
       slamdata: null,
       annotationdata: null,
-      g: null,
       images: null,
       flags: null,
       currSlamData: null,
@@ -62,6 +62,29 @@ export default class RankingLine extends Component {
         }
       )
     })
+
+    window.addEventListener('resize', () => {
+      var chart = this.svgRef.current
+      var chartWidth = chart.getAttribute("width")
+      var chartHeight = chart.getAttribute("height")
+      var aspect = chartWidth / chartHeight
+      var parentcontainer = this.divRef.current
+  
+      var targetWidth = parentcontainer.offsetWidth;
+      if (targetWidth < 500) {
+        console.log("Getting here");
+        //this.setState({width: targetWidth})
+        chart.setAttribute('width', targetWidth)
+        chart.setAttribute('height', targetWidth/aspect)
+
+      } else {
+        //this.setState({width: 1000})
+        chart.setAttribute('width', 500)
+        chart.setAttribute('height', 8000)
+      }
+    })
+    
+    window.dispatchEvent(new Event('resize'));
   }
 
    
@@ -183,23 +206,9 @@ export default class RankingLine extends Component {
         .attr("height", 22)
         .attr("x", -11)
         .attr("y", -11)
-        //.attr("x", d => ${xScale(linedatadict[d['date']])})
-        //.attr("y", )
 
       d3.selectAll(".slam")
         .attr("opacity", 0)
-
-      
-
-      /*d3.select(this.gRef.current).append("g")
-        .selectAll(".week")
-        .data(linedata)
-        .enter()
-        .append("circle")
-        .attr("cx", d => xScale(d['ranking']))
-        .attr("cy", d => yScale(parseDate(d['ranking_date'])))
-        .attr("r", 0.5)
-        .attr("class", "week-circle")*/
 
       const xAxis = d3.select(this.gRef.current).append("g")
         .call(d3.axisTop(xScale)
@@ -257,93 +266,6 @@ export default class RankingLine extends Component {
         })
         .attr("d", swoopy)
         .attr("class", "swoopy-arrow")
-
-      
-      const firstslam = slamdata[0]
-      console.log(firstslam)
-      /*const tooltipcontainer = d3.select(this.tooltipRef.current).selectAll("div")
-        .data([firstslam])
-        .enter()
-        .append("div")
-
-      console.log(tooltipcontainer); 
-      tooltipcontainer.append("div")
-        .attr("class", "tooltip-header")
-        .text(d => `${d['year']} ${d['slam']}, ${d['result2']}`)
-        .style("color", d => slamColorScale(d['slam']))
-
-      const bracket = tooltipcontainer.append("div")
-        .attr("class", "bracket")
-      const winner = bracket.append("div")
-        .attr("class", "player-row")
-      winner.append("div")
-        .attr("class", "seed")
-        .text(d => d['winner_seed'] ? d['winner_seed'] : '\xa0')
-
-      const player1 = winner.append("div")
-        .attr("class", "player")
-      player1.append("div")
-        .attr("class", "flag-container")
-        .append("img")
-        .attr("class", "flag")
-        .attr("src", d => {
-          console.log(d['winner_ioc'])
-          console.log(this.state.flags[`${d['winner_ioc']}.png`])
-          return this.state.flags[`${d['winner_ioc']}.png`]
-        })
-      player1.append("div")
-        .attr("class", "player-name")
-        .text(d => d['winner_name'])
-
-      winner.append("div")
-        .attr("class", "score")
-        .text(d => d['score'].split(" ")[0].split("-")[0])
-      winner.append("div")
-        .attr("class", "score")
-        .text(d => d['score'].split(" ")[1].split("-")[0])
-
-      winner.append("div")
-        .attr("class", "score")
-        .text(d => (d['score'].split(" ")[2] ? d['score'].split(" ")[2].split("-")[0] : '\xa0'))
-
-
-
-
-      const loser = bracket.append("div")
-        .attr("class", "player-row")
-      loser.append("div")
-        .attr("class", "seed")
-        .text(d => d['loser_seed'] ? d['loser_seed'] : '\xa0')
-
-      const player2 = loser.append("div")
-        .attr("class", "player")
-      player2.append("div")
-        .attr("class", "flag-container")
-        .append("img")
-        .attr("class", "flag")
-        .attr("src", d => {
-          return this.state.flags[`${d['loser_ioc']}.png`]
-        })
-        //.attr("src", fir)
-      player2.append("div")
-        .attr("class", "player-name")
-        .text(d => d['loser_name'])
-
-      loser.append("div")
-        .attr("class", "score")
-        .text(d => d['score'].split(" ")[0].split("-")[1])
-      loser.append("div")
-        .attr("class", "score")
-        .text(d => d['score'].split(" ")[1].split("-")[1])
-
-      loser.append("div")
-        .attr("class", "score")
-        .text(d => (d['score'].split(" ")[2] ? d['score'].split(" ")[2].split("-")[1] : '\xa0'))*/
-
-
-
-
-
       
       const noAbsences = slamdata.filter(d => d['result'] != 'A')
       let prevSlam = null;
@@ -355,14 +277,22 @@ export default class RankingLine extends Component {
         const bottomoffset = divRect.bottom + window.pageYOffset
         const lineLength = mainpath.node().getTotalLength()
         const offset = window.innerHeight/2
-
-        
-        
-
-        
-        //console.log(gohere);
+        console.log(this.state.height)
+        console.log(bottomoffset-topoffset);
+        const realHeight = bottomoffset - topoffset
+        const ratio = realHeight/this.state.height;
+        console.log(ratio);
+        console.log('pageyoffset: ' + window.pageYOffset);
+      
+        var pageYOffset = (window.pageYOffset)/ratio 
+        var difference = pageYOffset - window.pageYOffset
+        //pageYOffset = pageYOffset + (window.pageYOffset - pageYOffset)
+        console.log('adjusted pageyoffset: ' + pageYOffset)
+         console.log('difference: ' + difference)
+         pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
+         console.log('adjusted pageyoffset2: ' + pageYOffset)
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
-           xAxis.attr('transform', `translate(0, ${window.pageYOffset - window.innerHeight})`)
+           xAxis.attr('transform', `translate(0, ${pageYOffset - window.innerHeight})`)
      
            
         } else if (window.pageYOffset <= topoffset) {
@@ -372,11 +302,10 @@ export default class RankingLine extends Component {
         }
         
         if (window.pageYOffset >= topoffset - offset && window.pageYOffset <= bottomoffset - offset) {
-          var y_pos = window.pageYOffset - topoffset + window.innerHeight/2
+          var y_pos = pageYOffset - topoffset + window.innerHeight/2
           var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
           var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
-          /*d3.select(this.tooltipRef.current).classed("is_fixed", true)
-          d3.select(this.tooltipRef.current).classed("is_unfixed", false)*/
+    
           mainpath
             .attr("stroke-dashoffset", function(d) {
               return lineLength-gohere;
@@ -431,11 +360,8 @@ export default class RankingLine extends Component {
               })
               .attr("opacity", 0)
         } else if (window.pageYOffset <= topoffset - offset) {
-           /*d3.select(this.tooltipRef.current).classed("is_fixed", false)
-           d3.select(this.tooltipRef.current).classed("is_unfixed", true)*/
           mainpath
             .attr("stroke-dashoffset", lineLength);
-
         } 
 
 
@@ -448,25 +374,6 @@ export default class RankingLine extends Component {
         } else if (window.pageYOffset <= topoffset) {
           this.setState({position: {position:'absolute', top: 500}})
         }
-
-        /*const tooltipRect = this.tooltipRef.current.getBoundingClientRect()
-
-        const topoffsetTooltip = tooltipRect.top + window.pageYOffset
-        if (window.pageYOffset >= topoffsetTooltip) {
-          console.log("getting into viewport")
-          d3.select(this.tooltipRef.current).classed("is_fixed", true)
-        }*/
-        /*if (topoffset <= 0 && bottomoffset >= 0) {
-          console.log(topoffset);
-          console.log(bottomoffset);
-          console.log(window.pageYOffset)
-          console.log(`translate(0, ${10 + topoffset})`)
-          d3.select("#intro-ranking-x-axis").attr('transform', `translate(0, ${10 + window.pageYOffset})`);
-        }*/
-        
-      //}
-        
-      
     })  
 
    }
@@ -552,11 +459,10 @@ export default class RankingLine extends Component {
 
         slamTooltip = <SlamTooltip position={this.state.position} />
       }
-
       return <div id="rankingline" ref={this.divRef}>
         {/*<div className='slam-tooltip' ref={this.tooltipRef}></div>*/}
         {slamTooltip}
-        <svg className="ranking-line-svg" width={width} height={height}>
+        <svg className="ranking-line-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
           <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />
           <defs>
             <marker id="arrowhead" viewBox="-10 -10 20 20" refX="0" refY="0" markerWidth="20" markerHeight="20" strokeWidth="1" fill="white" orient="auto"><polyline strokeLinejoin="bevel" points="-6.75,-6.75 0,0 -6.75,6.75"></polyline>

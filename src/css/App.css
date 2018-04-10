@@ -166,6 +166,7 @@
 .body #rankingline {
   background-color: black;
   position: relative;
+  max-width: 100vw;
 
 }
 .ranking-line-svg {
@@ -311,6 +312,7 @@
   text-align: center;
   height: 12px;
   margin: 0 auto;
+  width: 20px;
 
    
 

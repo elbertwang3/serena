@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {NavigationControl} from 'react-map-gl';
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiZWxiZXJ0d2FuZyIsImEiOiJjajk3dmw4amUwYmV2MnFydzl3NDIyaGFpIn0.46xwSuceSuv2Fkeqyiy0JQ";
 
@@ -25,7 +25,7 @@ export default class Map extends Component {
     this.setState({
       viewport: {...this.state.viewport}
     });
-    this._resize();
+    this._resize(); 
   }
 
   _resize() {
@@ -44,14 +44,18 @@ export default class Map extends Component {
 
   render() {
     //const {viewport} = this.state;
+    const {viewport, updateViewport} = this.props;
     return (
       <ReactMapGL
         {...this.state.viewport}
         mapboxApiAccessToken={MAPBOX_TOKEN}
         scrollZoom={false}
         mapStyle='mapbox://styles/mapbox/streets-v9'
-        onViewportChange={this._onViewportChange.bind(this)}
-      />
+        onViewportChange={this._onViewportChange.bind(this)}>
+        <div style={{position: 'absolute', right: 10, top: 10}}>
+          <NavigationControl onViewportChange={updateViewport} />
+        </div>
+      </ReactMapGL>
     );
   }
 }
