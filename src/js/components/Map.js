@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import ReactMapGL, {NavigationControl, FlyToInterpolator, Marker} from 'react-map-gl';
 import * as d3 from 'd3';
 import {scroller} from '../scripts/scroller.js';
+import compton2img from '../../images/compton2.jpg';
+import floridaimg from '../../images/rickmacci.jpg';
+
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiZWxiZXJ0d2FuZyIsImEiOiJjajk3dmw4amUwYmV2MnFydzl3NDIyaGFpIn0.46xwSuceSuv2Fkeqyiy0JQ";
 
@@ -64,6 +67,9 @@ export default class Map extends Component {
             longitude: -98.5795,
             latitude: 39.8283,
             zoom: 3.7,
+            transitionDuration: 2000,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: d3.easeCubic
         };
         that.setState({viewport: viewport});
 
@@ -74,7 +80,10 @@ export default class Map extends Component {
             ...that.state.viewport,
             longitude: -83.9508,
             latitude: 43.4195,
-            zoom: 9,
+            zoom: 12,
+            transitionDuration: 2000,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: d3.easeCubic
         };
         that.setState({viewport: viewport});
   }
@@ -85,19 +94,28 @@ export default class Map extends Component {
             longitude: -118.2201,
             latitude: 33.8958,
             zoom: 12,
+            transitionDuration: 2000,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: d3.easeCubic
         };
-        that.setState({viewport: viewport});
+    that.setState({viewport: viewport});
+    //document.getElementById("map-background-img").src = compton2img
+
 
   }
   function florida() {
     console.log("getting inside florida")
     const viewport = {
             ...that.state.viewport,
-            longitude: -80.1387,
-            latitude: 26.8234,
+            longitude: -80.0534,
+            latitude: 26.7153,
             zoom: 12, 
+            transitionDuration: 2000,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: d3.easeCubic
         };
-        that.setState({viewport: viewport});
+    that.setState({viewport: viewport});
+    //document.getElementById("map-background-img").src = floridaimg
 
   }
   console.log(d3.selectAll('.sections .step').size());
@@ -156,6 +174,8 @@ export default class Map extends Component {
   }
 
   _onViewportChange(viewport) {
+     console.log(this.state.viewport)
+    console.log(viewport)
     this.setState({
       viewport: {...this.state.viewport, ...viewport}
     });
@@ -164,25 +184,20 @@ export default class Map extends Component {
 
   render() {
     //const {viewport} = this.state;
-    const {viewport, updateViewport} = this.props;
+
+    const caliTerrain = `https://api.mapbox.com/styles/v1/elbertwang/cjfucu6i376ts2soynyp6oc55?access_token=${MAPBOX_TOKEN}`
     return (
       <ReactMapGL
         {...this.state.viewport}
-        transitionDuration={2000}
-        transitionInterpolator={new FlyToInterpolator()}
-        transitionEasing={d3.easeCubic}
+        
         mapboxApiAccessToken={MAPBOX_TOKEN}
         scrollZoom={false}
-        mapStyle='mapbox://styles/mapbox/streets-v9'
+        mapStyle={caliTerrain}
         onViewportChange={this._onViewportChange.bind(this)}>
         <div style={{position: 'absolute', right: 10, top: 10}}>
-          <NavigationControl onViewportChange={updateViewport} />
+          <NavigationControl onViewportChange={this._onViewportChange.bind(this)} />
         </div>
-        <Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
-          <div>You are here</div>
-        </Marker>
       </ReactMapGL>
     );
   }
 }
-//ReactDOM.render(<Map />, document.getElementById('map'));  

@@ -3,6 +3,7 @@ import Map from './components/Map.js';
 import RankingLine from './components/RankingLine.js';
 import '../css/App.css';
 import * as d3 from 'd3';
+import compton2 from '../images/compton2.jpg';
 
 
 class App extends Component {
@@ -61,13 +62,13 @@ class App extends Component {
             
             <div className='graphic'>
               <div className="viz">
-
+                <img id="map-background-img"></img>
                 <Map />
               </div>
               <div className='sections'>
             
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">Serena has been </p>
                 </section>
                 <section className="step">
                   <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
