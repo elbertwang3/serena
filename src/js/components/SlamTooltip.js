@@ -1,7 +1,5 @@
 import React, {Component}  from 'react';
 import '../../css/App.css';
-import * as d3 from 'd3';
-import {json as requestJson} from 'd3-request';
 import Bracket from './Bracket';
 
 export default class SlamTooltip extends Component {

@@ -118,46 +118,47 @@ export default class Map extends Component {
     //document.getElementById("map-background-img").src = floridaimg
 
   }
-  console.log(d3.selectAll('.sections .step').size());
   const activateFunctions = [];
-    for (var i = 0; i < d3.selectAll('.sections .step').size(); i++) {
-      activateFunctions[i] = function () {};
-    }
-    activateFunctions[0] = defaultmap;
-    activateFunctions[1] = saginaw;
-    activateFunctions[2] = compton;
-    activateFunctions[3] = florida;
-    var scroll = scroller()
-      .container(d3.select('.graphic'));
+  for (var i = 0; i < d3.selectAll('#sections1 .step').size(); i++) {
+    activateFunctions[i] = function () {};
+  }
+  activateFunctions[0] = defaultmap;
+  activateFunctions[1] = saginaw;
+  activateFunctions[2] = compton;
+  activateFunctions[3] = florida;
+  var scroll = scroller()
+    .container(d3.select('#graphic1'));
 
-    scroll(d3.selectAll('.sections .step')); 
-    console.log(d3.selectAll('.sections .step').length)
+  scroll(d3.selectAll('#sections1 .step'), "scroller1"); 
 
-    
+  console.log(d3.selectAll('#sections1 .step'))
+  
 
-    scroll.on('active', function (index) {
-      // highlight current step text
-      d3.selectAll('.step')
-        .style('opacity', function (d, i) { 
-          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
-              return i === index ? 0.8 : 0.1; 
-          } else {
-            return i === index ? 1 : 0.1; 
-          }
-        });
-        activate(index);
-
-    })
-    
-     function activate(index) {
-    
-      that.setState({activeIndex: index});
-      var sign = (that.state.activeIndex - that.state.lastIndex) < 0 ? -1 : 1;
-      var scrolledSections = d3.range(that.state.lastIndex + sign, that.state.activeIndex + sign, sign);
-      scrolledSections.forEach(function (i) {
-        activateFunctions[i]();
+  scroll.on('active', function (index) {
+    console.log("getting active")
+    // highlight current step text
+    console.log("index: " + index)
+    d3.selectAll('#sections1 .step')
+      .style('opacity', function (d, i) { 
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
+            return i === index ? 0.8 : 0.1; 
+        } else {
+          return i === index ? 1 : 0.1; 
+        }
       });
-      that.setState({lastIndex: that.state.activeIndex});
+      activate(index);
+
+  })
+    
+  function activate(index) {
+  
+    that.setState({activeIndex: index});
+    var sign = (that.state.activeIndex - that.state.lastIndex) < 0 ? -1 : 1;
+    var scrolledSections = d3.range(that.state.lastIndex + sign, that.state.activeIndex + sign, sign);
+    scrolledSections.forEach(function (i) {
+      activateFunctions[i]();
+    });
+    that.setState({lastIndex: that.state.activeIndex});
   };
 
  
@@ -174,8 +175,6 @@ export default class Map extends Component {
   }
 
   _onViewportChange(viewport) {
-     console.log(this.state.viewport)
-    console.log(viewport)
     this.setState({
       viewport: {...this.state.viewport, ...viewport}
     });

@@ -6,7 +6,7 @@ import * as d3 from 'd3';
  * to.
  *
  */
-export function scroller() {
+export function scroller2() {
   var container = d3.select('body');
   // event dispatcher
   var dispatch = d3.dispatch('active', 'progress');
@@ -33,15 +33,15 @@ export function scroller() {
    *  elements that will be scrolled
    *  through by user.
    */
-  function scroll(els, namespace) {
+  function scroll(els) {
     sections = els;
         console.log(sections)
     // when window is scrolled call
     // position. When it is resized
     // call resize.
     d3.select(window)
-      .on('scroll.' + namespace, position)
-      .on('resize.' + namespace, resize);
+      .on('scroll.scroller2', position)
+      .on('resize.scroller2', resize);
 
     // manually call resize
     // initially to setup
@@ -92,7 +92,7 @@ export function scroller() {
    *
    */
   function position() {
-    console.log("positioning1")
+    console.log("positioning2")
     var pos = window.pageYOffset + window.innerHeight/2 - containerStart;
     var sectionIndex = d3.bisect(sectionPositions, pos) - 1;
     sectionIndex = Math.max(0, sectionIndex);

@@ -27,14 +27,14 @@ export default class PlayerRow extends Component {
       return <div className="player">
         <div className='flag-container'>
       
-          <img className='flag' src={this.state.flags[`${ioc}.png`]}></img>
+          <img className='flag' src={this.state.flags[`${ioc}.png`]} alt="flag"></img>
         </div>
         <div className="player-name">{name}</div>
       </div>
     } else 
       return <div className="player">
         <div className='flag-container'>
-          <img className='flag' src=''></img>
+          <img className='flag' src='' alt="flag"></img>
         </div>
     		<div className="player-name"></div>
       </div>

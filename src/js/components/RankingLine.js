@@ -266,7 +266,7 @@ export default class RankingLine extends Component {
         .attr("d", swoopy)
         .attr("class", "swoopy-arrow")
       
-      const noAbsences = slamdata.filter(d => d['result'] != 'A')
+      const noAbsences = slamdata.filter(d => d['result'] !== 'A')
       let prevSlam = null;
       let currSlam = null;
       window.addEventListener('scroll', (event) => {
@@ -279,7 +279,6 @@ export default class RankingLine extends Component {
         const realHeight = bottomoffset - topoffset
         const ratio = realHeight/this.state.height;
         var pageYOffset = (window.pageYOffset)/ratio 
-        var difference = pageYOffset - window.pageYOffset
         pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
            xAxis.attr('transform', `translate(0, ${pageYOffset - window.innerHeight})`)
@@ -310,8 +309,8 @@ export default class RankingLine extends Component {
             let currentList = noAbsences.filter(function(d){ 
                 return y_pos >= yScale(parseDate(d['date']))
               });
-            if (currentList.length != 0) {
-              if (currSlam != currentList[currentList.length - 1]) {
+            if (currentList.length !== 0) {
+              if (currSlam !== currentList[currentList.length - 1]) {
                 prevSlam = currSlam;
                 currSlam = currentList[currentList.length - 1];
                 this.setState({currSlamData: currSlam})
@@ -323,7 +322,7 @@ export default class RankingLine extends Component {
             }
       
             //tooltipcontainer.select
-            const tooltipcontainer = d3.select(this.tooltipRef.current).selectAll("div")
+            d3.select(this.tooltipRef.current).selectAll("div")
               .data([currSlam])
   
             d3.selectAll(".ranking-annotation")
@@ -445,7 +444,7 @@ export default class RankingLine extends Component {
         slamTooltip = <SlamTooltip data={currSlamData} position={position}/>
       } else {
 
-        slamTooltip = <SlamTooltip position={this.state.position} />
+        slamTooltip = <SlamTooltip position={position} />
       }
       return <div id="rankingline" ref={this.divRef}>
         {/*<div className='slam-tooltip' ref={this.tooltipRef}></div>*/}

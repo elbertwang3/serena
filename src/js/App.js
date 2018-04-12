@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Map from './components/Map.js';
 import RankingLine from './components/RankingLine.js';
+import ServeGraphic from './components/ServeGraphic.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -60,24 +61,24 @@ class App extends Component {
          
             <RankingLine />
             
-            <div className='graphic'>
-              <div className="viz">
+            <div className='graphic' id='graphic1'>
+              <div className="viz" id="viz1">
                 <img id="map-background-img"></img>
                 <Map />
               </div>
-              <div className='sections'>
+              <div className='sections' id='sections1'>
             
                 <section className="step">
                   <p className="prose">Serena has been </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">born in Saginaw, Michigan </p>                
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">grew up in Compton, gunshots </p>                 
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">moved to Palm Beach Gardens, FL to attend Rick Macci tennis academy. soon left </p>                 
                 </section>
                 <section className="step">
                   
@@ -85,18 +86,27 @@ class App extends Component {
               </div>
              
             </div>
-            <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+            <div className='graphic' id='graphic2'>
+              <div className="viz" id="viz2">
+                <ServeGraphic />
+              </div>
+              <div className='sections' id='sections2'>
+                <section className="step">
+                  <p className="prose">Serena has been </p>                 
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">all fastest serves </p>                 
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  <p className="prose">average first and second serve wta</p>                 
                 </section>
                 <section className="step">
-                  <p className="prose">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim pharetra massa, sit amet pretium risus efficitur vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut hendrerit purus, et tempus libero. Vestibulum convallis ullamcorper nulla, non dictum nisi pretium ac. Duis sollicitudin rutrum nisi et suscipit. Pellentesque tortor dolor, interdum aliquam metus id, porttitor ornare neque. Nullam nisl quam, sodales vitae ultricies sed, gravida at orci. </p>
+                  
                 </section>
+              </div>
+             
+            </div>
+          
 
 
         </div>
