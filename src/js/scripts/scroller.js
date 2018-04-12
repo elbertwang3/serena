@@ -35,7 +35,6 @@ export function scroller() {
    */
   function scroll(els, namespace) {
     sections = els;
-        console.log(sections)
     // when window is scrolled call
     // position. When it is resized
     // call resize.
@@ -80,7 +79,6 @@ export function scroller() {
       }
       sectionPositions.push(top - startPos);
     });
-    console.log(sectionPositions)
     containerStart = container.node().getBoundingClientRect().top + window.pageYOffset;
   }
 
@@ -92,7 +90,6 @@ export function scroller() {
    *
    */
   function position() {
-    console.log("positioning1")
     var pos = window.pageYOffset + window.innerHeight/2 - containerStart;
     var sectionIndex = d3.bisect(sectionPositions, pos) - 1;
     sectionIndex = Math.max(0, sectionIndex);

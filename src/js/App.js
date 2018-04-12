@@ -86,6 +86,7 @@ class App extends Component {
               </div>
              
             </div>
+            <h2> Serena's Weapons: Her Serve </h2>
             <div className='graphic' id='graphic2'>
               <div className="viz" id="viz2">
                 <ServeGraphic />
@@ -101,7 +102,7 @@ class App extends Component {
                   <p className="prose">average first and second serve wta</p>                 
                 </section>
                 <section className="step">
-                  
+                  <p className="prose">all</p>           
                 </section>
               </div>
              

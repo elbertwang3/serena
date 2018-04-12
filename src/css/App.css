@@ -318,6 +318,7 @@
 
 }
 .slam-tooltip .score {
+  font-family: "Roboto Mono";
   width: 30px;
   text-align: center;
   display: block;
@@ -388,6 +389,11 @@
 
 }
 
+.sections .step p {
+  font-family: "Roboto Mono";
+
+}
+
 .viz {
   left: 0;
   right: 0;
@@ -422,10 +428,33 @@
   margin: 0 auto;
 }
 .serve-graphic-svg .arc {
-  stroke: black;
+  stroke: #d3d3d3;
   fill: none;
 }
 
+.arc-group-profile .player-name {
+  font-family: "Roboto";
+  text-transform: uppercase;
+  font-weight: 700;
+    font-size: 12px;
+}
+
+.arc-group-profile .serve-type {
+  font-family: "Roboto";
+  fill: #a1a1a1;
+  font-size: 12px;
+}
+
+.speed-annotation .serve-speed {
+  font-family: "Roboto Mono";
+  font-size: 12px;
+}
+h2 {
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  font-size: 5vw;
+  text-align: center;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

@@ -1,10 +1,10 @@
-country,player,speed,serve
-GER,Sabine Lisicki,131,
-USA,Venus Williams,129,
-SRB,Ivana Jorović,128.6,
-USA,Serena Williams,128.3
-GER,Julia Görges,126.1
-USA,Serena Williams,109,average first
-USA,Serena Williams,91,average second
-,,98.5,average first
-,,82.9,average second
+country,player,speed,serve,type
+GER,Sabine Lisicki,131.0,2014 Stanford Classic,first
+USA,Venus Williams,129.0,2007 US Open,first
+SRB,Ivana Jorovic,128.6,2017 Fed Cup,first
+USA,Serena Williams,128.3,2013 Australian Open,first
+GER,Julia Görges,126.1,2012 French Open,first
+USA,Serena Williams,109.0,average first serve,second
+USA,Serena Williams,91.0,average second serve,second
+,average WTA player,98.5,average first serve,second
+,average WTA player,82.9,average second serve,second
