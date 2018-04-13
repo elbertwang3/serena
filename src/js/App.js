@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Map from './components/Map.js';
 import RankingLine from './components/RankingLine.js';
 import ServeGraphic from './components/ServeGraphic.js';
+import ServeAnimation from './components/ServeAnimation.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -87,6 +88,143 @@ class App extends Component {
              
             </div>
             <h2> Serena's Weapons: Her Serve </h2>
+            <div className='graphic' id='graphic3'>
+              <div className="viz" id="viz3">
+                <ServeAnimation />
+              </div>
+              <div className='sections' id='sections3'>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose">hi</p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+                <section className="smallerstep">
+                  <p className="prose"></p>                 
+                </section>
+              </div>
+             
+            </div>
             <div className='graphic' id='graphic2'>
               <div className="viz" id="viz2">
                 <ServeGraphic />

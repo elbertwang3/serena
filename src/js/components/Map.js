@@ -135,9 +135,8 @@ export default class Map extends Component {
   
 
   scroll.on('active', function (index) {
-    console.log("getting active")
+
     // highlight current step text
-    console.log("index: " + index)
     d3.selectAll('#sections1 .step')
       .style('opacity', function (d, i) { 
         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {

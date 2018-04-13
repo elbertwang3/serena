@@ -32,14 +32,12 @@ export default class ServeGraphic extends Component {
     const serves = this.importAllFlags(require.context('../../images/servegraphics', false, /\.(gif|svg)$/));
     this.setState({flags: flags})
     this.setState({serves: serves})
-    console.log(serves)
 
 
 
   }
 
   componentDidMount() {
-    console.log(this.state.sound);
 
     var files = ["data/servespeed.csv"];
     var types = [this.type];
@@ -202,7 +200,6 @@ export default class ServeGraphic extends Component {
       .attr("stroke-dasharray", function(d) { return d3.select(this).node().getTotalLength() + " " + d3.select(this).node().getTotalLength()})
       .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
 
-    console.log(this.state.serves)
     const ballcontainer = arcgroup.append("g")
        .attr("transform", `translate(165,35)`)
 
@@ -365,12 +362,12 @@ export default class ServeGraphic extends Component {
   }*/
 
   render() {
-      const {margin, width, height} = this.state
-      return <div id="serve-graphic">
-        <svg className="serve-graphic-svg" width={width} height={height} viewBox={`0 0 ${width} ${window.innerHeight}`} >
-          <g transform={`translate(${margin.left}, ${0})`} />
-          
-        </svg>
-      </div>
-    }
- }
+    const {margin, width, height} = this.state
+    return <div id="serve-graphic">
+      <svg className="serve-graphic-svg" width={width} height={height} viewBox={`0 0 ${width} ${window.innerHeight}`} >
+        <g transform={`translate(${margin.left}, ${0})`} />
+        
+      </svg>
+    </div>
+  }
+}
