@@ -440,7 +440,7 @@
 .serve-image {
   width: 100%;
   height: 100vh;
-  object-fit: cover;
+  object-fit: cover;   
 
 }
 
@@ -485,6 +485,11 @@ h2 {
 
 .serve-animation {
   display: block;
+}
+
+.rivalry-svg {
+  display: block;
+  margin: 0 auto;
 }
 @media only screen and (max-width: 1107px) { 
   .title-container {

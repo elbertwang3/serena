@@ -23,7 +23,6 @@ export default class ServeAnimation extends Component {
     this.setState({currentServe: serves['1.png']})
 
 
-
   }
 
   componentDidMount() {
@@ -61,7 +60,6 @@ export default class ServeAnimation extends Component {
     .container(d3.select('#graphic3'));
 
   scroll(d3.selectAll('#sections3 .smallerstep'), "scroller3"); 
-  console.log(this.state.serves)
   scroll.on('active', function (index) {
 
     // highlight current step text
@@ -73,8 +71,7 @@ export default class ServeAnimation extends Component {
           return i === index ? 1 : 0.1; 
         }
       });
-      if (index+1 <= 24) {
-        console.log(index)
+      if (index+1 <= 25) {
          that.setState({currentServe: that.state.serves[`${index+1}.png`]});
       } else {
         that.setState({currentServe: that.state.serves[`25.png`]});
@@ -94,7 +91,6 @@ export default class ServeAnimation extends Component {
   render() {
     const {serves, currentServe} = this.state
     const serveUrl = `url('${currentServe}')`
-    console.log(serveUrl)
     const backgroundStyle = {
       backgroundImage: serveUrl
       

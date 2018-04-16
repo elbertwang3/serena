@@ -9,7 +9,7 @@ export default class ServeGraphic extends Component {
 	constructor(props){
 	  super(props);
     this.state = {
-      margin: {top: 50, right: 25, bottom: 50, left: 75},
+      margin: {top: 25, right: 0, bottom: 25, left: 50},
       width: 700,
       height: window.innerHeight,
       servedata: null,
@@ -76,6 +76,7 @@ export default class ServeGraphic extends Component {
     })
 
      window.addEventListener('resize', () => {
+      console.log("getting resized")
       var chart = document.getElementsByClassName('serve-graphic-svg')[0]
       var chartWidth = chart.getAttribute("width")
       var chartHeight = chart.getAttribute("height")
@@ -83,12 +84,18 @@ export default class ServeGraphic extends Component {
       var parentcontainer = ReactDOM.findDOMNode(this)
       var targetWidth = parentcontainer.offsetWidth;
       if (targetWidth < 700) {
+        console.log(window.innerHeight)
         chart.setAttribute('width', targetWidth)
         chart.setAttribute('height', window.innerHeight)
+         //this.setState({width: targetWidth, height: window.innerHeight})
+         console.log(this.state.height)
 
       } else {
+          console.log(window.innerHeight)
         chart.setAttribute('width', 700)
         chart.setAttribute('height', window.innerHeight)
+        //this.setState({width: 700, height: window.innerHeight})
+        console.log(this.state.height)
       }
     })
     
@@ -98,10 +105,12 @@ export default class ServeGraphic extends Component {
 
   createServeGraphic() {
     const that = this
-    const {margin, servedata, flags} = this.state
-    const width = this.state.width - margin.left - margin.right
-    const height = this.state.height - margin.bottom - margin.top
-
+    const {width, height, margin, servedata, flags} = this.state
+    const innerWidth = this.state.width - margin.left - margin.right
+    const innerHeight = this.state.height - margin.bottom - margin.top
+    console.log(width)
+    console.log(height)
+    console.log('creating servegraphic again?')
     var arc = d3.arc()
       .innerRadius(width/2)
       .outerRadius(width/2)
@@ -109,10 +118,9 @@ export default class ServeGraphic extends Component {
       .endAngle(Math.PI/6);
 
     const svg = d3.select(ReactDOM.findDOMNode(this)).select("svg").select("g")
-
     const yScale = d3.scaleLinear()
-      .domain([0, servedata.length - 1])
-      .range([width/2/6, height - width/2/6])
+      .domain([0, servedata.length])
+      .range([0, innerHeight])
 
     const durationScale = d3.scaleLinear()
       .domain([0, d3.max(servedata, d => d['speed'])])
@@ -176,6 +184,8 @@ export default class ServeGraphic extends Component {
          .attr("transform", "translate(100,0)")
 
 
+    console.log(width);
+    console.log(4.1*width/5)
     const speedanno = arcgroup.append("g")
       .attr("class", "speed-annotation")
       .attr("transform", `translate(${4.1*width/5}, 40)`)
@@ -200,13 +210,12 @@ export default class ServeGraphic extends Component {
       .attr("stroke-dasharray", function(d) { return d3.select(this).node().getTotalLength() + " " + d3.select(this).node().getTotalLength()})
       .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
 
-    const ballcontainer = arcgroup.append("g")
-       .attr("transform", `translate(165,35)`)
 
-    ballcontainer.append("svg:image")
+    arcgroup.append("svg:image")
       .attr("xlink:href", this.state.serves['tennisball.svg'])
       .attr("height", 10)
       .attr("class", "tennis-ball")
+      .attr("transform", `translate(165,40)`)
       //.attrTween("transform", d => that.translateAlong(d3.select('.arc').node()))
    
     function transitionBall(type) {
@@ -292,7 +301,7 @@ export default class ServeGraphic extends Component {
         }*/
          var p = path.getPointAtLength(t * l);
 
-        return "translate(" + (p.x + 150) + "," + (p.y + 260) + ")";
+        return "translate(" + (p.x + 375) + "," + (p.y + 350) + ")";
       };
     
   }
@@ -362,10 +371,14 @@ export default class ServeGraphic extends Component {
   }*/
 
   render() {
+    console.log("re-rendering on resize")
     const {margin, width, height} = this.state
+    const viewBoxWidth = 700
+    const viewBoxHeight = 691
+    console.log(height)
     return <div id="serve-graphic">
-      <svg className="serve-graphic-svg" width={width} height={height} viewBox={`0 0 ${width} ${window.innerHeight}`} >
-        <g transform={`translate(${margin.left}, ${0})`} />
+      <svg className="serve-graphic-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} >
+        <g transform={`translate(${margin.left}, ${margin.top})`} />
         
       </svg>
     </div>

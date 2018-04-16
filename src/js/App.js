@@ -3,6 +3,7 @@ import Map from './components/Map.js';
 import RankingLine from './components/RankingLine.js';
 import ServeGraphic from './components/ServeGraphic.js';
 import ServeAnimation from './components/ServeAnimation.js';
+import Rivalry from './components/Rivalry.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -12,10 +13,17 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      venusdata: null,
+      mariadata: null,
+      venusannotation: null,
+      mariaannotation: null,
+      renderReady: false,
     };
 
   }
-
+  componentWillMount() {
+    
+  }
   componentDidMount() {
     /*var files = ["data/serenaranking.csv"];
     Promise.all(files.map(url => d3.csv(url, this.type))).then(values => {
@@ -27,11 +35,45 @@ class App extends Component {
         }
       )
     }) */ 
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv"];
+    var types = [this.type, this.type, this.type, this.type];
+    Promise.all(files.map((url,i) => { 
+      return d3.csv(url, types[i].bind(this))
+    })).then(values => {
+      console.log(values[0])
+      console.log(values[1])
+      this.setState({
+        venusdata: values[0],
+        mariadata: values[1],
+        venusannotation: values[2],
+        mariaannotation: values[3],
+        }, () => {
+          this.setState({renderReady: true})
+          //this.createLineChart()
+
+        }
+      )
+    })
+
+    
 
   }
 
+  type(d) {
+    return d
 
+  }
   render() {
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady} = this.state
+    var rivalries
+    if (renderReady) {
+      rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={500} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+            <Rivalry data={mariadata} annotations={mariaannotation} width={500} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+            </div>
+          
+    } else {
+      rivalries = <div></div>
+    }
     return (
       /*<div className="App">
         <header className="App-header">
@@ -245,8 +287,7 @@ class App extends Component {
               </div>
              
             </div>
-          
-
+            {rivalries}
 
         </div>
 
