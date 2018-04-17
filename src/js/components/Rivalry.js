@@ -42,11 +42,6 @@ export default class Rivalry extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state)
-    /*const divRect = this.divRef.current.getBoundingClientRect();
-    const topoffset = divRect.top + window.pageYOffset
-    this.setState({topoffset: topoffset})*/
-    console.log(this.state)
   	const {data, annotations, width, height, margin} = this.props
   	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
@@ -216,7 +211,6 @@ export default class Rivalry extends Component {
   render() {
   	const {data, annotations, width, height, margin} = this.props
   	const {currMatchData, tooltipStyle, border} = this.state
-    console.log(tooltipStyle)
    	return <div className="rivalry-container" ref={this.divRef}>
    		<SlamTooltip data={currMatchData} tooltipStyle={tooltipStyle} border={border}/>
    		<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>

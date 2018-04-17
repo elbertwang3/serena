@@ -18,14 +18,15 @@ export default class ServeAnimation extends Component {
   }
 
   componentWillMount() {
-    const serves = this.importAll(require.context('../../images/serves', false, /\.(png|jpe?g|svg|gif)$/));
-    this.setState({serves: serves})
-    this.setState({currentServe: serves['1.png']})
+    
 
 
   }
 
   componentDidMount() {
+    const serves = this.importAll(require.context('../../images/serves', false, /\.(png|jpe?g|svg|gif)$/));
+    this.setState({serves: serves})
+    this.setState({currentServe: serves['1.png']})
     const that = this
     window.addEventListener('scroll', (event) => {
       //console.log(ReactDOM.findDOMNode(this))

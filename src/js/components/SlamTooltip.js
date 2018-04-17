@@ -13,7 +13,6 @@ export default class SlamTooltip extends Component {
 
   componentDidMount() {
 
-  	console.log("didmount")
   }
 
   componentWillReceiveProps(nextProps) {
