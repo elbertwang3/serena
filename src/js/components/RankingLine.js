@@ -23,7 +23,15 @@ export default class RankingLine extends Component {
       images: null,
       flags: null,
       currSlamData: null,
-      position: {position: 'absolute'}
+      position: {
+        position: 'absolute', 
+        background: 'black',
+        color: 'white',
+        left: 0,
+        right: 0,
+        top: 500,
+        margin: 'auto',
+      }
 
     };
 
@@ -270,6 +278,7 @@ export default class RankingLine extends Component {
       let prevSlam = null;
       let currSlam = null;
       window.addEventListener('scroll', (event) => {
+        console.log(this.state.position);
         const divRect = this.divRef.current.getBoundingClientRect();
 
         const topoffset = divRect.top + window.pageYOffset
@@ -354,12 +363,35 @@ export default class RankingLine extends Component {
 
 
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - topoffset) {
-          this.setState({position: {position: 'fixed', opacity: 1}})
+
+          this.setState(prevState => ({
+            position: {
+              ...prevState.position,
+              position: 'fixed',
+              opacity: 1
+            }
+          }))
         }
         else if (window.pageYOffset > bottomoffset - topoffset){
-          this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
+          this.setState(prevState => ({
+            position: {
+              ...prevState.position,
+              position: 'absolute',
+              opacity: 0,
+              top: 'auto',
+              bottom: 100
+            }
+          }))
+          //this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
         } else if (window.pageYOffset <= topoffset) {
-          this.setState({position: {position:'absolute', top: 500}})
+          this.setState(prevState => ({
+            position: {
+              ...prevState.position,
+              position: 'absolute',
+              top: 500,
+            }
+          }))
+          //this.setState({position: {position:'absolute', top: 500}})
         }
     })  
 
@@ -438,10 +470,11 @@ export default class RankingLine extends Component {
     render() {
       const {margin, width, height, position, currSlamData} = this.state
       var slamTooltip;
+     
       //const emptySlamData = ['year','result','date','date_1','result2','round','tourney_date,tourney_id,tourney_year,tourney_name,surface,draw_size,tourney_level,match_num,winner_id,winner_seed,winner_entry,winner_name,winner_hand,winner_ht,winner_ioc,winner_age,winner_rank,winner_rank_point]
       if (this.state.currSlamData != null) {
    
-        slamTooltip = <SlamTooltip data={currSlamData} position={position}/>
+        slamTooltip = <SlamTooltip data={currSlamData} position={position} />
       } else {
 
         slamTooltip = <SlamTooltip position={position} />

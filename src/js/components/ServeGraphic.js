@@ -8,6 +8,7 @@ import serveSound from '../../images/servesound.mp3'
 export default class ServeGraphic extends Component {
 	constructor(props){
 	  super(props);
+
     this.state = {
       margin: {top: 25, right: 0, bottom: 25, left: 50},
       width: 700,
@@ -76,7 +77,6 @@ export default class ServeGraphic extends Component {
     })
 
      window.addEventListener('resize', () => {
-      console.log("getting resized")
       var chart = document.getElementsByClassName('serve-graphic-svg')[0]
       var chartWidth = chart.getAttribute("width")
       var chartHeight = chart.getAttribute("height")
@@ -84,18 +84,12 @@ export default class ServeGraphic extends Component {
       var parentcontainer = ReactDOM.findDOMNode(this)
       var targetWidth = parentcontainer.offsetWidth;
       if (targetWidth < 700) {
-        console.log(window.innerHeight)
         chart.setAttribute('width', targetWidth)
         chart.setAttribute('height', window.innerHeight)
-         //this.setState({width: targetWidth, height: window.innerHeight})
-         console.log(this.state.height)
 
       } else {
-          console.log(window.innerHeight)
         chart.setAttribute('width', 700)
         chart.setAttribute('height', window.innerHeight)
-        //this.setState({width: 700, height: window.innerHeight})
-        console.log(this.state.height)
       }
     })
     
@@ -108,9 +102,6 @@ export default class ServeGraphic extends Component {
     const {width, height, margin, servedata, flags} = this.state
     const innerWidth = this.state.width - margin.left - margin.right
     const innerHeight = this.state.height - margin.bottom - margin.top
-    console.log(width)
-    console.log(height)
-    console.log('creating servegraphic again?')
     var arc = d3.arc()
       .innerRadius(width/2)
       .outerRadius(width/2)
@@ -184,8 +175,6 @@ export default class ServeGraphic extends Component {
          .attr("transform", "translate(100,0)")
 
 
-    console.log(width);
-    console.log(4.1*width/5)
     const speedanno = arcgroup.append("g")
       .attr("class", "speed-annotation")
       .attr("transform", `translate(${4.1*width/5}, 40)`)
@@ -371,11 +360,7 @@ export default class ServeGraphic extends Component {
   }*/
 
   render() {
-    console.log("re-rendering on resize")
     const {margin, width, height} = this.state
-    const viewBoxWidth = 700
-    const viewBoxHeight = 691
-    console.log(height)
     return <div id="serve-graphic">
       <svg className="serve-graphic-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} >
         <g transform={`translate(${margin.left}, ${margin.top})`} />

@@ -13,7 +13,8 @@ export default class Rivalry extends Component {
     this.gRef = React.createRef();
     this.svgRef = React.createRef();
     this.state = {
-    	profiles: null
+    	profileimages: null,
+    	currMatchData: null,
     };
   }
   importAllFlags(r) {
@@ -24,15 +25,16 @@ export default class Rivalry extends Component {
   }
 
   componentWillMount() {
-  	const profiles = this.importAllFlags(require.context('../../images/profiles', false, /\.(gif|svg)$/));
+  	const profileimages = this.importAllFlags(require.context('../../images/profiles', false, /\.(gif|svg)$/));
+  	this.setState({profileimages: profileimages})
   }
 
   componentDidMount() {
   	const {data, annotations, width, height, margin} = this.props
+  	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
     const innerHeight =  height - margin.top - margin.bottom
     const g = d3.select(this.gRef.current)
-    console.log(g);
     const parseDate = d3.timeParse('%Y-%m-%d');
    	const yExtent = d3.extent(data, d => 
         parseDate(d['tourney_date'])
@@ -46,36 +48,48 @@ export default class Rivalry extends Component {
 
 
     const xMidpoint = innerWidth / 2
-    console.log(xMidpoint)
     const players = d3.nest()
 		  .key(function(d) { return d['winner_name']; })
 		  .rollup(function(v) { return v.length; })
   		.entries(data);
 
-    console.log(players)
     const xScale = d3.scaleOrdinal()
     	.domain([players[0], players[1]])
     	.range([xMidpoint - 60, xMidpoint + 60])
+
 
     const surfaceScale = d3.scaleOrdinal()
         .domain(["Hard, Clay, Grass"])
         .range(["#91ceff", "#f28b02", "#4ec291"])
 
-    const profiles = g.selectAll(".players")
+    const profiles = g.selectAll(".profile")
     	.data(players)
     	.enter()
     	.append('g')
-    	.attr("transform", (d,i) => `translate(${xScale(d)}, ${0})`)
+    	.attr("class", "profile")
+    	.attr("transform", (d,i) => `translate(${xScale(d['key'])}, ${0})`)
 
 
-     /*profiles.append("svg:image")
-     .attr("xlink:href", d => {
-     		return `${d}.gif`
+    profiles.append("svg:image")
+     	.attr("xlink:href", d => {
+     		return profileimages[`${d['key']}.gif`]
       })
-      .attr("width", 30)
+      .attr("width", 50)
+      .attr("x", -25)
+
 
     profiles.append('text')
-    	.text(d => )*/
+    	.text(d => d['value'])
+    	.attr("class", "numwins")
+    	.attr("text-anchor", "middle")
+    	.attr("transform", "translate(0,70)")
+
+    profiles.append('text')
+    	.text(d => d['key'])
+    	.attr("class", "player-name")
+    	.attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
+    	.attr("x", (d,i) => i == 1 ? -30 : 30)
+    	.attr("y", 30)
   
 
     g.append("line")
@@ -85,13 +99,32 @@ export default class Rivalry extends Component {
     	.attr("y1", 0)
     	.attr("y2", innerHeight)
 
-   	const matches = g.selectAll(".matches")
+    /*const yearticks = g.append("g")
+    	.attr("class", "year-ticks")
+
+    const tickValues = yScale.ticks(d3.timeYear)
+   	const yearFormat = d3.timeFormat("%Y")
+
+    console.log(tickValues)
+
+    yearticks.selectAll(".year-tick")
+    	.data(tickValues)
+    	.enter()
+    	.append("text")
+    	.attr("x", xMidpoint)
+    	.attr("y", d => yScale(d))
+    	.text(d => yearFormat(d))
+    	.attr("text-anchor", "middle")*/
+
+   	const matches = g.append("g")
+   		.attr("transform", "translate(0,100)")
+   		.selectAll(".matches")
    		.data(data)
    		.enter()
    		.append("g")
    		.attr("class", "match-g")
    		.attr("transform", (d,i) => {
-   			return `translate(${xScale(d['winner_name'])}, ${25 * i})`
+   			return `translate(${xScale(d['winner_name'])}, ${30 * i})`
    		})
 
    	matches.append("circle")
@@ -99,14 +132,19 @@ export default class Rivalry extends Component {
    		.attr("r", 10)
    		//.attr()
    		.attr("class", "match-circle")
-    
+   		.on("mouseover", d => {
+   			this.setState({currMatchData: d})
+   		})
+
   }
   render() {
   	const {data, annotations, width, height, margin} = this.props
+  	const {currMatchData} = this.state
    	return <div className="rivalry-container" ref={this.divRef}>
-   		{<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
+   		<SlamTooltip data={currMatchData} />
+   		<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
           <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />
-        </svg>}
+        </svg>
    	</div>
 
   }
