@@ -250,7 +250,7 @@
 }
 
 .slam-tooltip .tooltip-header {
-    border-bottom: 1px solid #cdcdcd;
+
     font-weight: 700;
     font-size: 16px;
     text-align: center;
@@ -260,7 +260,8 @@
 
 .slam-tooltip .player-row {
    display: block;
-   border-top: 1px solid white;
+  border-right: 1px;
+  border-color: inherit;
   padding: 2px;
   position: relative;
   height: 22px;
@@ -269,7 +270,7 @@
 }
 
 .slam-tooltip .player-row:first-child {
-   border-top: 0px solid white;
+   border-top: 0px;
 }
 
 .slam-tooltip .bracket div {
@@ -286,8 +287,10 @@
 .slam-tooltip .player {
   width: 175px;
   margin-left: 5px;
-   border-right: 1px solid white;
-     white-space: nowrap;
+  border-right: 1px;
+  border-color: inherit;
+
+  white-space: nowrap;
     
 }
 
@@ -313,7 +316,7 @@
 
 }
 .slam-tooltip .score {
-  font-family: "Roboto Mono";
+  font-family: "Roboto";
   width: 30px;
   text-align: center;
   display: block;
@@ -474,7 +477,6 @@
 
 .profile .player-name {
   font-family: "Roboto";
-  text-transform: uppercase;
   font-weight: 700;
   font-size: 17px;
 }
@@ -482,6 +484,7 @@
 .profile .numwins {
   font-family: "Roboto";
   font-size: 18px;
+  font-weight: 900;
 
 }
 

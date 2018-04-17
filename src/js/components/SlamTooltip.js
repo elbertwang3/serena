@@ -27,17 +27,19 @@ export default class SlamTooltip extends Component {
 
 	 		</div>
 	 	} else {
-	 		let props = this.props.data
-	 		Object.keys(props).map(function (key) {
-				if (props[key] == " ") {
-					props[key] = '\xa0';
+	 		let slamdata = this.props.data
+	 		Object.keys(slamdata).map(function (key) {
+				if (slamdata[key] == " ") {
+					slamdata[key] = '\xa0';
 				}
 			})
-	 		const {year, tourney_name, round, style} = props
-	 		console.log(style)
+
+	 		const {tourney_year, tourney_name, round, data} = slamdata
+	 		const {border} = this.props
+	 		const borderStyle={borderBottom: "1px solid #a1a1a1"}
 	 		return 	<div className='slam-tooltip' style={this.props.position}>
-	 			<div className='tooltip-header'>{year} {tourney_name}, {round}</div>
-	 			<Bracket data={this.props.data} />
+	 			<div className='tooltip-header' style={borderStyle}>{tourney_year} {tourney_name}, {round}</div>
+	 			<Bracket data={slamdata} border={border} />
 
 
 	 		</div>

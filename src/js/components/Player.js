@@ -23,8 +23,9 @@ export default class PlayerRow extends Component {
 
   render() {
     if (this.props != null) {
-      const {name, ioc} = this.props
-      return <div className="player">
+      const {name, ioc, border} = this.props
+      const borderStyle={borderRight: this.props.border}
+      return <div className="player" style={borderStyle}>
         <div className='flag-container'>
       
           <img className='flag' src={this.state.flags[`${ioc}.png`]} alt="flag"></img>

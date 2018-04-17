@@ -31,7 +31,8 @@ export default class RankingLine extends Component {
         right: 0,
         top: 500,
         margin: 'auto',
-      }
+      },
+      border: '1px solid white'
 
     };
 
@@ -278,7 +279,6 @@ export default class RankingLine extends Component {
       let prevSlam = null;
       let currSlam = null;
       window.addEventListener('scroll', (event) => {
-        console.log(this.state.position);
         const divRect = this.divRef.current.getBoundingClientRect();
 
         const topoffset = divRect.top + window.pageYOffset
@@ -468,13 +468,12 @@ export default class RankingLine extends Component {
 
     
     render() {
-      const {margin, width, height, position, currSlamData} = this.state
+      const {margin, width, height, position, currSlamData, border} = this.state
       var slamTooltip;
-     
       //const emptySlamData = ['year','result','date','date_1','result2','round','tourney_date,tourney_id,tourney_year,tourney_name,surface,draw_size,tourney_level,match_num,winner_id,winner_seed,winner_entry,winner_name,winner_hand,winner_ht,winner_ioc,winner_age,winner_rank,winner_rank_point]
       if (this.state.currSlamData != null) {
    
-        slamTooltip = <SlamTooltip data={currSlamData} position={position} />
+        slamTooltip = <SlamTooltip data={currSlamData} position={position} border={border}/>
       } else {
 
         slamTooltip = <SlamTooltip position={position} />

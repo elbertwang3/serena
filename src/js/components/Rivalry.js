@@ -15,7 +15,11 @@ export default class Rivalry extends Component {
     this.state = {
     	profileimages: null,
     	currMatchData: null,
-    };
+    	tooltipStyle: {
+    		position: 'absolute',
+    	},
+    	border: '1px solid #a1a1a1'
+    }
   }
   importAllFlags(r) {
  
@@ -59,9 +63,12 @@ export default class Rivalry extends Component {
 
 
     const surfaceScale = d3.scaleOrdinal()
-        .domain(["Hard, Clay, Grass"])
+        .domain(["Hard", "Clay", "Grass"])
         .range(["#91ceff", "#f28b02", "#4ec291"])
 
+    console.log(surfaceScale("Hard"))
+    console.log(surfaceScale("Clay"))
+    console.log(surfaceScale("Grass"))
     const profiles = g.selectAll(".profile")
     	.data(players)
     	.enter()
@@ -124,7 +131,7 @@ export default class Rivalry extends Component {
    		.append("g")
    		.attr("class", "match-g")
    		.attr("transform", (d,i) => {
-   			return `translate(${xScale(d['winner_name'])}, ${30 * i})`
+   			return `translate(${xScale(d['winner_name'])}, ${25 * i})`
    		})
 
    	matches.append("circle")
@@ -139,9 +146,9 @@ export default class Rivalry extends Component {
   }
   render() {
   	const {data, annotations, width, height, margin} = this.props
-  	const {currMatchData} = this.state
+  	const {currMatchData, tooltipStyle, border} = this.state
    	return <div className="rivalry-container" ref={this.divRef}>
-   		<SlamTooltip data={currMatchData} />
+   		<SlamTooltip data={currMatchData} position={tooltipStyle} border={border}/>
    		<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
           <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />
         </svg>
