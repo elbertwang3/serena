@@ -40,8 +40,6 @@ class App extends Component {
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
-      console.log(values[0])
-      console.log(values[1])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],

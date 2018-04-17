@@ -23,7 +23,7 @@ export default class Rivalry extends Component {
     		position: 'absolute',
         display: 'none',
         background: 'white',
-        opacity: 0.9
+        opacity: 0.9,
     	},
     	border: '1px solid #a1a1a1',
       topoffset: null
@@ -43,9 +43,9 @@ export default class Rivalry extends Component {
 
   componentDidMount() {
     console.log(this.state)
-    const divRect = this.divRef.current.getBoundingClientRect();
+    /*const divRect = this.divRef.current.getBoundingClientRect();
     const topoffset = divRect.top + window.pageYOffset
-    this.setState({topoffset: topoffset})
+    this.setState({topoffset: topoffset})*/
     console.log(this.state)
   	const {data, annotations, width, height, margin} = this.props
   	const {profileimages} = this.state
@@ -149,8 +149,7 @@ export default class Rivalry extends Component {
    		.attr("r", 10)
    		.attr("class", "match-circle")
    		.on("mouseover", d => {
-        console.log("over")
-            //console.log(d3.select(this).attr("cy"))
+
         this.setState(prevState => ({
         
             currMatchData: d,
@@ -158,16 +157,15 @@ export default class Rivalry extends Component {
               ...prevState.tooltipStyle,
               position: 'absolute',
               display: 'block',
-              left: (xMidpoint - 155),
+              left: (window.innerWidth/2 - 155),
               top: (d3.event.pageY + 30 - this.state.topoffset)
         
             }
           }))
-        console.log("setting state")
-        console.log(this.state)
+    
    		})
       .on('mouseout', d => {
-         console.log("out")
+   
         this.setState(prevState => ({
            
             tooltipStyle: {
@@ -175,8 +173,7 @@ export default class Rivalry extends Component {
               display: 'none'
             }
           }))
-        console.log("setting state")
-        console.log(this.state)
+ 
 
       })
 
@@ -193,20 +190,24 @@ export default class Rivalry extends Component {
       const topoffset = divRect.top + window.pageYOffset
       this.setState({topoffset: topoffset})
 
-      var chart = document.getElementsByClassName('serve-graphic-svg')[0]
+      var chart = this.svgRef.current
       var chartWidth = chart.getAttribute("width")
       var chartHeight = chart.getAttribute("height")
+
       var aspect = chartWidth / chartHeight
       var parentcontainer = ReactDOM.findDOMNode(this)
-      var targetWidth = parentcontainer.offsetWidth;
-      if (targetWidth < 700) {
+      if (parentcontainer.offsetWidth >= 500) {
+        var targetWidth = 500
         chart.setAttribute('width', targetWidth)
-        chart.setAttribute('height', window.innerHeight)
-
+        chart.setAttribute('height', targetWidth/aspect)
       } else {
-        chart.setAttribute('width', 700)
-        chart.setAttribute('height', window.innerHeight)
+        var targetWidth = parentcontainer.offsetWidth
+        chart.setAttribute('width', targetWidth)
+        chart.setAttribute('height', targetWidth/aspect)
       }
+     
+
+     
     })
     
     window.dispatchEvent(new Event('resize'));

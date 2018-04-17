@@ -131,7 +131,6 @@ export default class Map extends Component {
 
   scroll(d3.selectAll('#sections1 .step'), "scroller1"); 
 
-  console.log(d3.selectAll('#sections1 .step'))
   
 
   scroll.on('active', function (index) {

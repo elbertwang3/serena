@@ -332,8 +332,7 @@ export default class RankingLine extends Component {
             }
       
             //tooltipcontainer.select
-            d3.select(this.tooltipRef.current).selectAll("div")
-              .data([currSlam])
+         
   
             d3.selectAll(".ranking-annotation")
               .filter(function(d){ 
@@ -385,6 +384,7 @@ export default class RankingLine extends Component {
           }))
           //this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
         } else if (window.pageYOffset <= topoffset) {
+          
           this.setState(prevState => ({
             tooltipStyle: {
               ...prevState.tooltipStyle,

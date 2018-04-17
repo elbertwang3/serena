@@ -13,19 +13,19 @@ export default class SlamTooltip extends Component {
 
   componentDidMount() {
 
-  	//this.tooltipRef.appen
+  	console.log("didmount")
   }
 
   componentWillReceiveProps(nextProps) {
-  	console.log(nextProps)
   	this.setState({style: nextProps.tooltipStyle})
+  	//console.log(this.state)
 
   }
 
 
 	render() {
 		if (this.props.data == null) {
-			return 	<div className='slam-tooltip'>
+			return 	<div className='slam-tooltip' style={this.props.tooltipStyle}>
 	 			<div className='tooltip-header'>&nbsp;</div>
 	 			<Bracket />
 
@@ -41,9 +41,8 @@ export default class SlamTooltip extends Component {
 
 	 		const {tourney_year, tourney_name, round, data} = slamdata
 	 		const {border} = this.props
-	 		console.log(this.state.style)
 	 		const borderStyle={borderBottom: "1px solid #a1a1a1"}
-	 		return 	<div className='slam-tooltip' style={this.state.style}>
+	 		return 	<div className='slam-tooltip' style={this.props.tooltipStyle}>
 	 			<div className='tooltip-header' style={borderStyle}>{tourney_year} {tourney_name}, {round}</div>
 	 			<Bracket data={slamdata} border={border} />
 
