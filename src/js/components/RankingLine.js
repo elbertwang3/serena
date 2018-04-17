@@ -23,7 +23,7 @@ export default class RankingLine extends Component {
       images: null,
       flags: null,
       currSlamData: null,
-      position: {
+      tooltipStyle: {
         position: 'absolute', 
         background: 'black',
         color: 'white',
@@ -31,6 +31,7 @@ export default class RankingLine extends Component {
         right: 0,
         top: 500,
         margin: 'auto',
+        opacity: 1
       },
       border: '1px solid white'
 
@@ -365,8 +366,8 @@ export default class RankingLine extends Component {
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - topoffset) {
 
           this.setState(prevState => ({
-            position: {
-              ...prevState.position,
+            tooltipStyle: {
+              ...prevState.tooltipStyle,
               position: 'fixed',
               opacity: 1
             }
@@ -374,8 +375,8 @@ export default class RankingLine extends Component {
         }
         else if (window.pageYOffset > bottomoffset - topoffset){
           this.setState(prevState => ({
-            position: {
-              ...prevState.position,
+            tooltipStyle: {
+              ...prevState.tooltipStyle,
               position: 'absolute',
               opacity: 0,
               top: 'auto',
@@ -385,8 +386,8 @@ export default class RankingLine extends Component {
           //this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
         } else if (window.pageYOffset <= topoffset) {
           this.setState(prevState => ({
-            position: {
-              ...prevState.position,
+            tooltipStyle: {
+              ...prevState.tooltipStyle,
               position: 'absolute',
               top: 500,
             }
@@ -468,15 +469,15 @@ export default class RankingLine extends Component {
 
     
     render() {
-      const {margin, width, height, position, currSlamData, border} = this.state
+      const {margin, width, height, tooltipStyle, currSlamData, border} = this.state
       var slamTooltip;
       //const emptySlamData = ['year','result','date','date_1','result2','round','tourney_date,tourney_id,tourney_year,tourney_name,surface,draw_size,tourney_level,match_num,winner_id,winner_seed,winner_entry,winner_name,winner_hand,winner_ht,winner_ioc,winner_age,winner_rank,winner_rank_point]
       if (this.state.currSlamData != null) {
    
-        slamTooltip = <SlamTooltip data={currSlamData} position={position} border={border}/>
+        slamTooltip = <SlamTooltip data={currSlamData} tooltipStyle={tooltipStyle} border={border}/>
       } else {
 
-        slamTooltip = <SlamTooltip position={position} />
+        slamTooltip = <SlamTooltip tooltipStyle={tooltipStyle} />
       }
       return <div id="rankingline" ref={this.divRef}>
         {/*<div className='slam-tooltip' ref={this.tooltipRef}></div>*/}

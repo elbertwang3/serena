@@ -5,6 +5,9 @@ import Bracket from './Bracket';
 export default class SlamTooltip extends Component {
 	constructor(props){
 	  super(props);
+	  this.state = {
+	  	style: this.props.tooltipStyle
+	  }
 
   }
 
@@ -13,7 +16,9 @@ export default class SlamTooltip extends Component {
   	//this.tooltipRef.appen
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+  	console.log(nextProps)
+  	this.setState({style: nextProps.tooltipStyle})
 
   }
 
@@ -36,8 +41,9 @@ export default class SlamTooltip extends Component {
 
 	 		const {tourney_year, tourney_name, round, data} = slamdata
 	 		const {border} = this.props
+	 		console.log(this.state.style)
 	 		const borderStyle={borderBottom: "1px solid #a1a1a1"}
-	 		return 	<div className='slam-tooltip' style={this.props.position}>
+	 		return 	<div className='slam-tooltip' style={this.state.style}>
 	 			<div className='tooltip-header' style={borderStyle}>{tourney_year} {tourney_name}, {round}</div>
 	 			<Bracket data={slamdata} border={border} />
 
