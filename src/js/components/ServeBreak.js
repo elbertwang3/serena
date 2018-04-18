@@ -227,10 +227,8 @@ export default class ServeBreak extends Component {
 			return chart
 		}
 
-		function handleInput() {
+		this.handleInput = function(val) {
 
-			const val = that.state.sliderValue
-			console.log(val)
 			const x = val
 			const y = 100 - val
 			const weighted = weightData({ x, y })
@@ -244,13 +242,14 @@ export default class ServeBreak extends Component {
 			el.call(chart)
 			resize()
 			window.addEventListener('resize', resize)
-			graphic.select('.slider input').on('input', handleInput)
+			//graphic.select('.slider input').on('input', handleInput)
 		}
 
   	init()
   }
   handleChange(event) {
   	this.setState({sliderValue: event.target.value})
+  	this.handleInput(event.target.value)
   }
   render() {
   	const {data, width, height, margin} = this.props
