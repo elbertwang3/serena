@@ -79,7 +79,7 @@ export function scroller() {
       }
       sectionPositions.push(top - startPos);
     });
-    console.log(sectionPositions)
+
     containerStart = container.node().getBoundingClientRect().top + window.pageYOffset;
   }
 
@@ -92,9 +92,7 @@ export function scroller() {
    */
   function position() {
     var pos = window.pageYOffset + window.innerHeight/2 - containerStart;
-    console.log(window.pageYOffset)
-    console.log(pos)
-    console.log(containerStart)
+
     var sectionIndex = d3.bisect(sectionPositions, pos) - 1;
     sectionIndex = Math.max(0, sectionIndex);
     if (currentIndex !== sectionIndex) {

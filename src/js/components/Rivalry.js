@@ -43,6 +43,7 @@ export default class Rivalry extends Component {
 
   componentDidMount() {
   	const {data, annotations, width, height, margin} = this.props
+    console.log(annotations)
   	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
     const innerHeight =  height - margin.top - margin.bottom
@@ -179,6 +180,50 @@ export default class Rivalry extends Component {
       .attr("fill", "none")
       .attr("class", "slam-outline")
 
+    var swoopy = swoopyArrow()
+        .angle(Math.PI/4)
+        .x(function(d) { return d[0]; })
+        .y(function(d) { return d[1]; });
+
+    const ranking_annotation = d3.select(this.gRef.current)
+        .append("g")
+        .attr("class", "rivalry-anntoations")
+        .selectAll(".rivalry-annotation")
+        .data(annotations)
+        .enter()
+        .append("g")
+        .attr("class", "rivalry-annotation")
+        .attr("transform", d => {
+          console.log(d)
+          return `translate(${d['x1']}, ${d['y1']})`
+        })
+
+
+      ranking_annotation.append("text")
+        .text(function(d) { return d['annotation']})
+       
+        // .attr("x", d => d['x1'])
+        // .attr("y", d => d['y1'])
+        .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
+        
+          //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
+        .attr("dy", "1.25em")
+        .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
+        .call(this.wrap, 130)
+
+      ranking_annotation.selectAll("text")
+        .attr("y", function(d) {
+          return -d3.select(this).node().getBBox().height/2;
+        })
+   
+
+      ranking_annotation.append("path")
+        .attr('marker-end', 'url(#arrowhead2)')
+        .datum(function(d) {
+          return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
+        })
+        .attr("d", swoopy)
+        .attr("class", "swoopy-arrow")
 
     window.addEventListener('resize', () => {
       const divRect = this.divRef.current.getBoundingClientRect();
@@ -208,14 +253,44 @@ export default class Rivalry extends Component {
     window.dispatchEvent(new Event('resize'));
 
   }
+  wrap(text, width) {
+      text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1,
+            x = text.attr("x"), // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", +lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
+    }
+
   render() {
   	const {data, annotations, width, height, margin} = this.props
   	const {currMatchData, tooltipStyle, border} = this.state
    	return <div className="rivalry-container" ref={this.divRef}>
    		<SlamTooltip data={currMatchData} tooltipStyle={tooltipStyle} border={border}/>
    		<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
-          <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />
-        </svg>
+        <g transform={`translate(${margin.left}, ${margin.top})`} ref={this.gRef} />
+        <defs>
+          <marker id="arrowhead2" viewBox="-10 -10 20 20" refX="0" refY="0" markerWidth="20" markerHeight="20" strokeWidth="1" fill="black" orient="auto"><polyline strokeLinejoin="bevel" points="-6.75,-6.75 0,0 -6.75,6.75"></polyline>
+          </marker>
+        </defs>
+
+      </svg>
    	</div>
 
   }

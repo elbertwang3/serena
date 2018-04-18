@@ -60,7 +60,6 @@ export default class ServeGraphic extends Component {
       const topoffset = divRect.top + window.pageYOffset
       const bottomoffset = divRect.bottom + window.pageYOffset
       if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-        console.log("getting inside fixed area")
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
@@ -78,7 +77,6 @@ export default class ServeGraphic extends Component {
     })
 
      window.addEventListener('resize', () => {
-      console.log("resized")
       var chart = document.getElementsByClassName('serve-graphic-svg')[0]
       var chartWidth = chart.getAttribute("width")
       var chartHeight = chart.getAttribute("height")
@@ -309,8 +307,6 @@ export default class ServeGraphic extends Component {
       .container(d3.select('#graphic2'));
 
     scroll(d3.selectAll('#sections2 .step'), 'scroller2'); 
-
-    console.log(d3.selectAll('#sections2 .step'))
 
 
     

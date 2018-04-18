@@ -65,8 +65,8 @@ class App extends Component {
     const {venusdata, mariadata, venusannotation, mariaannotation, renderReady} = this.state
     var rivalries
     if (renderReady) {
-      rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={500} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
-            <Rivalry data={mariadata} annotations={mariaannotation} width={500} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+      rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={600} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+            <Rivalry data={mariadata} annotations={mariaannotation} width={600} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
           
     } else {

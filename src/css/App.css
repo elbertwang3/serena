@@ -209,6 +209,11 @@
   fill: none;
 }
 
+.rivalry-svg .swoopy-arrow {
+  stroke: black;
+  fill: none;
+}
+
 .slam .slam-text {
   font-size: 18px;
   font-family: "Roboto";
@@ -228,6 +233,12 @@
   fill: white;
   font-family: "Roboto";
   font-size: 12px;
+}
+
+.rivalry-annotation text {
+   font-family: "Roboto";
+  font-size: 12px;
+
 }
 
 .slam-tooltip {
