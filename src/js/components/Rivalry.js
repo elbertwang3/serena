@@ -43,7 +43,6 @@ export default class Rivalry extends Component {
 
   componentDidMount() {
   	const {data, annotations, width, height, margin} = this.props
-    console.log(annotations)
   	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
     const innerHeight =  height - margin.top - margin.bottom
@@ -167,7 +166,6 @@ export default class Rivalry extends Component {
         .append("g")
         .attr("class", "rivalry-annotation")
         .attr("transform", d => {
-          console.log(d)
           return `translate(${d['x1']}, ${d['y1']})`
         })
 

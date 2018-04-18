@@ -81,7 +81,6 @@ export function scroller() {
     });
 
     containerStart = container.node().getBoundingClientRect().top + window.pageYOffset;
-    console.log(containerStart)
   }
 
   /**

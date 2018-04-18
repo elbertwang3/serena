@@ -4,6 +4,7 @@ import RankingLine from './components/RankingLine.js';
 import ServeGraphic from './components/ServeGraphic.js';
 import ServeAnimation from './components/ServeAnimation.js';
 import Rivalry from './components/Rivalry.js';
+import ServeBreak from './components/ServeBreak.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -18,6 +19,7 @@ class App extends Component {
       venusannotation: null,
       mariaannotation: null,
       renderReady: false,
+      servedata: null,
     };
 
   }
@@ -35,8 +37,8 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv"];
-    var types = [this.type, this.type, this.type, this.type];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2];
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
@@ -45,6 +47,7 @@ class App extends Component {
         mariadata: values[1],
         venusannotation: values[2],
         mariaannotation: values[3],
+        servedata: values[4]
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -61,16 +64,26 @@ class App extends Component {
     return d
 
   }
+
+  type2(d) {
+    d['percent_servept_won'] = +d['percent_servept_won']
+    d['percent_breakpt_saved'] = +d['percent_breakpt_saved']
+    d['Sum_Sum_w_1stWon'] = +d['Sum_Sum_w_1stWon']
+    return d
+  }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady} = this.state
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata} = this.state
     var rivalries
+    var servestats
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={600} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             <Rivalry data={mariadata} annotations={mariaannotation} width={600} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
+      servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} width={600} height={600} margin={{top:25, bottom: 25, right: 25, left: 25}} /></div>
           
     } else {
       rivalries = <div></div>
+      servestats = <div></div>
     }
     return (
       /*<div className="App">
@@ -286,6 +299,7 @@ class App extends Component {
              
             </div>
             {rivalries}
+            {servestats}
 
         </div>
 

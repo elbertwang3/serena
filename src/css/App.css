@@ -462,6 +462,8 @@
   display: block;
   margin: 0 auto;
 }
+
+
 .serve-graphic-svg .arc {
   stroke: #d3d3d3;
   fill: none;
@@ -536,6 +538,11 @@ h2 {
 
 .rivalry-container {
   position: relative;
+}
+
+.servebreak-svg {
+  display: block;
+  margin: 0 auto;
 }
 @media only screen and (max-width: 1107px) { 
   .title-container {
