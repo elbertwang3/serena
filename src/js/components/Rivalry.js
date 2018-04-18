@@ -75,34 +75,7 @@ export default class Rivalry extends Component {
         .domain(["Hard", "Clay", "Grass"])
         .range(["#91ceff", "#f28b02", "#4ec291"])
 
-    const profiles = g.selectAll(".profile")
-    	.data(players)
-    	.enter()
-    	.append('g')
-    	.attr("class", "profile")
-    	.attr("transform", (d,i) => `translate(${xScale(d['key'])}, ${0})`)
-
-
-    profiles.append("svg:image")
-     	.attr("xlink:href", d => {
-     		return profileimages[`${d['key']}.gif`]
-      })
-      .attr("width", 50)
-      .attr("x", -25)
-
-
-    profiles.append('text')
-    	.text(d => d['value'])
-    	.attr("class", "numwins")
-    	.attr("text-anchor", "middle")
-    	.attr("transform", "translate(0,70)")
-
-    profiles.append('text')
-    	.text(d => d['key'])
-    	.attr("class", "player-name")
-    	.attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
-    	.attr("x", (d,i) => i == 1 ? -30 : 30)
-    	.attr("y", 30)
+    
   
 
     g.append("line")
@@ -199,31 +172,60 @@ export default class Rivalry extends Component {
         })
 
 
-      ranking_annotation.append("text")
-        .text(function(d) { return d['annotation']})
-       
-        // .attr("x", d => d['x1'])
-        // .attr("y", d => d['y1'])
-        .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
-        
-          //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
-        .attr("dy", "1.25em")
-        .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
-        .call(this.wrap, 130)
+    ranking_annotation.append("text")
+      .text(function(d) { return d['annotation']})
+     
+      // .attr("x", d => d['x1'])
+      // .attr("y", d => d['y1'])
+      .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
+      
+        //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
+      .attr("dy", "1.25em")
+      .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
+      .call(this.wrap, 130)
 
-      ranking_annotation.selectAll("text")
-        .attr("y", function(d) {
-          return -d3.select(this).node().getBBox().height/2;
-        })
-   
+    ranking_annotation.selectAll("text")
+      .attr("y", function(d) {
+        return -d3.select(this).node().getBBox().height/2;
+      })
+ 
 
-      ranking_annotation.append("path")
-        .attr('marker-end', 'url(#arrowhead2)')
-        .datum(function(d) {
-          return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
-        })
-        .attr("d", swoopy)
-        .attr("class", "swoopy-arrow")
+    ranking_annotation.append("path")
+      .attr('marker-end', 'url(#arrowhead2)')
+      .datum(function(d) {
+        return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
+      })
+      .attr("d", swoopy)
+      .attr("class", "swoopy-arrow")
+
+    const profiles = g.selectAll(".profile")
+      .data(players)
+      .enter()
+      .append('g')
+      .attr("class", "profile")
+      .attr("transform", (d,i) => `translate(${xScale(d['key'])}, ${0})`)
+
+
+    profiles.append("svg:image")
+      .attr("xlink:href", d => {
+        return profileimages[`${d['key']}.gif`]
+      })
+      .attr("width", 50)
+      .attr("x", -25)
+
+
+    const numwins = profiles.append('text')
+      .text(d => d['value'])
+      .attr("class", "numwins")
+      .attr("text-anchor", "middle")
+      .attr("transform", "translate(0,70)")
+
+    profiles.append('text')
+      .text(d => d['key'])
+      .attr("class", "player-name")
+      .attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
+      .attr("x", (d,i) => i == 1 ? -30 : 30)
+      .attr("y", 30)
 
     window.addEventListener('resize', () => {
       const divRect = this.divRef.current.getBoundingClientRect();
@@ -236,8 +238,8 @@ export default class Rivalry extends Component {
 
       var aspect = chartWidth / chartHeight
       var parentcontainer = ReactDOM.findDOMNode(this)
-      if (parentcontainer.offsetWidth >= 500) {
-        var targetWidth = 500
+      if (parentcontainer.offsetWidth >= 600) {
+        var targetWidth = 600
         chart.setAttribute('width', targetWidth)
         chart.setAttribute('height', targetWidth/aspect)
       } else {
@@ -252,6 +254,37 @@ export default class Rivalry extends Component {
     
     window.dispatchEvent(new Event('resize'));
 
+    /*window.addEventListener('scroll', (event) => {
+      const divRect = this.divRef.current.getBoundingClientRect();
+
+      const topoffset = divRect.top + window.pageYOffset
+      const bottomoffset = divRect.bottom + window.pageYOffset
+      const offset = window.innerHeight/2
+      const realHeight = bottomoffset - topoffset
+      //console.log(realHeight)
+      const ratio = realHeight/this.props.height;
+      //console.log(this.props.height)
+      //console.log(ratio)
+      var pageYOffset = (window.pageYOffset - topoffset)/ratio 
+      //console.log(pageYOffset)
+      pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
+      //console.log(window.pageYOffset)
+      //console.log(topoffset)
+      //console.log(bottomoffset)
+      console.log(pageYOffset + offset)
+      //console.log(matches.selectAll("circle").getBBox())
+      matches.each((d,i) => {
+        let that = this
+        console.log(d3.select(that))
+        //console.log(d3.selectAll(".match-g")[i].attr("transform"))
+      })
+
+      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 150) {
+        profiles.attr('transform', d => `translate(${xScale(d['key'])}, ${pageYOffset + 20})`)    
+      } else if (window.pageYOffset <= topoffset) {
+        profiles.attr('transform', d => `translate(${xScale(d['key'])}, 0)`); 
+      }
+    })*/
   }
   wrap(text, width) {
       text.each(function() {

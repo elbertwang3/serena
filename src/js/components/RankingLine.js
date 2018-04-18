@@ -31,7 +31,8 @@ export default class RankingLine extends Component {
         right: 0,
         top: 500,
         margin: 'auto',
-        opacity: 1
+        opacity: 1,
+        display: 'none'
       },
       border: '1px solid white'
 
@@ -368,7 +369,8 @@ export default class RankingLine extends Component {
             tooltipStyle: {
               ...prevState.tooltipStyle,
               position: 'fixed',
-              opacity: 1
+              opacity: 1,
+              display: 'block'
             }
           }))
         }
