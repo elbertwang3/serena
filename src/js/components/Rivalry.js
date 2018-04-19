@@ -117,7 +117,7 @@ export default class Rivalry extends Component {
    		.attr("r", 10)
    		.attr("class", "match-circle")
    		.on("mouseover", d => {
-
+        console.log(this.state.topoffset)
         this.setState(prevState => ({
         
             currMatchData: d,
@@ -251,7 +251,11 @@ export default class Rivalry extends Component {
     })
     
     window.dispatchEvent(new Event('resize'));
-
+    window.addEventListener('scroll', (event) => {
+      const divRect = this.divRef.current.getBoundingClientRect();
+      const topoffset = divRect.top + window.pageYOffset
+      this.setState({topoffset: topoffset})
+    })
     /*window.addEventListener('scroll', (event) => {
       const divRect = this.divRef.current.getBoundingClientRect();
 

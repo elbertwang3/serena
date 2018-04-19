@@ -47,7 +47,7 @@ class App extends Component {
         mariadata: values[1],
         venusannotation: values[2],
         mariaannotation: values[3],
-        servedata: values[4]
+        servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 5000)
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()

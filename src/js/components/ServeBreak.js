@@ -17,23 +17,39 @@ export default class ServeBreak extends Component {
 	  this.handleChange = this.handleChange.bind(this);
 
 	  this.state = {
-	  	sliderValue: 50
+	  	sliderValue: 50,
+	  	flags: null,
+      serves: null,
   	}
   }
 
+  importAllFlags(r) {
+ 
+    let images = {};
+    r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+    return images;
+  }
+  componentWillMount() {
+  	const flags = this.importAllFlags(require.context('../../images/flags', false, /\.(png|jpe?g|svg|gif)$/));
+    const serves = this.importAllFlags(require.context('../../images/servegraphics', false, /\.(gif|svg)$/));
+    this.setState({flags: flags})
+    this.setState({serves: serves})
+    console.log(flags)
+    console.log(serves)
+  }
   componentDidMount() {
   	const that = this
   	const {data} = this.props
-  	const margin = 25
+  	const margin = 45
     const COLORS = ['#ff3814', '#fe5c34', '#fc764f', '#f88d69', '#f2a385', '#e8b8a0', '#dbcdbd']
-  	const filtereddata = data.filter(d => d['Sum_Sum_w_1stWon'] > 5000)
+  	//const filtereddata = data.filter(d => d['Sum_Sum_w_1stWon'] > 5000)
 
 
   	const graphic = d3.select('.serveStatsGraphic')
   	const chart = scatterplot()
   	const el = graphic.select('.servebreak-container')
   	function weightData({ x, y }) {
-			return filtereddata.map(d => ({
+			return data.map(d => ({
 				...d,
 				score: d['percent_servept_won'] * x + d['percent_breakpt_saved'] * y,
 			}))
@@ -52,7 +68,7 @@ export default class ServeBreak extends Component {
 		}
 
 		function resize() {
-			const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.8
+			const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
 			chart.width(sz).height(sz)
 			el.call(chart)
 		}
@@ -78,10 +94,18 @@ export default class ServeBreak extends Component {
 			}
 
 			function enter({ container, data }) {
+				const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
+				console.log()
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg').attr("class", "servebreak-svg")
 		      	const gEnter = svgEnter.append('g')
 				
+				svgEnter.append("text")
+					.text("Serena on Serve")
+					.attr("text-anchor", "middle")
+					.attr("x", sz/2)
+					.attr("y", 40)
+					.attr("class", "title")
 				gEnter.append('g').attr('class', 'g-plot')
 
 				const axis = gEnter.append('g').attr('class', 'g-axis')
@@ -92,11 +116,13 @@ export default class ServeBreak extends Component {
 
 				x.append('text').attr('class', 'axis__label')
 					.attr('text-anchor', 'start')
-					.text('Quantity')
+					.text('% serve points won')
+			
 
 				y.append('text').attr('class', 'axis__label')
 					.attr('text-anchor', 'end')
-					.text('Quality')	
+					.text('% break points saved')	
+
 			}
 
 			function exit({ container, data }) {
@@ -148,15 +174,19 @@ export default class ServeBreak extends Component {
 
 				const item = plot.selectAll('.item').data(d => d, d => d.winner_name)
 				
-				item.enter().append('circle')
+				item.enter().append('svg:image')
 					.attr('class', 'item')
+					.attr("xlink:href", d => {
+
+						return that.state.serves['tennisball.svg']
+					})
 				.merge(item)
 					.attr('x', 0)
 					.attr('y', 0)
 					//.attr('r', d => scaleR(d.rank))
-					.attr('r', 3)
-					.style('fill', d => scaleC(d.rank))
-					.style('stroke', d => d3.color(scaleC(d.rank)).darker(0.7))
+					.attr('width', 15)
+					//.style('fill', d => scaleC(d.rank))
+					//.style('stroke', d => d3.color(scaleC(d.rank)).darker(0.7))
 					.attr('transform',  d => translate(scaleX(d['percent_servept_won']), scaleY(d['percent_breakpt_saved'])))
 			}
 
@@ -252,10 +282,13 @@ export default class ServeBreak extends Component {
   	this.handleInput(event.target.value)
   }
   render() {
-  	const {data, width, height, margin} = this.props
   	const {sliderValue} = this.state
   	return <div className="servebreak-container" ref={this.divRef}>
-  		<div className='slider'><input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input></div>
+  		<div className='slider'>
+  			<div className="before">% break points saved</div>
+  		<input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input>
+  			<div className="after">% serve points won</div>
+  		</div>
    	</div>
 
   }
