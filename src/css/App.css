@@ -386,7 +386,7 @@
 }
 .sections .step {
   position: relative;
-  max-width: 450px;
+  max-width: 500px;
   margin-bottom: 500px;
   padding: 1rem;
   display: block;
@@ -395,6 +395,14 @@
   pointer-events: none;
 
 
+}
+
+.prose {
+  max-width: 450px;
+  font-family: "Roboto Mono";
+  display: block;
+  margin: 0 auto;
+  padding: 1em;
 }
 .sections .smallerstep {
   position: relative;
@@ -570,8 +578,11 @@ h2 {
 .servebreak-svg .title {
   font-family: "Roboto";
   font-weight: 900;
-  text-transform: uppercase;
   font-size: 30px;
+}
+
+.servebreak-svg .item:hover {
+  cursor: pointer;
 }
 #input-slider {
   display: inline-block;
@@ -595,6 +606,7 @@ h2 {
   z-index: 10;
   display: none;
   font-family: "Roboto";
+  font-size: 10px;
 }
 
 .guide-line-x {

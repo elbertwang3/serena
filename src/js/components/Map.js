@@ -118,6 +118,19 @@ export default class Map extends Component {
     //document.getElementById("map-background-img").src = floridaimg
 
   }
+
+  function firstmatch() {
+     const viewport = {
+            ...that.state.viewport,
+            longitude: -71.277572,
+            latitude: 46.784652,
+            zoom: 16, 
+            transitionDuration: 2000,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: d3.easeCubic
+        };
+    that.setState({viewport: viewport});
+  }
   const activateFunctions = [];
   for (var i = 0; i < d3.selectAll('#sections1 .step').size(); i++) {
     activateFunctions[i] = function () {};
@@ -126,6 +139,7 @@ export default class Map extends Component {
   activateFunctions[1] = saginaw;
   activateFunctions[2] = compton;
   activateFunctions[3] = florida;
+  activateFunctions[4] = firstmatch;
   var scroll = scroller()
     .container(d3.select('#graphic1'));
 

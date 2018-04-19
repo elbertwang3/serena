@@ -100,12 +100,12 @@ export default class ServeBreak extends Component {
 				const svgEnter = svg.enter().append('svg').attr("class", "servebreak-svg")
 		      	const gEnter = svgEnter.append('g')
 				
-				svgEnter.append("text")
+				/*svgEnter.append("text")
 					.text("Serena on Serve")
 					.attr("text-anchor", "middle")
-					.attr("x", sz/2)
+					.attr("x", width/2)
 					.attr("y", 40)
-					.attr("class", "title")
+					.attr("class", "title")*/
 				gEnter.append('g').attr('class', 'g-plot')
 
 				const axis = gEnter.append('g').attr('class', 'g-axis')
@@ -158,6 +158,10 @@ export default class ServeBreak extends Component {
 					.attr('width', width)
 					.attr('height', height)
 
+				/*svg.select(".title")
+					.attr("x", width/2)
+					.attr("y", 40)
+					.attr("class", "title")*/
 				const g = svg.select('g')
 				
 				const maxY = scaleY.range()[0]
@@ -249,7 +253,7 @@ export default class ServeBreak extends Component {
 							})
 
 					})
-					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+10)+"px");})
+					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
 					.on("mouseout", function(){ 
 						xLine.attr("opacity", 0)
 						yLine.attr("opacity", 0)
