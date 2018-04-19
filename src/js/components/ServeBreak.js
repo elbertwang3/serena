@@ -34,8 +34,6 @@ export default class ServeBreak extends Component {
     const serves = this.importAllFlags(require.context('../../images/servegraphics', false, /\.(gif|svg)$/));
     this.setState({flags: flags})
     this.setState({serves: serves})
-    console.log(flags)
-    console.log(serves)
   }
   componentDidMount() {
   	const that = this
@@ -44,6 +42,9 @@ export default class ServeBreak extends Component {
     const COLORS = ['#ff3814', '#fe5c34', '#fc764f', '#f88d69', '#f2a385', '#e8b8a0', '#dbcdbd']
   	//const filtereddata = data.filter(d => d['Sum_Sum_w_1stWon'] > 5000)
 
+  	var tooltip = d3.select(".body")
+			.append("div")
+			.attr("class", "serve-tooltip")
 
   	const graphic = d3.select('.serveStatsGraphic')
   	const chart = scatterplot()
@@ -95,7 +96,6 @@ export default class ServeBreak extends Component {
 
 			function enter({ container, data }) {
 				const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
-				console.log()
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg').attr("class", "servebreak-svg")
 		      	const gEnter = svgEnter.append('g')
@@ -123,6 +123,7 @@ export default class ServeBreak extends Component {
 					.attr('text-anchor', 'end')
 					.text('% break points saved')	
 
+
 			}
 
 			function exit({ container, data }) {
@@ -133,7 +134,6 @@ export default class ServeBreak extends Component {
 				const rangeX = weightX / hypotenuse * chartWidth
 				const rangeY = weightY / hypotenuse * chartHeight
 				//const maxR = Math.floor(FONT_SIZE * 1.5)
-
 				scaleX
 					.domain([0.5, 0.65])
 					.range([0, rangeX])
@@ -171,8 +171,41 @@ export default class ServeBreak extends Component {
 				g.attr('transform', transform)
 
 				const plot = g.select('.g-plot')
+				const serenaData = data.filter(d => d['winner_name'] == 'Serena Williams')[0]
+				
+				let xLine = plot.selectAll(".guide-line-x")
+					.data([serenaData])
+
+				xLine
+					.enter()
+					.append("line")
+				.merge(xLine)
+					.attr("x1", -margin/2)
+					.attr("x2", d => {
+						return scaleX(d['percent_servept_won']) - 7.5
+					})
+					.attr("y1", d => scaleY(d['percent_breakpt_saved']))
+					.attr("y2", d => scaleY(d['percent_breakpt_saved']))
+					.attr("class", "guide-line-x")
+
+				let yLine = plot.selectAll(".guide-line-y")
+					.data([serenaData])
+				
+				yLine
+					.enter()
+					.append("line")
+				.merge(yLine)
+					.attr("x1", d => scaleX(d['percent_servept_won']))
+					.attr("x2", d => scaleX(d['percent_servept_won']))
+					.attr("y1", maxY + margin/2)
+					.attr("y2", d => {
+						return scaleY(d['percent_breakpt_saved']) + 7.5
+					})
+					.attr("class", "guide-line-y")
 
 				const item = plot.selectAll('.item').data(d => d, d => d.winner_name)
+				
+			
 				
 				item.enter().append('svg:image')
 					.attr('class', 'item')
@@ -187,7 +220,44 @@ export default class ServeBreak extends Component {
 					.attr('width', 15)
 					//.style('fill', d => scaleC(d.rank))
 					//.style('stroke', d => d3.color(scaleC(d.rank)).darker(0.7))
-					.attr('transform',  d => translate(scaleX(d['percent_servept_won']), scaleY(d['percent_breakpt_saved'])))
+					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_breakpt_saved']) - 7.5))
+					.on("mouseover", function(d){
+						tooltip.text(d['winner_name'])
+						tooltip.style("display", "block");
+						xLine = plot.selectAll(".guide-line-x")
+							.data([d])
+
+						yLine = plot.selectAll(".guide-line-y")
+							.data([d])
+
+						xLine
+							.attr("opacity", 1)
+							.attr("x1", -margin/2)
+							.attr("x2", d => {
+								return scaleX(d['percent_servept_won']) - 7.5
+							})
+							.attr("y1", d => scaleY(d['percent_breakpt_saved']))
+							.attr("y2", d => scaleY(d['percent_breakpt_saved']))
+
+						yLine
+							.attr("opacity", 1)
+							.attr("x1", d => scaleX(d['percent_servept_won']))
+							.attr("x2", d => scaleX(d['percent_servept_won']))
+							.attr("y1", maxY + margin/2)
+							.attr("y2", d => {
+								return scaleY(d['percent_breakpt_saved']) + 7.5
+							})
+
+					})
+					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+10)+"px");})
+					.on("mouseout", function(){ 
+						xLine.attr("opacity", 0)
+						yLine.attr("opacity", 0)
+						tooltip.style("display", "none");
+					});
+
+				
+				
 			}
 
 			function updateAxis({ container, data }) {
@@ -222,7 +292,6 @@ export default class ServeBreak extends Component {
 			}
 
 			function chart(container) {
-				console.log(container)
 				const data = container.datum()
 				
 				enter({ container, data })
@@ -283,13 +352,15 @@ export default class ServeBreak extends Component {
   }
   render() {
   	const {sliderValue} = this.state
-  	return <div className="servebreak-container" ref={this.divRef}>
-  		<div className='slider'>
+  	return <div><div className="servebreak-container" ref={this.divRef}>
+  		
+   	</div>
+   	<div className='slider'>
   			<div className="before">% break points saved</div>
   		<input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input>
   			<div className="after">% serve points won</div>
   		</div>
-   	</div>
+  	</div>
 
   }
 }

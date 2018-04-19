@@ -588,6 +588,26 @@ h2 {
   font-size: 12px;
   fill: black;
 }
+
+.serve-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  display: none;
+  font-family: "Roboto";
+}
+
+.guide-line-x {
+  fill: none;
+  stroke: #808080;
+  stroke-dasharray: 4, 4;
+}
+
+.guide-line-y {
+  fill: none;
+  stroke: #808080;
+  stroke-dasharray: 4, 4;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;
