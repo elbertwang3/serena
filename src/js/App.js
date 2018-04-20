@@ -49,7 +49,8 @@ class App extends Component {
         mariadata: values[1],
         venusannotation: values[2],
         mariaannotation: values[3],
-        servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 5000),
+        servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 3000),
+        //servedata: values[4],
         servedirectiondata: values[5]
         }, () => {
           this.setState({renderReady: true})
@@ -347,7 +348,7 @@ class App extends Component {
              
             </div>
 
-            <h2> How Serena Dominates on Serve </h2>
+            <h2> Dominating on Serve and Return </h2>
             <p className="prose">Her powerful serve translates into higher % of serve points won and % break points saved. When she's down break point she can easily erase it with an ace, and she can make quick work of her service games when she's in a rhythm, ending points quickly. This has been the key to her success.</p>
             {servestats}
             <h2> Serena's Rivals </h2>

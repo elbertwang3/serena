@@ -52,7 +52,7 @@ export default class ServeBreak extends Component {
   	function weightData({ x, y }) {
 			return data.map(d => ({
 				...d,
-				score: d['percent_servept_won'] * x + d['percent_breakpt_saved'] * y,
+				score: d['percent_servept_won'] * x + d['percent_returnpt_won'] * y,
 			}))
 			.sort((a, b) => d3.descending(a.score, b.score))
 			.map((d, i) => ({
@@ -121,7 +121,7 @@ export default class ServeBreak extends Component {
 
 				y.append('text').attr('class', 'axis__label')
 					.attr('text-anchor', 'end')
-					.text('% break points saved')	
+					.text('% return points won')	
 
 
 			}
@@ -139,7 +139,7 @@ export default class ServeBreak extends Component {
 					.range([0, rangeX])
 
 				scaleY
-					.domain([0.5, 0.65])
+					.domain([0.38, 0.5])
 					.range([rangeY, 0])
 
 				/*scaleR
@@ -188,8 +188,8 @@ export default class ServeBreak extends Component {
 					.attr("x2", d => {
 						return scaleX(d['percent_servept_won']) - 7.5
 					})
-					.attr("y1", d => scaleY(d['percent_breakpt_saved']))
-					.attr("y2", d => scaleY(d['percent_breakpt_saved']))
+					.attr("y1", d => scaleY(d['percent_returnpt_won']))
+					.attr("y2", d => scaleY(d['percent_returnpt_won']))
 					.attr("class", "guide-line-x")
 
 				let yLine = plot.selectAll(".guide-line-y")
@@ -203,7 +203,7 @@ export default class ServeBreak extends Component {
 					.attr("x2", d => scaleX(d['percent_servept_won']))
 					.attr("y1", maxY + margin/2)
 					.attr("y2", d => {
-						return scaleY(d['percent_breakpt_saved']) + 7.5
+						return scaleY(d['percent_returnpt_won']) + 7.5
 					})
 					.attr("class", "guide-line-y")
 
@@ -224,7 +224,7 @@ export default class ServeBreak extends Component {
 					.attr('width', 15)
 					//.style('fill', d => scaleC(d.rank))
 					//.style('stroke', d => d3.color(scaleC(d.rank)).darker(0.7))
-					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_breakpt_saved']) - 7.5))
+					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_returnpt_won']) - 7.5))
 					.on("mouseover", function(d){
 						tooltip.text(d['winner_name'])
 						tooltip.style("display", "block");
@@ -240,8 +240,8 @@ export default class ServeBreak extends Component {
 							.attr("x2", d => {
 								return scaleX(d['percent_servept_won']) - 7.5
 							})
-							.attr("y1", d => scaleY(d['percent_breakpt_saved']))
-							.attr("y2", d => scaleY(d['percent_breakpt_saved']))
+							.attr("y1", d => scaleY(d['percent_returnpt_won']))
+							.attr("y2", d => scaleY(d['percent_returnpt_won']))
 
 						yLine
 							.attr("opacity", 1)
@@ -249,15 +249,49 @@ export default class ServeBreak extends Component {
 							.attr("x2", d => scaleX(d['percent_servept_won']))
 							.attr("y1", maxY + margin/2)
 							.attr("y2", d => {
-								return scaleY(d['percent_breakpt_saved']) + 7.5
+								return scaleY(d['percent_returnpt_won']) + 7.5
 							})
+						 //tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");
+						 /*tooltip
+							.style('left', `${scaleX(d['percent_servept_won']) - 7.5}px`)
+							.style('top', `${scaleY(d['percent_returnpt_won']) - 7.5}px`)
+							.text(d['winner_name'])*/
+						 console.log(scaleX(serenaData['percent_servept_won']))
+						 console.log("getting here")
 
 					})
 					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
 					.on("mouseout", function(){ 
-						xLine.attr("opacity", 0)
+						/*xLine.attr("opacity", 0)
 						yLine.attr("opacity", 0)
-						tooltip.style("display", "none");
+						tooltip.style("display", "none");*/
+						const d = serenaData 
+						console.log(d)
+							
+						 console.log("getting here2")
+						xLine = plot.selectAll(".guide-line-x")
+							.data([d])
+
+						yLine = plot.selectAll(".guide-line-y")
+							.data([d])
+
+						xLine
+							.attr("opacity", 1)
+							.attr("x1", -margin/2)
+							.attr("x2", d => {
+								return scaleX(d['percent_servept_won']) - 7.5
+							})
+							.attr("y1", d => scaleY(d['percent_returnpt_won']))
+							.attr("y2", d => scaleY(d['percent_returnpt_won']))
+
+						yLine
+							.attr("opacity", 1)
+							.attr("x1", d => scaleX(d['percent_servept_won']))
+							.attr("x2", d => scaleX(d['percent_servept_won']))
+							.attr("y1", maxY + margin/2)
+							.attr("y2", d => {
+								return scaleY(d['percent_returnpt_won']) + 7.5
+							})
 					});
 
 				
@@ -360,7 +394,7 @@ export default class ServeBreak extends Component {
   		
    	</div>
    	<div className='slider'>
-  			<div className="before">% break points saved</div>
+  			<div className="before">% return points won</div>
   		<input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input>
   			<div className="after">% serve points won</div>
   		</div>
