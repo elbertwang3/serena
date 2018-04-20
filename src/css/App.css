@@ -620,6 +620,22 @@ h2 {
   stroke: #808080;
   stroke-dasharray: 4, 4;
 }
+
+.servedirection-container svg {
+  display: block;
+  margin: 0 auto;
+  fill: blue;
+}
+
+.servedirection-container {
+  background-color: #4CBB17;
+}
+
+.court-line {
+  fill: none;
+  stroke: white;
+  stroke-width: 2px;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

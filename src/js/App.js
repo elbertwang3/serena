@@ -5,6 +5,7 @@ import ServeGraphic from './components/ServeGraphic.js';
 import ServeAnimation from './components/ServeAnimation.js';
 import Rivalry from './components/Rivalry.js';
 import ServeBreak from './components/ServeBreak.js';
+import ServeDirection from './components/ServeDirection.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -20,6 +21,7 @@ class App extends Component {
       mariaannotation: null,
       renderReady: false,
       servedata: null,
+      servedirectiondata: null,
     };
 
   }
@@ -37,8 +39,8 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3];
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
@@ -47,7 +49,8 @@ class App extends Component {
         mariadata: values[1],
         venusannotation: values[2],
         mariaannotation: values[3],
-        servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 5000)
+        servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 5000),
+        servedirectiondata: values[5]
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -71,20 +74,34 @@ class App extends Component {
     d['Sum_Sum_w_1stWon'] = +d['Sum_Sum_w_1stWon']
     return d
   }
+
+  type3(d) {
+    d['total_ad_serves'] = +d['total_ad_serves']
+    d['total_deuce_serves'] = +d['total_deuce_serves']
+    d['Sum_deuce_wide'] = +d['Sum_deuce_wide']
+    d['Sum_deuce_middle'] = +d['Sum_deuce_middle']
+    d['Sum_deuce_t'] = +d['Sum_deuce_t']
+    d['Sum_ad_wide'] = +d['Sum_ad_wide']
+    d['Sum_ad_middle'] = +d['Sum_ad_middle']
+    d['Sum_ad_t'] = +d['Sum_ad_t']
+    return d
+
+  }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata} = this.state
-    var rivalries
-    var servestats
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata} = this.state
+    var rivalries, servestats, servedirection
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={600} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
              <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
             <Rivalry data={mariadata} annotations={mariaannotation} width={600} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
-      servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} width={600} height={600} margin={{top:25, bottom: 25, right: 25, left: 25}} /></div>
+      servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
+      servedirection = <ServeDirection data={servedirectiondata} />
           
     } else {
       rivalries = <div></div>
       servestats = <div></div>
+      servedirection = <div></div>
     }
     
     return (
@@ -308,6 +325,7 @@ class App extends Component {
             </div>
             <h2> Serve Direction</h2>
              <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
+             {servedirection}
             <h2> How Serena Dominates on Serve </h2>
             <p className="prose">Her powerful serve translates into higher % of serve points won and % break points saved. When she's down break point she can easily erase it with an ace, and she can make quick work of her service games when she's in a rhythm, ending points quickly. This has been the key to her success.</p>
             {servestats}

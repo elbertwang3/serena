@@ -1,7 +1,7 @@
-﻿player,total_ad_serves,total_deuce_serves,serve,Sum_deuce_wide,Sum_deuce_middle,Sum_deuce_t,Sum_ad_wide,Sum_ad_middle,Sum_ad_t
+﻿player,serve,total_ad_serves,total_deuce_serves,Sum_deuce_wide,Sum_deuce_middle,Sum_deuce_t,Sum_ad_wide,Sum_ad_middle,Sum_ad_t
 Serena Williams,1,1890,2100,1133,158,809,736,151,1003
-Serena Williams,2,1303,1389,186,687,516,502,432,369
-Serena Williams,Total,3193,3489,1319,845,1325,1238,583,1372
 average WTA player,1,75952,83068,34157,18220,30691,30111,16289,29552
+Serena Williams,2,1303,1389,186,687,516,502,432,369
 average WTA player,2,45538,48440,12714,21469,14257,18320,17888,9330
+Serena Williams,Total,3193,3489,1319,845,1325,1238,583,1372
 average WTA player,Total,121490,131508,46871,39689,44948,48431,34177,38882
