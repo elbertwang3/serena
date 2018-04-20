@@ -325,7 +325,28 @@ class App extends Component {
             </div>
             <h2> Serve Direction</h2>
              <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
-             {servedirection}
+             <div className='graphic' id='graphic4'>
+              <div className="viz" id="viz4">
+                {servedirection}
+              </div>
+              <div className='sections' id='sections4'>
+                <section className="step">
+                  <p className="prose">Serena's 1st serve direction </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">average WTA player 1st serve direction</p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">Serena's 2nd serve direction She hits this with spin, body serve</p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">average WTA 2nd serve direction</p>           
+                </section>
+            
+              </div>
+             
+            </div>
+
             <h2> How Serena Dominates on Serve </h2>
             <p className="prose">Her powerful serve translates into higher % of serve points won and % break points saved. When she's down break point she can easily erase it with an ace, and she can make quick work of her service games when she's in a rhythm, ending points quickly. This has been the key to her success.</p>
             {servestats}

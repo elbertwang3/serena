@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../css/App.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
+import {scroller} from '../scripts/scroller.js';
 
 
 export default class ServeDirection extends Component {
@@ -23,17 +24,23 @@ export default class ServeDirection extends Component {
 		const chart = tennisCourt()
 		const el = d3.select('.servedirection-container')
 		let currentServe = 0
+		let serves, serveRects
+		let scaleLength = d3.scaleLinear()
+		let serveScale = d3.scaleLinear()
 
   	function resize() {
-			const height = window.innerHeight * 1.0
+			const height = window.innerHeight
 			const width = height / 2
 			chart.width(width).height(height)
 			el.call(chart)
 		}
 
+		function translate(x, y) {
+			return `translate(${x}, ${y})`
+		}
+
+
 		function tennisCourt() {
-			const scaleLength = d3.scaleLinear()
-			const serveScale = d3.scaleLinear()
 
 			let width = 0
 			let height = 0
@@ -41,10 +48,7 @@ export default class ServeDirection extends Component {
 			let chartHeight = 0
 
 
-			function translate(x, y) {
-				return `translate(${x}, ${y})`
-			}
-
+			
 			function enter({ container, data }) {
 				console.log(container)
 
@@ -116,8 +120,8 @@ export default class ServeDirection extends Component {
 				console.log(serveData)
 
 
-				const serveRects = g.select(".serve-rects")
-				const serves = serveRects.selectAll(".serve-rect")
+				serveRects = g.select(".serve-rects")
+				serves = serveRects.selectAll(".serve-rect")
 					.data(serveData)
 
 				console.log(serves)
@@ -190,6 +194,178 @@ export default class ServeDirection extends Component {
 		}
 
   	init()
+
+  	function serenafirst() {
+  		console.log("serena first")
+  		const d = that.props.data[0]
+  		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
+				serveData = serveData.map((d,i) => {
+					console.log(serveData.slice(0, i))
+					let sum = d3.sum(serveData.slice(0, i))
+					return {percent: d, xoffset: sum}
+				})
+  		serves = serveRects.selectAll(".serve-rect")
+					.data(serveData)
+
+			serves
+				.enter()
+				.append("rect")
+			.merge(serves)
+			.transition()
+			.duration(1000)
+			.attr("width", d => scaleLength(serveScale(d['percent'])))
+			.attr("height", scaleLength(21))
+			.attr("transform", d => {
+
+				return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset']))),scaleLength(18))
+			})
+
+  	}
+
+  	function wtafirst() {
+  		console.log("wta first")
+ 			const d = that.props.data[1]
+ 			let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
+				serveData = serveData.map((d,i) => {
+					console.log(serveData.slice(0, i))
+					let sum = d3.sum(serveData.slice(0, i))
+					return {percent: d, xoffset: sum}
+				})
+  		serves = serveRects.selectAll(".serve-rect")
+					.data(serveData)
+
+			serves
+				.enter()
+				.append("rect")
+			.merge(serves)
+			.transition()
+			.duration(1000)
+			.attr("width", d => scaleLength(serveScale(d['percent'])))
+			.attr("height", scaleLength(21))
+			.attr("transform", d => {
+
+				return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset']))),scaleLength(18))
+			})
+
+
+  	}
+
+  	function serenasecond() {
+  		console.log("serena second")
+  		const d = that.props.data[2]
+  		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
+				serveData = serveData.map((d,i) => {
+					console.log(serveData.slice(0, i))
+					let sum = d3.sum(serveData.slice(0, i))
+					return {percent: d, xoffset: sum}
+				})
+  		serves = serveRects.selectAll(".serve-rect")
+					.data(serveData)
+
+			serves
+				.enter()
+				.append("rect")
+			.merge(serves)
+			.transition()
+			.duration(1000)
+			.attr("width", d => scaleLength(serveScale(d['percent'])))
+			.attr("height", scaleLength(21))
+			.attr("transform", d => {
+
+				return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset']))),scaleLength(18))
+			})
+  	}
+
+  	function wtasecond() {
+  		console.log("wta second")
+   		const d = that.props.data[3]
+   		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
+				serveData = serveData.map((d,i) => {
+					console.log(serveData.slice(0, i))
+					let sum = d3.sum(serveData.slice(0, i))
+					return {percent: d, xoffset: sum}
+				})
+   		console.log(serveData)
+  		serves = serveRects.selectAll(".serve-rect")
+					.data(serveData)
+
+			serves
+				.enter()
+				.append("rect")
+			.merge(serves)
+			.transition()
+			.duration(1000)
+			.attr("width", d => scaleLength(serveScale(d['percent'])))
+			.attr("height", scaleLength(21))
+			.attr("transform", d => {
+
+				return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset']))),scaleLength(18))
+			})
+
+  	}
+
+  	window.addEventListener('scroll', (event) => {
+      const divRect = ReactDOM.findDOMNode(this).parentNode.parentNode.getBoundingClientRect();
+      const topoffset = divRect.top + window.pageYOffset
+      const bottomoffset = divRect.bottom + window.pageYOffset
+      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
+      } else if (window.pageYOffset > bottomoffset - window.innerHeight) {
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", true)
+      } else {
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
+        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
+      } 
+      
+  
+    })
+
+    const activateFunctions = [];
+    for (var i = 0; i < d3.selectAll('#sections4 .step').size(); i++) {
+      activateFunctions[i] = function () {};
+    }
+    activateFunctions[0] = serenafirst;
+    activateFunctions[1] = wtafirst;
+    activateFunctions[2] = serenasecond;
+    activateFunctions[3] = wtasecond;
+
+    var scroll = scroller()
+      .container(d3.select('#graphic4'));
+
+    scroll(d3.selectAll('#sections4 .step'), 'scroller4'); 
+
+
+    
+
+    scroll.on('active', function (index) {
+      // highlight current step text
+      d3.selectAll('#sections4 .step')
+        .style('opacity', function (d, i) { 
+          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
+              return i === index ? 0.8 : 0.1; 
+          } else {
+            return i === index ? 1 : 0.1; 
+          }
+        });
+        activate(index);
+
+    })
+    
+     function activate(index) {
+    
+      that.setState({activeIndex: index});
+      var sign = (that.state.activeIndex - that.state.lastIndex) < 0 ? -1 : 1;
+      var scrolledSections = d3.range(that.state.lastIndex + sign, that.state.activeIndex + sign, sign);
+      scrolledSections.forEach(function (i) {
+        activateFunctions[i]();
+      });
+      that.setState({lastIndex: that.state.activeIndex});
+  };
   }
 
   render() {
