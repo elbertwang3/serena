@@ -50,7 +50,6 @@ export default class ServeDirection extends Component {
 
 			
 			function enter({ container, data }) {
-				console.log(container)
 
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg')
@@ -63,7 +62,6 @@ export default class ServeDirection extends Component {
 			}
 
 			function updateScales({ data }) {
-					console.log(chartHeight)
 					scaleLength
 						.domain([0, 78])
 						.range([0, chartHeight])
@@ -113,18 +111,15 @@ export default class ServeDirection extends Component {
 				const d = data[currentServe]
 				let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
 				serveData = serveData.map((d,i) => {
-					console.log(serveData.slice(0, i))
 					let sum = d3.sum(serveData.slice(0, i))
 					return {percent: d, xoffset: sum}
 				})
-				console.log(serveData)
 
 
 				serveRects = g.select(".serve-rects")
 				serves = serveRects.selectAll(".serve-rect")
 					.data(serveData)
 
-				console.log(serves)
 
 				serves
 					.enter()
@@ -148,9 +143,7 @@ export default class ServeDirection extends Component {
 			}
 
 			function chart(container) {
-				console.log("getting into chart")
 				const data = container.datum()
-				console.log(data)
 				enter({ container, data })
 				exit({ container, data })
 				updateScales({ container, data })
@@ -185,7 +178,6 @@ export default class ServeDirection extends Component {
 		}
 
   	function init() {
-  		console.log(that.props.data)
   		el.datum(that.props.data)
 			el.call(chart)
 			resize()
@@ -196,11 +188,9 @@ export default class ServeDirection extends Component {
   	init()
 
   	function serenafirst() {
-  		console.log("serena first")
   		const d = that.props.data[0]
   		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
 				serveData = serveData.map((d,i) => {
-					console.log(serveData.slice(0, i))
 					let sum = d3.sum(serveData.slice(0, i))
 					return {percent: d, xoffset: sum}
 				})
@@ -223,11 +213,9 @@ export default class ServeDirection extends Component {
   	}
 
   	function wtafirst() {
-  		console.log("wta first")
  			const d = that.props.data[1]
  			let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
 				serveData = serveData.map((d,i) => {
-					console.log(serveData.slice(0, i))
 					let sum = d3.sum(serveData.slice(0, i))
 					return {percent: d, xoffset: sum}
 				})
@@ -251,11 +239,9 @@ export default class ServeDirection extends Component {
   	}
 
   	function serenasecond() {
-  		console.log("serena second")
   		const d = that.props.data[2]
   		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
 				serveData = serveData.map((d,i) => {
-					console.log(serveData.slice(0, i))
 					let sum = d3.sum(serveData.slice(0, i))
 					return {percent: d, xoffset: sum}
 				})
@@ -277,15 +263,12 @@ export default class ServeDirection extends Component {
   	}
 
   	function wtasecond() {
-  		console.log("wta second")
    		const d = that.props.data[3]
    		let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
 				serveData = serveData.map((d,i) => {
-					console.log(serveData.slice(0, i))
 					let sum = d3.sum(serveData.slice(0, i))
 					return {percent: d, xoffset: sum}
 				})
-   		console.log(serveData)
   		serves = serveRects.selectAll(".serve-rect")
 					.data(serveData)
 

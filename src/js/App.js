@@ -6,6 +6,7 @@ import ServeAnimation from './components/ServeAnimation.js';
 import Rivalry from './components/Rivalry.js';
 import ServeBreak from './components/ServeBreak.js';
 import ServeDirection from './components/ServeDirection.js';
+import Input from './components/Input.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -22,6 +23,7 @@ class App extends Component {
       renderReady: false,
       servedata: null,
       servedirectiondata: null,
+      serenamatches: null,
     };
 
   }
@@ -39,8 +41,8 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type];
     Promise.all(files.map((url,i) => { 
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
@@ -51,7 +53,8 @@ class App extends Component {
         mariaannotation: values[3],
         servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 3000),
         //servedata: values[4],
-        servedirectiondata: values[5]
+        servedirectiondata: values[5],
+        serenamatches: values[6]
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -89,20 +92,22 @@ class App extends Component {
 
   }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata} = this.state
-    var rivalries, servestats, servedirection
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches} = this.state
+    var rivalries, servestats, servedirection, input
     if (renderReady) {
-      rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} width={600} height={1000} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+      rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
              <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
-            <Rivalry data={mariadata} annotations={mariaannotation} width={600} height={800} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+            <Rivalry data={mariadata} annotations={mariaannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
       servedirection = <ServeDirection data={servedirectiondata} />
+      input = <Input data={serenamatches} />
           
     } else {
       rivalries = <div></div>
       servestats = <div></div>
       servedirection = <div></div>
+      input = null
     }
     
     return (
@@ -355,6 +360,9 @@ class App extends Component {
             <p className="prose">While the men's tour has been dominated by the Big 4, the WTA does not have such an equivalent. Serena is in a league of her own. Still, throughout the years Serena has had her share of rivals, with her sister Venus being her main one for all these years. In the beginning, Venus was supposed to be the bigger star, but father Richard knew that Serena would be better. </p>
             {rivalries}
             <h2> Search for a Head-to-Head </h2>
+            <div className="finder">
+              {input}
+            </div>
             <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning record against her, except for one player--Arantxa Sanchez Vicario. Search for her, and other players using the search box. Some other notable rivalries include Victoria Azarenka, Jennifer Capriati, Justin Henin, and Elena Dementieva. </p> 
             <h2> Greatest of All Time </h2>
 

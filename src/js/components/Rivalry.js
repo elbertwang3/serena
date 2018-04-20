@@ -19,6 +19,7 @@ export default class Rivalry extends Component {
     this.state = {
     	profileimages: null,
     	currMatchData: null,
+      currOpponentData: null,
     	tooltipStyle: {
     		position: 'absolute',
         display: 'none',
@@ -41,8 +42,152 @@ export default class Rivalry extends Component {
   	this.setState({profileimages: profileimages})
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    const {data, margin} = nextProps
+    this.setState({currOpponentData: data})
+
+    const width = 600
+    console.log(data.length)
+    const height = 100 + data.length * 30 + margin.top + margin.bottom
+    const {profileimages} = this.state
+    const innerWidth = width - margin.left - margin.right
+    const innerHeight =  height - margin.top - margin.bottom
+    const g = d3.select(this.gRef.current)
+    const parseDate = d3.timeParse('%Y-%m-%d');
+    const yExtent = d3.extent(data, d => 
+        parseDate(d['tourney_date'])
+      );
+
+
+
+    const yScale = d3.scaleTime()
+      .domain(yExtent)
+      .range([0, innerHeight]);
+
+
+    const xMidpoint = innerWidth / 2
+    const players = d3.nest()
+      .key(function(d) { return d['winner_name']; })
+      .rollup(function(v) { return v.length; })
+      .entries(data);
+
+    const xScale = d3.scaleOrdinal()
+      .domain([players[0], players[1]])
+      .range([xMidpoint - 60, xMidpoint + 60])
+
+
+    const surfaceScale = d3.scaleOrdinal()
+        .domain(["Hard", "Clay", "Grass"])
+        .range(["#91ceff", "#f28b02", "#4ec291"])
+
+    
+  
+
+    g.select(".middle-line")
+      .attr("x1", xMidpoint)
+      .attr("x2", xMidpoint)
+      .attr("y1", 0)
+      .attr("y2", innerHeight)
+
+    const matches = g
+      .selectAll(".match-g")
+      .data(data)
+
+    matches.exit().remove()
+
+    const match = matches
+      .enter()
+      .append("g")
+    .merge(matches)
+      .attr("class", "match-g")
+      .attr("transform", (d,i) => {
+        return `translate(${xScale(d['winner_name'])}, ${30 * i})`
+      })
+
+    match.append("circle")
+      .attr("fill", d => surfaceScale(d['surface']))
+      .attr("r", 10)
+      .attr("class", "match-circle")
+      .on("mouseover", d => {
+        console.log(this.state.topoffset)
+        this.setState(prevState => ({
+        
+            currMatchData: d,
+            tooltipStyle: {
+              ...prevState.tooltipStyle,
+              position: 'absolute',
+              display: 'block',
+              left: (window.innerWidth/2 - 155),
+              top: (d3.event.pageY + 30 - this.state.topoffset)
+        
+            }
+          }))
+    
+      })
+      .on('mouseout', d => {
+   
+        this.setState(prevState => ({
+           
+            tooltipStyle: {
+              ...prevState.tooltipStyle,
+              display: 'none'
+            }
+          }))
+ 
+
+      })
+
+    match.filter(d => d['tourney_level'] == "G")
+      .append("circle")
+      .attr("r", 12)
+      .attr("stroke", d => surfaceScale(d['surface']))
+      .attr("fill", "none")
+      .attr("class", "slam-outline")
+
+
+    const profiles = g.selectAll(".profile")
+      .data(players)
+
+
+    const profile = profiles
+      .enter()
+      .append('g')
+    .merge(profiles)
+      .attr("class", "profile")
+      .attr("transform", (d,i) => `translate(${xScale(d['key'])}, ${0})`)
+
+
+    profile.append("svg:image")
+      .attr("xlink:href", d => {
+        return profileimages[`${d['key']}.gif`]
+      })
+      .attr("width", 50)
+      .attr("x", -25)
+
+
+    const numwins = profile.append('text')
+      .text(d => d['value'])
+      .attr("class", "numwins")
+      .attr("text-anchor", "middle")
+      .attr("transform", "translate(0,70)")
+
+    profile.append('text')
+      .text(d => d['key'])
+      .attr("class", "player-name")
+      .attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
+      .attr("x", (d,i) => i == 1 ? -30 : 30)
+      .attr("y", 30)
+
+  }
+
   componentDidMount() {
-  	const {data, annotations, width, height, margin} = this.props
+  	const {data, annotations, margin} = this.props
+    this.setState({currOpponentData: data})
+    console.log(data)
+    const width = 600
+    console.log(data.length)
+    const height = 100 + data.length * 30 + margin.top + margin.bottom
   	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
     const innerHeight =  height - margin.top - margin.bottom
@@ -83,23 +228,6 @@ export default class Rivalry extends Component {
     	.attr("x2", xMidpoint)
     	.attr("y1", 0)
     	.attr("y2", innerHeight)
-
-    /*const yearticks = g.append("g")
-    	.attr("class", "year-ticks")
-
-    const tickValues = yScale.ticks(d3.timeYear)
-   	const yearFormat = d3.timeFormat("%Y")
-
-    console.log(tickValues)
-
-    yearticks.selectAll(".year-tick")
-    	.data(tickValues)
-    	.enter()
-    	.append("text")
-    	.attr("x", xMidpoint)
-    	.attr("y", d => yScale(d))
-    	.text(d => yearFormat(d))
-    	.attr("text-anchor", "middle")*/
 
    	const matches = g.append("g")
    		.attr("transform", "translate(0,100)")
@@ -157,44 +285,46 @@ export default class Rivalry extends Component {
         .x(function(d) { return d[0]; })
         .y(function(d) { return d[1]; });
 
-    const ranking_annotation = d3.select(this.gRef.current)
-        .append("g")
-        .attr("class", "rivalry-anntoations")
-        .selectAll(".rivalry-annotation")
-        .data(annotations)
-        .enter()
-        .append("g")
-        .attr("class", "rivalry-annotation")
-        .attr("transform", d => {
-          return `translate(${d['x1']}, ${d['y1']})`
+    if (annotations != null) {
+      const ranking_annotation = d3.select(this.gRef.current)
+          .append("g")
+          .attr("class", "rivalry-anntoations")
+          .selectAll(".rivalry-annotation")
+          .data(annotations)
+          .enter()
+          .append("g")
+          .attr("class", "rivalry-annotation")
+          .attr("transform", d => {
+            return `translate(${d['x1']}, ${d['y1']})`
+          })
+
+
+      ranking_annotation.append("text")
+        .text(function(d) { return d['annotation']})
+       
+        // .attr("x", d => d['x1'])
+        // .attr("y", d => d['y1'])
+        .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
+        
+          //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
+        .attr("dy", "1.25em")
+        .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
+        .call(this.wrap, 130)
+
+      ranking_annotation.selectAll("text")
+        .attr("y", function(d) {
+          return -d3.select(this).node().getBBox().height/2;
         })
+   
 
-
-    ranking_annotation.append("text")
-      .text(function(d) { return d['annotation']})
-     
-      // .attr("x", d => d['x1'])
-      // .attr("y", d => d['y1'])
-      .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
-      
-        //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
-      .attr("dy", "1.25em")
-      .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
-      .call(this.wrap, 130)
-
-    ranking_annotation.selectAll("text")
-      .attr("y", function(d) {
-        return -d3.select(this).node().getBBox().height/2;
-      })
- 
-
-    ranking_annotation.append("path")
-      .attr('marker-end', 'url(#arrowhead2)')
-      .datum(function(d) {
-        return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
-      })
-      .attr("d", swoopy)
-      .attr("class", "swoopy-arrow")
+      ranking_annotation.append("path")
+        .attr('marker-end', 'url(#arrowhead2)')
+        .datum(function(d) {
+          return [[0,0], [d['x2']-d['x1'], d['y2']-d['y1']]]
+        })
+        .attr("d", swoopy)
+        .attr("class", "swoopy-arrow")
+    }
 
     const profiles = g.selectAll(".profile")
       .data(players)
@@ -256,37 +386,6 @@ export default class Rivalry extends Component {
       const topoffset = divRect.top + window.pageYOffset
       this.setState({topoffset: topoffset})
     })
-    /*window.addEventListener('scroll', (event) => {
-      const divRect = this.divRef.current.getBoundingClientRect();
-
-      const topoffset = divRect.top + window.pageYOffset
-      const bottomoffset = divRect.bottom + window.pageYOffset
-      const offset = window.innerHeight/2
-      const realHeight = bottomoffset - topoffset
-      //console.log(realHeight)
-      const ratio = realHeight/this.props.height;
-      //console.log(this.props.height)
-      //console.log(ratio)
-      var pageYOffset = (window.pageYOffset - topoffset)/ratio 
-      //console.log(pageYOffset)
-      pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
-      //console.log(window.pageYOffset)
-      //console.log(topoffset)
-      //console.log(bottomoffset)
-      console.log(pageYOffset + offset)
-      //console.log(matches.selectAll("circle").getBBox())
-      matches.each((d,i) => {
-        let that = this
-        console.log(d3.select(that))
-        //console.log(d3.selectAll(".match-g")[i].attr("transform"))
-      })
-
-      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 150) {
-        profiles.attr('transform', d => `translate(${xScale(d['key'])}, ${pageYOffset + 20})`)    
-      } else if (window.pageYOffset <= topoffset) {
-        profiles.attr('transform', d => `translate(${xScale(d['key'])}, 0)`); 
-      }
-    })*/
   }
   wrap(text, width) {
       text.each(function() {
@@ -314,8 +413,13 @@ export default class Rivalry extends Component {
     }
 
   render() {
-  	const {data, annotations, width, height, margin} = this.props
+
+  	const {data, annotations, margin} = this.props
+     console.log("re-rendering")
+     console.log(data)
   	const {currMatchData, tooltipStyle, border} = this.state
+    const width = 600
+    const height = 100 + data.length * 30 + margin.top + margin.bottom
    	return <div className="rivalry-container" ref={this.divRef}>
    		<SlamTooltip data={currMatchData} tooltipStyle={tooltipStyle} border={border}/>
    		<svg className="rivalry-svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} ref={this.svgRef}>
