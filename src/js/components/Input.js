@@ -31,9 +31,14 @@ export default class ServeBreak extends Component {
 	   
 	   	const opponent = event.text.label
 	   	console.log(opponent)
-	   	const matches = data.filter(d => d['winner_name'] == opponent || d['loser_name'] == opponent)
-	   	console.log(matches)
-	   	that.setState({currOpponentData: matches})
+	   	if (opponent == 'Serena Williams') {
+	   		console.log("Serena has never played herself, tennis critics have often said she needed to overcome herself")
+	   	} else {
+	   		const matches = data.filter(d => d['winner_name'] == opponent || d['loser_name'] == opponent)
+		   	console.log(matches)
+		   	that.setState({currOpponentData: matches})
+	   	}
+	   
 
 	   })
 

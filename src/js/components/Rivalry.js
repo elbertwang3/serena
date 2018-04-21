@@ -184,12 +184,15 @@ export default class Rivalry extends Component {
     const profilePic = profile.selectAll(".profile-pic")
       .data(d => [d])
 
+    console.log(profilePic)
     profilePic
       .enter()
       .append("svg:image")
     .merge(profilePic)
       .attr("xlink:href", d => {
-        return profileimages[`${d['key']}.gif`]
+        console.log(d)
+        console.log(profileimages[`${d['key']}.gif`])
+        return profileimages[`${d['key']}.gif`] ? profileimages[`${d['key']}.gif`] : profileimages[`averageWTAplayer.gif`] 
       })
       .attr("width", 50)
       .attr("x", -25)
@@ -377,7 +380,7 @@ export default class Rivalry extends Component {
 
     profiles.append("svg:image")
       .attr("xlink:href", d => {
-        return profileimages[`${d['key']}.gif`]
+         return profileimages[`${d['key']}.gif`] ? profileimages[`${d['key']}.gif`] : profileimages[`averageWTAplayer.gif`] 
       })
       .attr("width", 50)
       .attr("x", -25)
