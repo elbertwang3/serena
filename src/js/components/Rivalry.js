@@ -43,12 +43,10 @@ export default class Rivalry extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     const {data, margin} = nextProps
     this.setState({currOpponentData: data})
 
     const width = 600
-    console.log(data.length)
     const height = 100 + data.length * 30 + margin.top + margin.bottom
     const {profileimages} = this.state
     const innerWidth = width - margin.left - margin.right
@@ -72,8 +70,9 @@ export default class Rivalry extends Component {
       .rollup(function(v) { return v.length; })
       .entries(data);
 
+    console.log(players)
     const xScale = d3.scaleOrdinal()
-      .domain([players[0], players[1]])
+      .domain([players.find(el => el['key'] == 'Serena Williams')['key'], players.find(el => el['key'] != 'Serena Williams')['key']])
       .range([xMidpoint - 60, xMidpoint + 60])
 
 
@@ -90,11 +89,13 @@ export default class Rivalry extends Component {
       .attr("y1", 0)
       .attr("y2", innerHeight)
 
-    const matches = g
+    let matches = g
+      .select(".matches-group")
       .selectAll(".match-g")
       .data(data)
-
+    console.log(matches)
     matches.exit().remove()
+
 
     const match = matches
       .enter()
@@ -105,12 +106,23 @@ export default class Rivalry extends Component {
         return `translate(${xScale(d['winner_name'])}, ${30 * i})`
       })
 
-    match.append("circle")
-      .attr("fill", d => surfaceScale(d['surface']))
+
+    console.log(match)
+    const matchCircle = match.selectAll(".match-circle")
+      .data(d => [d])
+      
+    matchCircle.exit().remove()
+
+    matchCircle
+      .enter()
+      .append("circle")
+      .merge(matchCircle)
+      .attr("fill", d => {
+        return surfaceScale(d['surface'])
+      })
       .attr("r", 10)
       .attr("class", "match-circle")
       .on("mouseover", d => {
-        console.log(this.state.topoffset)
         this.setState(prevState => ({
         
             currMatchData: d,
@@ -138,17 +150,27 @@ export default class Rivalry extends Component {
 
       })
 
-    match.filter(d => d['tourney_level'] == "G")
+    const slamOutline = match.selectAll(".slam-outline")
+      .data(d => [d])
+    
+    console.log(slamOutline)
+    slamOutline.exit().remove()
+
+    slamOutline
+      .enter()
       .append("circle")
+    .merge(slamOutline)
       .attr("r", 12)
-      .attr("stroke", d => surfaceScale(d['surface']))
+      .attr("stroke", d => d['tourney_level'] == "G" ? surfaceScale(d['surface']) : "white")
       .attr("fill", "none")
       .attr("class", "slam-outline")
+
 
 
     const profiles = g.selectAll(".profile")
       .data(players)
 
+    profiles.exit().remove()
 
     const profile = profiles
       .enter()
@@ -158,25 +180,44 @@ export default class Rivalry extends Component {
       .attr("transform", (d,i) => `translate(${xScale(d['key'])}, ${0})`)
 
 
-    profile.append("svg:image")
+
+    const profilePic = profile.selectAll(".profile-pic")
+      .data(d => [d])
+
+    profilePic
+      .enter()
+      .append("svg:image")
+    .merge(profilePic)
       .attr("xlink:href", d => {
         return profileimages[`${d['key']}.gif`]
       })
       .attr("width", 50)
       .attr("x", -25)
+      .attr("class", "profile-pic")
 
 
-    const numwins = profile.append('text')
+    const numWins = profile.selectAll(".numwins")
+      .data(d => [d])
+
+    numWins
+      .enter()
+      .append('text')
+    .merge(numWins)
       .text(d => d['value'])
       .attr("class", "numwins")
       .attr("text-anchor", "middle")
       .attr("transform", "translate(0,70)")
 
-    profile.append('text')
+    const playerWins = profile.selectAll(".profile .player-name")
+      .data(d => [d])
+    playerWins
+      .enter()
+      .append('text')
+    .merge(playerWins)
       .text(d => d['key'])
       .attr("class", "player-name")
-      .attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
-      .attr("x", (d,i) => i == 1 ? -30 : 30)
+      .attr("text-anchor", (d,i) => d['key'] == 'Serena Williams' ? "end" : "start")
+      .attr("x",  (d,i) => d['key'] == 'Serena Williams' ? -30 : 30)
       .attr("y", 30)
 
   }
@@ -184,9 +225,7 @@ export default class Rivalry extends Component {
   componentDidMount() {
   	const {data, annotations, margin} = this.props
     this.setState({currOpponentData: data})
-    console.log(data)
     const width = 600
-    console.log(data.length)
     const height = 100 + data.length * 30 + margin.top + margin.bottom
   	const {profileimages} = this.state
   	const innerWidth = width - margin.left - margin.right
@@ -210,8 +249,10 @@ export default class Rivalry extends Component {
 		  .rollup(function(v) { return v.length; })
   		.entries(data);
 
+    console.log(players)
+    console.log(players.find(el => el['key'] == 'Serena Williams'))
     const xScale = d3.scaleOrdinal()
-    	.domain([players[0], players[1]])
+    	.domain([players.find(el => el['key'] == 'Serena Williams')['key'], players.find(el => el['key'] != 'Serena Williams')['key']])
     	.range([xMidpoint - 60, xMidpoint + 60])
 
 
@@ -231,6 +272,7 @@ export default class Rivalry extends Component {
 
    	const matches = g.append("g")
    		.attr("transform", "translate(0,100)")
+      .attr("class", "matches-group")
    		.selectAll(".matches")
    		.data(data)
    		.enter()
@@ -245,7 +287,6 @@ export default class Rivalry extends Component {
    		.attr("r", 10)
    		.attr("class", "match-circle")
    		.on("mouseover", d => {
-        console.log(this.state.topoffset)
         this.setState(prevState => ({
         
             currMatchData: d,
@@ -273,10 +314,10 @@ export default class Rivalry extends Component {
 
       })
 
-    matches.filter(d => d['tourney_level'] == "G")
+    matches
       .append("circle")
       .attr("r", 12)
-      .attr("stroke", d => surfaceScale(d['surface']))
+      .attr("stroke", d => d['tourney_level'] == "G" ? surfaceScale(d['surface']) : "white")
       .attr("fill", "none")
       .attr("class", "slam-outline")
 
@@ -340,6 +381,7 @@ export default class Rivalry extends Component {
       })
       .attr("width", 50)
       .attr("x", -25)
+      .attr("class", "profile-pic")
 
 
     const numwins = profiles.append('text')
@@ -351,8 +393,8 @@ export default class Rivalry extends Component {
     profiles.append('text')
       .text(d => d['key'])
       .attr("class", "player-name")
-      .attr("text-anchor", (d,i) => i == 1 ? "end" : "start")
-      .attr("x", (d,i) => i == 1 ? -30 : 30)
+      .attr("text-anchor", (d,i) => d['key'] == 'Serena Williams' ? "end" : "start")
+      .attr("x",  (d,i) => d['key'] == 'Serena Williams' ? -30 : 30)
       .attr("y", 30)
 
     window.addEventListener('resize', () => {
@@ -415,8 +457,6 @@ export default class Rivalry extends Component {
   render() {
 
   	const {data, annotations, margin} = this.props
-     console.log("re-rendering")
-     console.log(data)
   	const {currMatchData, tooltipStyle, border} = this.state
     const width = 600
     const height = 100 + data.length * 30 + margin.top + margin.bottom

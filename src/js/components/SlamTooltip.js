@@ -38,7 +38,8 @@ export default class SlamTooltip extends Component {
 				}
 			})
 
-	 		const {tourney_year, tourney_name, round, data} = slamdata
+	 		const {tourney_id, tourney_name, round, data} = slamdata
+	 		const tourney_year = tourney_id.slice(0,4)
 	 		const {border} = this.props
 	 		const borderStyle={borderBottom: "1px solid #a1a1a1"}
 	 		return 	<div className='slam-tooltip' style={this.props.tooltipStyle}>
