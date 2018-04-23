@@ -648,6 +648,26 @@ h2 {
   stroke: white;
   stroke-width: 2px;
 }
+
+.finder {
+
+  display: block;
+  margin: 0 auto;
+  border-bottom: 1px solid #fff;
+  position: relative;
+}
+
+#myinput {
+  width: 250px;
+  font-family: 'Roboto';
+   display: block;
+  margin: 0 auto;
+  padding: 8px;
+  font-size: 14px;
+  outline: 0;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

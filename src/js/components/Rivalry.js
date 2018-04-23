@@ -71,6 +71,9 @@ export default class Rivalry extends Component {
       .entries(data);
 
     console.log(players)
+    if (players.length == 1) {
+      players.push({key: data[0]['loser_name'], value: 0})
+    }
     const xScale = d3.scaleOrdinal()
       .domain([players.find(el => el['key'] == 'Serena Williams')['key'], players.find(el => el['key'] != 'Serena Williams')['key']])
       .range([xMidpoint - 60, xMidpoint + 60])
@@ -253,6 +256,9 @@ export default class Rivalry extends Component {
   		.entries(data);
 
     console.log(players)
+    if (players.length == 1) {
+      players.push({key: data[0]['loser_name'], value: 0})
+    }
     console.log(players.find(el => el['key'] == 'Serena Williams'))
     const xScale = d3.scaleOrdinal()
     	.domain([players.find(el => el['key'] == 'Serena Williams')['key'], players.find(el => el['key'] != 'Serena Williams')['key']])

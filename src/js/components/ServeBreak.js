@@ -263,8 +263,8 @@ export default class ServeBreak extends Component {
 					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
 					.on("mouseout", function(){ 
 						/*xLine.attr("opacity", 0)
-						yLine.attr("opacity", 0)
-						tooltip.style("display", "none");*/
+						yLine.attr("opacity", 0)*/
+						tooltip.style("display", "none");
 						const d = serenaData 
 						console.log(d)
 							

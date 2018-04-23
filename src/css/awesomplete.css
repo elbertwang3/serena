@@ -8,8 +8,12 @@
 }
 
 .awesomplete {
-    display: inline-block;
     position: relative;
+    width: 250px;
+    display: block;
+    margin: 0 auto;
+    font-family: "Roboto";
+    font-size: 14px;
 }
 
 .awesomplete > input {
@@ -26,6 +30,7 @@
     padding: 0;
     margin: 0;
     background: #fff;
+      padding: 8px;
 }
 
 .awesomplete > ul:empty {
