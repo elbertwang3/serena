@@ -7,6 +7,7 @@ import Rivalry from './components/Rivalry.js';
 import ServeBreak from './components/ServeBreak.js';
 import ServeDirection from './components/ServeDirection.js';
 import Input from './components/Input.js';
+import No1Weeks from './components/No1Weeks.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
@@ -24,6 +25,7 @@ class App extends Component {
       servedata: null,
       servedirectiondata: null,
       serenamatches: null,
+      weeksat1: null,
     };
 
   }
@@ -41,11 +43,18 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type];
-    Promise.all(files.map((url,i) => { 
-      return d3.csv(url, types[i].bind(this))
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4];
+    var csvPattern = new RegExp(".csv$")
+    //var tsvPattern = 
+    Promise.all(files.map((url,i) => {
+      if (csvPattern.test(url)) {
+        return d3.csv(url, types[i].bind(this))
+      } else {
+         return d3.tsv(url, types[i].bind(this))
+      }
     })).then(values => {
+      console.log(values[7])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],
@@ -54,7 +63,8 @@ class App extends Component {
         servedata: values[4].filter(d => d['Sum_Sum_w_1stWon'] > 3000),
         //servedata: values[4],
         servedirectiondata: values[5],
-        serenamatches: values[6]
+        serenamatches: values[6],
+        weeksat1: values[7],
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -91,9 +101,16 @@ class App extends Component {
     return d
 
   }
+
+  type4(d) {
+    d['player'] = d['player'].replace(/ *\([^)]*\) */g, "")
+    d['consecutive'] = +d['consecutive']
+    d['total'] = +d['total']
+    return d
+  }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches} = this.state
-    var rivalries, servestats, servedirection, input
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1} = this.state
+    var rivalries, servestats, servedirection, input, goat
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
              <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
@@ -102,12 +119,14 @@ class App extends Component {
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
       servedirection = <ServeDirection data={servedirectiondata} />
       input = <Input data={serenamatches} />
+      goat = <No1Weeks rankingdata={weeksat1} />
           
     } else {
       rivalries = <div></div>
       servestats = <div></div>
       servedirection = <div></div>
       input = null
+      goat = null
     }
     
     return (
@@ -330,8 +349,8 @@ class App extends Component {
              
             </div>
             <h2> Serve Direction</h2>
-             <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
-             <div className='graphic' id='graphic4'>
+            <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
+            <div className='graphic' id='graphic4'>
               <div className="viz" id="viz4">
                 {servedirection}
               </div>
@@ -365,7 +384,27 @@ class App extends Component {
             </div>
             <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning record against her, except for one player--Arantxa Sanchez Vicario. Search for her, and other players using the search box. Some other notable rivalries include Victoria Azarenka, Jennifer Capriati, Justin Henin, and Elena Dementieva. </p> 
             <h2> Greatest of All Time </h2>
-
+            <div className='graphic' id='graphic5'>
+              <div className="viz" id="viz5">
+                {goat}
+              </div>
+              <div className='sections' id='sections5'>
+                <section className="step">
+                  <p className="prose">WEEKS at no. 1 over time </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">weeks at no. 1 over age </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">num slams over time </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">num slams over age, longevity</p>           
+                </section>
+            
+              </div>
+             
+            </div>
         </div>
 
       </div>

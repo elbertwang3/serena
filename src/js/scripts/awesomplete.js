@@ -8,9 +8,6 @@
 export function awesomplete(input, o) {
 
 var _ = function () {
-	console.log(input)
-	console.log(o)
-	console.log("Getting into function")
 	var me = this;
     
     // Keep track of number of instances for unique IDs
@@ -496,8 +493,6 @@ $.siblingIndex = function (el) {
 // Initialization
 
 function init() {
-	console.log("getting into init")
-	console.log($$("input.awesomplete"))
 	$$("input.awesomplete").forEach(function (input) {
 		new _(input);
 	});
@@ -509,9 +504,7 @@ var Awesomplete = _;
 // Are we in a browser? Check for Document constructor
 if (typeof Document !== "undefined") {
 	// DOM already loaded?
-	console.log("loading")
 	if (document.readyState !== "loading") {
-		console.log("getting to init")
 		init();
 	}
 	else {
