@@ -668,6 +668,11 @@ h2 {
   border-radius: 3px;
   border: 1px solid #ddd;
 }
+
+.player-line {
+  fill: none;
+  stroke: black;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

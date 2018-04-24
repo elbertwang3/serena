@@ -39,9 +39,33 @@ export default class No1Weeks extends Component {
   componentDidMount() {
     const that = this
     const margin = {top: 25, bottom: 25, right: 25, left: 40}
-    const {data} = this.props
+    let {rankingdata} = this.props
+    
+    let data = d3.nest()
+      .key(function(d) { return d['player']; })
+      .entries(rankingdata)
 
+   
 
+    let formattedData = []
+    for (let i = 0; i < data.length; i++) {
+      let outputArray = []
+      for (let j = 0; j < data[i].values.length; j++) {
+        let obj = data[i].values[j]
+        outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['startdate'], 'weeks': obj['total'] - obj['consecutive']})
+        outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['enddate'], 'weeks': obj['total']})
+      }
+      formattedData.push({'key': data[i].key, values: outputArray})
+    }
+    console.log(formattedData)
+    /*data = data.map(d => {  
+
+      d.values
+      [{country: d['country']}]
+      //, d['player']: d['player'], d['birthday']: d['birthday'], d['retired']: d['retired'], d['date']: d['startdate'], d['weeks']: d['total'] - d['consecutive']},
+      //{country: d['country'], d['player']: d['player'], d['birthday']: d['birthday'], d['retired']: d['retired'], d['date']: d['enddate'], d['weeks']: d['total']}]
+
+    })*/
     const chart = linechart()
     const el = d3.select('.goatcontainer')
     let weeksScale = d3.scaleLinear()    
@@ -54,10 +78,12 @@ export default class No1Weeks extends Component {
     console.log(this.state.scaleY)
     console.log(this.state.scaleX)
     const dateParser = d3.timeParse("%b %e, %Y")
+    const birthdayParser = d3.timeParse("%Y%m%d")
 
-    function getChart() {
-      return chart
-    }
+    let line
+
+
+
 
     function resize() {
       //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
@@ -125,7 +151,27 @@ export default class No1Weeks extends Component {
         const g = svg.select('g')
         g.attr('transform', translate(margin.left, margin.top))
 
-        const court = g.select(".g-court")
+        const lines = g.select(".player-lines")
+
+        const playerline = lines.selectAll(".player-line")
+          .data(formattedData)
+
+        console.log(line)
+
+
+        playerline
+          .datum(d => {
+            console.log(d.values)
+            return d.values
+          })
+          .enter()
+          .append("path")
+        .merge(playerline)
+          .attr("d", line)
+          .attr("class", "player-line")
+
+
+
 
       }
 
@@ -224,11 +270,20 @@ export default class No1Weeks extends Component {
       chart.scaleX(timeScale)
       chart.scaleY(weeksScale)
 
+      line = d3.line()
+        .x(function(d) { console.log(d); return timeScale(dateParser(d['date'])); })
+        .y(function(d) { console.log(d); return weeksScale(d['weeks']); })
+        .curve(d3.curveStepBefore)
+
     }
     function weeksage() {
       console.log("weeksage")
       chart.scaleX(ageScale)
       chart.scaleY(weeksScale)
+
+      line = d3.line()
+        .x(function(d) { console.log(d); return timeScale(dateParser(d['date'])); })
+        .y(function(d) { console.log(d); return ageScale(d['weeks']); });
 
     }
 

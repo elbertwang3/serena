@@ -1,102 +1,102 @@
-country	player	startdate	enddate	consecutive	total
-USA	Chris Evert	Nov 3, 1975	Apr 25, 1976	25	25
-AUS	Evonne Goolagong Cawley	Apr 26, 1976	May 9, 1976	2	2
-USA	Chris Evert (2)	May 10, 1976	Jul 9, 1978	113	138
-USA	Martina Navratilova	Jul 10, 1978	Jan 13, 1979	26	26
-USA	Chris Evert (3)	Jan 14, 1979	Jan 27, 1979	2	140
-USA	Martina Navratilova (2)	Jan 28, 1979	Feb 24, 1979	4	30
-USA	Chris Evert (4)	Feb 25, 1979	Apr 15, 1979	7	147
-USA	Martina Navratilova (3)	Apr 16, 1979	Jun 24, 1979	10	40
-USA	Chris Evert (5)	Jun 25, 1979	Sep 9, 1979	11	158
-USA	Martina Navratilova (4)	Sep 10, 1979	Apr 6, 1980	31	71
+country	player	startdate	enddate	consecutive	total	birthday	retired
+USA	Chris Evert	Nov 3, 1975	Apr 25, 1976	25	25	19541221	T
+AUS	Evonne Goolagong Cawley	Apr 26, 1976	May 9, 1976	2	2	19510731	T
+USA	Chris Evert (2)	May 10, 1976	Jul 9, 1978	113	138	19541221	T
+USA	Martina Navratilova	Jul 10, 1978	Jan 13, 1979	26	26	19561018	T
+USA	Chris Evert (3)	Jan 14, 1979	Jan 27, 1979	2	140	19541221	T
+USA	Martina Navratilova (2)	Jan 28, 1979	Feb 24, 1979	4	30	19561018	T
+USA	Chris Evert (4)	Feb 25, 1979	Apr 15, 1979	7	147	19541221	T
+USA	Martina Navratilova (3)	Apr 16, 1979	Jun 24, 1979	10	40	19561018	T
+USA	Chris Evert (5)	Jun 25, 1979	Sep 9, 1979	11	158	19541221	T
+USA	Martina Navratilova (4)	Sep 10, 1979	Apr 6, 1980	31	71	19561018	T
 USA	Tracy Austin	Apr 7, 1980	Apr 20, 1980	2	2
-USA	Martina Navratilova (5)	Apr 21, 1980	Jul 6, 1980	11	82
+USA	Martina Navratilova (5)	Apr 21, 1980	Jul 6, 1980	11	82	19561018	T
 USA	Tracy Austin (2)	Jul 7, 1980	Nov 17, 1980	19	21
-USA	Chris Evert (6)	Nov 18, 1980	May 2, 1982	76	234
-USA	Martina Navratilova (6)	May 3, 1982	May 16, 1982	2	84
-USA	Chris Evert (7)	May 17, 1982	Jun 13, 1982	4	238
-USA	Martina Navratilova (7)	Jun 14, 1982	Jun 9, 1985	156	240
-USA	Chris Evert (8)	Jun 10, 1985	Oct 13, 1985	18	256
-USA	Martina Navratilova (8)	Oct 14, 1985	Oct 27, 1985	2	242
-USA	Chris Evert (9)	Oct 28, 1985	Nov 24, 1985	4	260
-USA	Martina Navratilova (9)	Nov 25, 1985	Aug 16, 1987	90	332
-GER	Steffi Graf	Aug 17, 1987	Mar 10, 1991	186	186
-YUG	Monica Seles	Mar 11, 1991	Aug 4, 1991	21	21
-GER	Steffi Graf (2)	Aug 5, 1991	Aug 11, 1991	1	187
-YUG	Monica Seles (2)	Aug 12, 1991	Aug 18, 1991	1	22
-GER	Steffi Graf (3)	Aug 19, 1991	Sep 8, 1991	3	190
-YUG	Monica Seles (3)	Sep 9, 1991	Jun 6, 1993	91	113
-GER	Steffi Graf (4)	Jun 7, 1993	Feb 5, 1995	87	277
+USA	Chris Evert (6)	Nov 18, 1980	May 2, 1982	76	234	19541221	T
+USA	Martina Navratilova (6)	May 3, 1982	May 16, 1982	2	84	19561018	T
+USA	Chris Evert (7)	May 17, 1982	Jun 13, 1982	4	238	19541221	T
+USA	Martina Navratilova (7)	Jun 14, 1982	Jun 9, 1985	156	240	19561018	T
+USA	Chris Evert (8)	Jun 10, 1985	Oct 13, 1985	18	256	19541221	T
+USA	Martina Navratilova (8)	Oct 14, 1985	Oct 27, 1985	2	242	19561018	T
+USA	Chris Evert (9)	Oct 28, 1985	Nov 24, 1985	4	260	19541221	T
+USA	Martina Navratilova (9)	Nov 25, 1985	Aug 16, 1987	90	332	19561018	T
+GER	Steffi Graf	Aug 17, 1987	Mar 10, 1991	186	186	19690614	T
+YUG	Monica Seles	Mar 11, 1991	Aug 4, 1991	21	21	19731202 T
+GER	Steffi Graf (2)	Aug 5, 1991	Aug 11, 1991	1	187	19690614	T
+YUG	Monica Seles (2)	Aug 12, 1991	Aug 18, 1991	1	22	19731202 T
+GER	Steffi Graf (3)	Aug 19, 1991	Sep 8, 1991	3	190	19690614	T
+YUG	Monica Seles (3)	Sep 9, 1991	Jun 6, 1993	91	113	19731202 T
+GER	Steffi Graf (4)	Jun 7, 1993	Feb 5, 1995	87	277	19690614	T
 ESP	Arantxa Sánchez Vicario	Feb 6, 1995	Feb 19, 1995	2	2
-GER	Steffi Graf (5)	Feb 20, 1995	Feb 26, 1995	1	278
+GER	Steffi Graf (5)	Feb 20, 1995	Feb 26, 1995	1	278	19690614	T
 ESP	Arantxa Sánchez Vicario (2)	Feb 27, 1995	Apr 9, 1995	6	8
-GER	Steffi Graf (6)	Apr 10, 1995	May 14, 1995	5	283
+GER	Steffi Graf (6)	Apr 10, 1995	May 14, 1995	5	283	19690614	T
 ESP	Arantxa Sánchez Vicario (3)	May 15, 1995	Jun 11, 1995	4	12
-GER	Steffi Graf (7)	Jun 12, 1995	Aug 14, 1995	9	292
-GER	Steffi Graf (7)	Aug 15, 1995	Nov 3, 1996	64	356
-YUG	Monica Seles (4)	Aug 15, 1995	Nov 3, 1996	64	177
-GER	Steffi Graf (7)	Nov 4, 1996	Nov 17, 1996	2	358
-GER	Steffi Graf (7)	Nov 18, 1996	Nov 24, 1996	1	359
-YUG	Monica Seles	Nov 18, 1996	Nov 24, 1996	1	178
-GER	Steffi Graf (7)	Nov 25, 1996	Mar 30, 1997	18	377
-SUI	Martina Hingis	Mar 31, 1997	Oct 11, 1998	80	80
-USA	Lindsay Davenport	Oct 12, 1998	Feb 7, 1999	17	17
-SUI	Martina Hingis (2)	Feb 8, 1999	Jul 4, 1999	21	101
-USA	Lindsay Davenport (2)	Jul 5, 1999	Aug 8, 1999	5	22
-SUI	Martina Hingis (3)	Aug 9, 1999	Apr 2, 2000	34	135
-USA	Lindsay Davenport (3)	Apr 3, 2000	May 7, 2000	5	27
-SUI	Martina Hingis (4)	May 8, 2000	May 14, 2000	1	136
-USA	Lindsay Davenport (4)	May 15, 2000	May 21, 2000	1	28
-SUI	Martina Hingis (5)	May 22, 2000	Oct 14, 2001	73	209
-USA	Jennifer Capriati	Oct 15, 2001	Nov 4, 2001	3	3
-USA	Lindsay Davenport (5)	Nov 5, 2001	Jan 13, 2002	10	38
-USA	Jennifer Capriati (2)	Jan 14, 2002	Feb 24, 2002	6	9
-USA	Venus Williams	Feb 25, 2002	Mar 17, 2002	3	3
-USA	Jennifer Capriati (3)	Mar 18, 2002	Apr 21, 2002	5	14
-USA	Venus Williams (2)	Apr 22, 2002	May 19, 2002	4	7
-USA	Jennifer Capriati (4)	May 20, 2002	Jun 9, 2002	3	17
-USA	Venus Williams (3)	Jun 10, 2002	Jul 7, 2002	4	11
-USA	Serena Williams	Jul 8, 2002	Aug 10, 2003	57	57
-BEL	Kim Clijsters	Aug 11, 2003	Oct 19, 2003	10	10
-BEL	Justine Henin	Oct 20, 2003	Oct 26, 2003	1	1
-BEL	Kim Clijsters (2)	Oct 27, 2003	Nov 9, 2003	2	12
-BEL	Justine Henin (2)	Nov 10, 2003	Sep 12, 2004	44	45
-FRA	Amélie Mauresmo	Sep 13, 2004	Oct 17, 2004	5	5
-USA	Lindsay Davenport (6)	Oct 18, 2004	Aug 21, 2005	44	82
-RUS	Maria Sharapova	Aug 22, 2005	Aug 28, 2005	1	1
-USA	Lindsay Davenport (7)	Aug 29, 2005	Sep 11, 2005	2	84
-RUS	Maria Sharapova (2)	Sep 12, 2005	Oct 23, 2005	6	7
-USA	Lindsay Davenport (8)	Oct 24, 2005	Jan 29, 2006	14	98
-BEL	Kim Clijsters (3)	Jan 30, 2006	Mar 19, 2006	7	19
-FRA	Amélie Mauresmo (2)	Mar 20, 2006	Nov 12, 2006	34	39
-BEL	Justine Henin (3)	Nov 13, 2006	Jan 28, 2007	11	56
-RUS	Maria Sharapova (3)	Jan 29, 2007	Mar 18, 2007	7	14
-BEL	Justine Henin (4)	Mar 19, 2007	May 18, 2008	61	117
-RUS	Maria Sharapova (4)	May 19, 2008	Jun 8, 2008	3	17
-SRB	Ana Ivanovic	Jun 9, 2008	Aug 10, 2008	9	9
-SRB	Jelena Janković	Aug 11, 2008	Aug 17, 2008	1	1
-SRB	Ana Ivanovic (2)	Aug 18, 2008	Sep 7, 2008	3	12
-USA	Serena Williams (2)	Sep 8, 2008	Oct 5, 2008	4	61
-SRB	Jelena Janković (2)	Oct 6, 2008	Feb 1, 2009	17	18
-USA	Serena Williams (3)	Feb 2, 2009	Apr 19, 2009	11	72
-RUS	Dinara Safina	Apr 20, 2009	Oct 11, 2009	25	25
-USA	Serena Williams (4)	Oct 12, 2009	Oct 25, 2009	2	74
-RUS	Dinara Safina (2)	Oct 26, 2009	Nov 1, 2009	1	26
-USA	Serena Williams (5)	Nov 2, 2009	Oct 10, 2010	49	123
-DEN	Caroline Wozniacki	Oct 11, 2010	Feb 13, 2011	18	18
-BEL	Kim Clijsters (4)	Feb 14, 2011	Feb 20, 2011	1	20
-DEN	Caroline Wozniacki (2)	Feb 21, 2011	Jan 29, 2012	49	67
-BLR	Victoria Azarenka	Jan 30, 2012	Jun 10, 2012	19	19
-RUS	Maria Sharapova (5)	Jun 11, 2012	Jul 8, 2012	4	21
-BLR	Victoria Azarenka (2)	Jul 9, 2012	Feb 17, 2013	32	51
-USA	Serena Williams (6)	Feb 18, 2013	Sep 11, 2016	186	309
-GER	Angelique Kerber	Sep 12, 2016	Jan 29, 2017	20	20
-USA	Serena Williams (7)	Jan 30, 2017	Mar 19, 2017	7	316
-GER	Angelique Kerber (2)	Mar 20, 2017	Apr 23, 2017	5	25
-USA	Serena Williams (8)	Apr 24, 2017	May 14, 2017	3	319
-GER	Angelique Kerber (3)	May 15, 2017	Jul 16, 2017	9	34
-CZE	Karolína Plíšková	Jul 17, 2017	Sep 10, 2017	8	8
-ESP	Garbiñe Muguruza	Sep 11, 2017	Oct 8, 2017	4	4
-ROU	Simona Halep	Oct 9, 2017	Jan 28, 2018	16	16
-DEN	Caroline Wozniacki (3)	Jan 29, 2018	Feb 25, 2018	4	71
-ROU	Simona Halep (2)	Feb 26, 2018	Apr 30, 2018	9	25
+GER	Steffi Graf (7)	Jun 12, 1995	Aug 14, 1995	9	292	19690614	T
+GER	Steffi Graf (7)	Aug 15, 1995	Nov 3, 1996	64	356	19690614	T
+YUG	Monica Seles (4)	Aug 15, 1995	Nov 3, 1996	64	177	19731202 T
+GER	Steffi Graf (7)	Nov 4, 1996	Nov 17, 1996	2	358	19690614	T
+GER	Steffi Graf (7)	Nov 18, 1996	Nov 24, 1996	1	359	19690614	T
+YUG	Monica Seles	Nov 18, 1996	Nov 24, 1996	1	178	19731202 T
+GER	Steffi Graf (7)	Nov 25, 1996	Mar 30, 1997	18	377	19690614	T
+SUI	Martina Hingis	Mar 31, 1997	Oct 11, 1998	80	80	19800930 T
+USA	Lindsay Davenport	Oct 12, 1998	Feb 7, 1999	17	17	19760608 T
+SUI	Martina Hingis (2)	Feb 8, 1999	Jul 4, 1999	21	101	19800930 T
+USA	Lindsay Davenport (2)	Jul 5, 1999	Aug 8, 1999	5	22	19760608 T
+SUI	Martina Hingis (3)	Aug 9, 1999	Apr 2, 2000	34	135	19800930 T
+USA	Lindsay Davenport (3)	Apr 3, 2000	May 7, 2000	5	27	19760608 T
+SUI	Martina Hingis (4)	May 8, 2000	May 14, 2000	1	136	19800930 T
+USA	Lindsay Davenport (4)	May 15, 2000	May 21, 2000	1	28	19760608 T
+SUI	Martina Hingis (5)	May 22, 2000	Oct 14, 2001	73	209	19800930 T
+USA	Jennifer Capriati	Oct 15, 2001	Nov 4, 2001	3	3	19760329 T
+USA	Lindsay Davenport (5)	Nov 5, 2001	Jan 13, 2002	10	38	19760608 T
+USA	Jennifer Capriati (2)	Jan 14, 2002	Feb 24, 2002	6	9	19760329 T
+USA	Venus Williams	Feb 25, 2002	Mar 17, 2002	3	3	19800617	F
+USA	Jennifer Capriati (3)	Mar 18, 2002	Apr 21, 2002	5	14	19760329 T
+USA	Venus Williams (2)	Apr 22, 2002	May 19, 2002	4	7	19800617	F
+USA	Jennifer Capriati (4)	May 20, 2002	Jun 9, 2002	3	17	19760329	T
+USA	Venus Williams (3)	Jun 10, 2002	Jul 7, 2002	4	11	19800617	F
+USA	Serena Williams	Jul 8, 2002	Aug 10, 2003	57	57	19810926	F	
+BEL	Kim Clijsters	Aug 11, 2003	Oct 19, 2003	10	10	19830608	T
+BEL	Justine Henin	Oct 20, 2003	Oct 26, 2003	1	1	19820601	T
+BEL	Kim Clijsters (2)	Oct 27, 2003	Nov 9, 2003	2	12	19830608	T
+BEL	Justine Henin (2)	Nov 10, 2003	Sep 12, 2004	44	45	19820601	T
+FRA	Amélie Mauresmo	Sep 13, 2004	Oct 17, 2004	5	5	19790705	T
+USA	Lindsay Davenport (6)	Oct 18, 2004	Aug 21, 2005	44	82	19760608 T
+RUS	Maria Sharapova	Aug 22, 2005	Aug 28, 2005	1	1	19870419	F
+USA	Lindsay Davenport (7)	Aug 29, 2005	Sep 11, 2005	2	84	19760608 T
+RUS	Maria Sharapova (2)	Sep 12, 2005	Oct 23, 2005	6	7	19870419	F
+USA	Lindsay Davenport (8)	Oct 24, 2005	Jan 29, 2006	14	98	19760608 T
+BEL	Kim Clijsters (3)	Jan 30, 2006	Mar 19, 2006	7	19	19830608	T
+FRA	Amélie Mauresmo (2)	Mar 20, 2006	Nov 12, 2006	34	39	19790705	T
+BEL	Justine Henin (3)	Nov 13, 2006	Jan 28, 2007	11	56	19820601	T
+RUS	Maria Sharapova (3)	Jan 29, 2007	Mar 18, 2007	7	14	19870419	F
+BEL	Justine Henin (4)	Mar 19, 2007	May 18, 2008	61	117	19820601	T
+RUS	Maria Sharapova (4)	May 19, 2008	Jun 8, 2008	3	17	19870419	F
+SRB	Ana Ivanovic	Jun 9, 2008	Aug 10, 2008	9	9	19871106	T
+SRB	Jelena Janković	Aug 11, 2008	Aug 17, 2008	1	1	19850228	F
+SRB	Ana Ivanovic (2)	Aug 18, 2008	Sep 7, 2008	3	12	19871106	T
+USA	Serena Williams (2)	Sep 8, 2008	Oct 5, 2008	4	61	19810926	F
+SRB	Jelena Janković (2)	Oct 6, 2008	Feb 1, 2009	17	18	19850228	F
+USA	Serena Williams (3)	Feb 2, 2009	Apr 19, 2009	11	72	19810926	F
+RUS	Dinara Safina	Apr 20, 2009	Oct 11, 2009	25	25	19860427	T
+USA	Serena Williams (4)	Oct 12, 2009	Oct 25, 2009	2	74	19810926	F
+RUS	Dinara Safina (2)	Oct 26, 2009	Nov 1, 2009	1	26	19860427	T
+USA	Serena Williams (5)	Nov 2, 2009	Oct 10, 2010	49	123	19810926	F
+DEN	Caroline Wozniacki	Oct 11, 2010	Feb 13, 2011	18	18	19900711	F
+BEL	Kim Clijsters (4)	Feb 14, 2011	Feb 20, 2011	1	20	19830608	T
+DEN	Caroline Wozniacki (2)	Feb 21, 2011	Jan 29, 2012	49	67	19900711	F
+BLR	Victoria Azarenka	Jan 30, 2012	Jun 10, 2012	19	19	19890731	F
+RUS	Maria Sharapova (5)	Jun 11, 2012	Jul 8, 2012	4	21	19870419	F
+BLR	Victoria Azarenka (2)	Jul 9, 2012	Feb 17, 2013	32	51	19890731	F
+USA	Serena Williams (6)	Feb 18, 2013	Sep 11, 2016	186	309	19810926	F
+GER	Angelique Kerber	Sep 12, 2016	Jan 29, 2017	20	20	19880118	F
+USA	Serena Williams (7)	Jan 30, 2017	Mar 19, 2017	7	316	19810926	F
+GER	Angelique Kerber (2)	Mar 20, 2017	Apr 23, 2017	5	25	19880118	F
+USA	Serena Williams (8)	Apr 24, 2017	May 14, 2017	3	319	19810926	F
+GER	Angelique Kerber (3)	May 15, 2017	Jul 16, 2017	9	34	19880118	F
+CZE	Karolína Plíšková	Jul 17, 2017	Sep 10, 2017	8	8	19920321	F
+ESP	Garbiñe Muguruza	Sep 11, 2017	Oct 8, 2017	4	4	19931008	F
+ROU	Simona Halep	Oct 9, 2017	Jan 28, 2018	16	16	19910927	F
+DEN	Caroline Wozniacki (3)	Jan 29, 2018	Feb 25, 2018	4	71	19900711	F
+ROU	Simona Halep (2)	Feb 26, 2018	Apr 30, 2018	9	25	19910927	F

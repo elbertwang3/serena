@@ -54,7 +54,7 @@ class App extends Component {
          return d3.tsv(url, types[i].bind(this))
       }
     })).then(values => {
-      console.log(values[7])
+
       this.setState({
         venusdata: values[0],
         mariadata: values[1],

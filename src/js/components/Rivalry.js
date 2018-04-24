@@ -70,7 +70,6 @@ export default class Rivalry extends Component {
       .rollup(function(v) { return v.length; })
       .entries(data);
 
-    console.log(players)
     if (players.length == 1) {
       players.push({key: data[0]['loser_name'], value: 0})
     }
@@ -96,7 +95,6 @@ export default class Rivalry extends Component {
       .select(".matches-group")
       .selectAll(".match-g")
       .data(data)
-    console.log(matches)
     matches.exit().remove()
 
 
@@ -110,7 +108,6 @@ export default class Rivalry extends Component {
       })
 
 
-    console.log(match)
     const matchCircle = match.selectAll(".match-circle")
       .data(d => [d])
       
@@ -156,7 +153,6 @@ export default class Rivalry extends Component {
     const slamOutline = match.selectAll(".slam-outline")
       .data(d => [d])
     
-    console.log(slamOutline)
     slamOutline.exit().remove()
 
     slamOutline
@@ -187,14 +183,11 @@ export default class Rivalry extends Component {
     const profilePic = profile.selectAll(".profile-pic")
       .data(d => [d])
 
-    console.log(profilePic)
     profilePic
       .enter()
       .append("svg:image")
     .merge(profilePic)
       .attr("xlink:href", d => {
-        console.log(d)
-        console.log(profileimages[`${d['key']}.gif`])
         return profileimages[`${d['key']}.gif`] ? profileimages[`${d['key']}.gif`] : profileimages[`averageWTAplayer.gif`] 
       })
       .attr("width", 50)
@@ -255,11 +248,10 @@ export default class Rivalry extends Component {
 		  .rollup(function(v) { return v.length; })
   		.entries(data);
 
-    console.log(players)
     if (players.length == 1) {
       players.push({key: data[0]['loser_name'], value: 0})
     }
-    console.log(players.find(el => el['key'] == 'Serena Williams'))
+    
     const xScale = d3.scaleOrdinal()
     	.domain([players.find(el => el['key'] == 'Serena Williams')['key'], players.find(el => el['key'] != 'Serena Williams')['key']])
     	.range([xMidpoint - 60, xMidpoint + 60])

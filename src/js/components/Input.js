@@ -18,7 +18,6 @@ export default class ServeBreak extends Component {
   componentDidMount() {
   	const that = this
   	const input = document.getElementById('myinput')
-  	console.log(input)
   	const {data} = this.props
   	let playerNames = [...data.map(item => item['winner_name']), ...data.map(item => item['loser_name'])];
   	playerNames = [...new Set(playerNames)]
@@ -30,12 +29,10 @@ export default class ServeBreak extends Component {
 	   document.getElementById('myinput').addEventListener("awesomplete-select", function(event) {
 	   
 	   	const opponent = event.text.label
-	   	console.log(opponent)
 	   	if (opponent == 'Serena Williams') {
 	   		console.log("Serena has never played herself, tennis critics have often said she needed to overcome herself")
 	   	} else {
 	   		const matches = data.filter(d => d['winner_name'] == opponent || d['loser_name'] == opponent)
-		   	console.log(matches)
 		   	that.setState({currOpponentData: matches})
 	   	}
 	   
