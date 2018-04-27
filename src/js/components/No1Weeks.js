@@ -64,7 +64,11 @@ export default class No1Weeks extends Component {
     let ageScale = d3.scaleLinear()
    
     let line = null
-
+    let voronoi = null
+    let width = 0
+    let height = 0
+    let chartWidth = 0
+    let chartHeight = 0
 
 
 
@@ -77,10 +81,7 @@ export default class No1Weeks extends Component {
       el.call(chart)
     }
     function linechart() {
-      let width = 0
-      let height = 0
-      let chartWidth = 0
-      let chartHeight = 0
+      
       let currXScale = null
       let currYScale = null
 
@@ -128,6 +129,7 @@ export default class No1Weeks extends Component {
         const xAxis = axis.append('g').attr('class', 'x-axis')
         const yAxis = axis.append('g').attr("class", 'y-axis')
         const playerLines = gEnter.append('g').attr("class", 'player-lines')
+        const voronoiLines = gEnter.append('g').attr("class", 'voronoi-lines')
 
         xAxis.append('text').attr('class', 'axis__label')
           .attr('text-anchor', 'middle')
@@ -137,6 +139,17 @@ export default class No1Weeks extends Component {
         yAxis.append('text').attr('class', 'axis__label')
           .attr('text-anchor', 'middle')
           .text('Cumulative Weeks at No. 1')  
+
+
+        let focus = gEnter.append("g")
+          .attr("transform", "translate(-100,-100)")
+          .attr("class", "focus");
+
+        focus.append("circle")
+            .attr("r", 3.5);
+
+        focus.append("text")
+            .attr("y", -10);
 
         /*const playerline = playerLines.selectAll(".player-line")
           .data(data, d => {
@@ -192,6 +205,7 @@ export default class No1Weeks extends Component {
         g.attr('transform', translate(margin.left, margin.top))
 
         const lines = g.select(".player-lines")
+   
 
         const playerline = lines.selectAll(".player-line")
          .data(data, d => d['key'])
@@ -200,24 +214,60 @@ export default class No1Weeks extends Component {
 
         console.log(playerline)
 
-        console.log(data)
+      
         playerline
           .enter()
           .append("path")
         .merge(playerline)
-          .on("mouseover", function(d) {
+          /*.on("mouseover", function(d) {
             d3.select(this).moveToFront()
             console.log(d['key'])
             return d
-          })
+          })*/
           .transition()
           .duration(1000)
           .attrTween("d", (d, i, nodes) => {
+            d.line = nodes[i];
+            console.log(d)
             var previous = d3.select(nodes[i]).attr('d');
             var current = line(d.values);
             return interpolatePath(previous, current);
           }) 
-          .attr("class", "player-line")
+          .attr("class", d => {
+            console.log(d)
+            return `player-line ${d['key'].replace(/ +/g, '-')}`
+          })
+
+        console.log(data)
+        const voronoiLines = g.select(".voronoi-lines")
+        const voronoiLine = voronoiLines.selectAll("path")
+          .data(voronoi.polygons(d3.merge(data.map(function(d) { return d.values; }))))
+
+        voronoiLine
+          .enter()
+          .append("path")
+        .merge(voronoiLine)
+          .attr("d", function(d) { 
+            return d ? "M" + d.join("L") + "Z" : null;
+          })
+          .on("mouseover",  function(d) {
+             console.log(`mousing over ${d.data['player']}`)
+            console.log(d)
+            let line = d3.select(`.player-line.${d.data['player'].replace(/ +/g, '-')}`)
+            console.log(line)
+            line.classed("city--hover", true);
+            //line.parentNode.appendChild(line);
+            //d3.select(".focus").attr("transform", "translate(" + currXScale(d.data.date) + "," + currYScale(d.data.value) + ")")
+            //d3.select(".focus").select("text").text(d.data.city.name);  
+          })
+            
+          .on("mouseout", function(d) {
+            console.log(`mousing out of ${d.data['player']}`)
+              let line = d3.select(`.player-line.${d.data['player'].replace(/ +/g, '-')}`)
+            line.classed("city--hover", false);
+            //d3.select(".focus").attr("transform", "translate(-100,-100)");
+          })
+          .attr("class", "voronoi")
          
 
 
@@ -333,13 +383,13 @@ export default class No1Weeks extends Component {
         });
       };
       d3.selection.prototype.moveToBack = function() {  
-          return this.each(function() { 
-              var firstChild = this.parentNode.firstChild; 
-              if (firstChild) { 
-                  this.parentNode.insertBefore(this, firstChild); 
-              } 
-          });
-    };
+        return this.each(function() { 
+            var firstChild = this.parentNode.firstChild; 
+            if (firstChild) { 
+                this.parentNode.insertBefore(this, firstChild); 
+            } 
+        });
+      };
       return chart
 
       
@@ -347,7 +397,9 @@ export default class No1Weeks extends Component {
 
     function init() {
       chart.width(window.innerWidth).height(window.innerHeight)
-      
+      console.log("called width")
+      console.log(width)
+      console.log(chartWidth)
       weekstime()
       
       //resize()
@@ -365,7 +417,13 @@ export default class No1Weeks extends Component {
       line = d3.line()
         .x(function(d) { return timeScale(dateParser(d['date'])); })
         .y(function(d) { return weeksScale(d['weeks']); })
-        //.curve(d3.curveStepBefore)
+        .curve(d3.curveLinear)
+
+      voronoi = d3.voronoi()
+        .x(function(d) { return timeScale(dateParser(d['date'])); })
+        .y(function(d) { return weeksScale(d['weeks']); })
+        .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
+        
 
       el.call(chart)
     }
@@ -378,6 +436,12 @@ export default class No1Weeks extends Component {
       line = d3.line()
         .x(function(d) { return ageScale(d['age']); })
         .y(function(d) { return weeksScale(d['weeks']); })
+        .curve(d3.curveLinear)
+
+      voronoi = d3.voronoi()
+        .x(function(d) { return ageScale(d['age']); })
+        .y(function(d) { return weeksScale(d['weeks']); })
+        .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
 
       el.call(chart)
 
@@ -389,9 +453,14 @@ export default class No1Weeks extends Component {
       chart.scaleY(slamsScale, "slams")
       el.datum(formatSlamsData(that.props.slamdata))
       line = d3.line()
-        .x(function(d) { console.log(d); console.log(timeScale(dateParser(d['date']))); return timeScale(dateParser(d['date'])); })
-        .y(function(d) { console.log(d); console.log(slamsScale(d['numslams'])); return slamsScale(d['numslams']); })
+        .x(function(d) { return timeScale(dateParser(d['date'])); })
+        .y(function(d) { return slamsScale(d['numslams']); })
         .curve(d3.curveStepAfter)
+
+      voronoi = d3.voronoi()
+        .x(function(d) { return timeScale(dateParser(d['date'])); })
+        .y(function(d) { return slamsScale(d['numslams']); })
+        .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
       el.call(chart)
 
     }
@@ -402,9 +471,14 @@ export default class No1Weeks extends Component {
       chart.scaleY(slamsScale, "slams")
       el.datum(formatSlamsData(that.props.slamdata))
       line = d3.line()
-        .x(function(d) { console.log(d); console.log(ageScale(d['age'])); return ageScale(d['age']); })
-        .y(function(d) { console.log(d); console.log(slamsScale(d['numslams'])); return slamsScale(d['numslams']); })
-         .curve(d3.curveStepAfter)
+        .x(function(d) { return ageScale(d['age']); })
+        .y(function(d) { return slamsScale(d['numslams']); })
+        .curve(d3.curveStepAfter)
+
+      voronoi = d3.voronoi()
+        .x(function(d) { return ageScale(d['age']); })
+        .y(function(d) { return slamsScale(d['numslams']); })
+        .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
       el.call(chart)
 
     }

@@ -677,6 +677,22 @@ h2 {
 .player-line:hover {
   stroke: orange;
 }
+
+.city--hover {
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.voronoi {
+  fill: none;
+  /*stroke: black;*/
+  pointer-events: all;
+}
+
+.voronoi--show path {
+  stroke: red;
+  stroke-opacity: 0.2;
+}
 @media only screen and (max-width: 1107px) { 
   .title-container {
     top: 70%;

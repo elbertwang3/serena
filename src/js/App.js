@@ -113,7 +113,6 @@ class App extends Component {
   type5(d) {
     var monthDict = {'Australian Open' : "Jan 29", "French Open" : "Jun 11", "Wimbledon" : "Jul 16", "US Open" : "Sep 10"}
     d['player'] = d['player'].replace(/ *\([^)]*\) */g, "")
-    console.log(d['date'])
     d['slamdate'] = d['date'] == "" ? `${monthDict[d['slam']]}, ${d['year']}` : d['date']
     return d
   }
