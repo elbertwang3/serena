@@ -9,9 +9,9 @@ USA	Chris Evert (4)	Feb 25, 1979	Apr 15, 1979	7	147	19541221	T
 USA	Martina Navratilova (3)	Apr 16, 1979	Jun 24, 1979	10	40	19561018	T
 USA	Chris Evert (5)	Jun 25, 1979	Sep 9, 1979	11	158	19541221	T
 USA	Martina Navratilova (4)	Sep 10, 1979	Apr 6, 1980	31	71	19561018	T
-USA	Tracy Austin	Apr 7, 1980	Apr 20, 1980	2	2
+USA	Tracy Austin	Apr 7, 1980	Apr 20, 1980	2	2	19621212	T
 USA	Martina Navratilova (5)	Apr 21, 1980	Jul 6, 1980	11	82	19561018	T
-USA	Tracy Austin (2)	Jul 7, 1980	Nov 17, 1980	19	21
+USA	Tracy Austin (2)	Jul 7, 1980	Nov 17, 1980	19	21	19621212	T
 USA	Chris Evert (6)	Nov 18, 1980	May 2, 1982	76	234	19541221	T
 USA	Martina Navratilova (6)	May 3, 1982	May 16, 1982	2	84	19561018	T
 USA	Chris Evert (7)	May 17, 1982	Jun 13, 1982	4	238	19541221	T
@@ -21,38 +21,38 @@ USA	Martina Navratilova (8)	Oct 14, 1985	Oct 27, 1985	2	242	19561018	T
 USA	Chris Evert (9)	Oct 28, 1985	Nov 24, 1985	4	260	19541221	T
 USA	Martina Navratilova (9)	Nov 25, 1985	Aug 16, 1987	90	332	19561018	T
 GER	Steffi Graf	Aug 17, 1987	Mar 10, 1991	186	186	19690614	T
-YUG	Monica Seles	Mar 11, 1991	Aug 4, 1991	21	21	19731202 T
+YUG	Monica Seles	Mar 11, 1991	Aug 4, 1991	21	21	19731202	T
 GER	Steffi Graf (2)	Aug 5, 1991	Aug 11, 1991	1	187	19690614	T
-YUG	Monica Seles (2)	Aug 12, 1991	Aug 18, 1991	1	22	19731202 T
+YUG	Monica Seles (2)	Aug 12, 1991	Aug 18, 1991	1	22	19731202	T
 GER	Steffi Graf (3)	Aug 19, 1991	Sep 8, 1991	3	190	19690614	T
-YUG	Monica Seles (3)	Sep 9, 1991	Jun 6, 1993	91	113	19731202 T
+YUG	Monica Seles (3)	Sep 9, 1991	Jun 6, 1993	91	113	19731202	T
 GER	Steffi Graf (4)	Jun 7, 1993	Feb 5, 1995	87	277	19690614	T
-ESP	Arantxa Sánchez Vicario	Feb 6, 1995	Feb 19, 1995	2	2
+ESP	Arantxa Sánchez Vicario	Feb 6, 1995	Feb 19, 1995	2	2	19711218	T
 GER	Steffi Graf (5)	Feb 20, 1995	Feb 26, 1995	1	278	19690614	T
-ESP	Arantxa Sánchez Vicario (2)	Feb 27, 1995	Apr 9, 1995	6	8
+ESP	Arantxa Sánchez Vicario (2)	Feb 27, 1995	Apr 9, 1995	6	8	19711218	T
 GER	Steffi Graf (6)	Apr 10, 1995	May 14, 1995	5	283	19690614	T
-ESP	Arantxa Sánchez Vicario (3)	May 15, 1995	Jun 11, 1995	4	12
+ESP	Arantxa Sánchez Vicario (3)	May 15, 1995	Jun 11, 1995	4	12	19711218	T
 GER	Steffi Graf (7)	Jun 12, 1995	Aug 14, 1995	9	292	19690614	T
 GER	Steffi Graf (7)	Aug 15, 1995	Nov 3, 1996	64	356	19690614	T
-YUG	Monica Seles (4)	Aug 15, 1995	Nov 3, 1996	64	177	19731202 T
+YUG	Monica Seles (4)	Aug 15, 1995	Nov 3, 1996	64	177	19731202	T
 GER	Steffi Graf (7)	Nov 4, 1996	Nov 17, 1996	2	358	19690614	T
 GER	Steffi Graf (7)	Nov 18, 1996	Nov 24, 1996	1	359	19690614	T
-YUG	Monica Seles	Nov 18, 1996	Nov 24, 1996	1	178	19731202 T
+YUG	Monica Seles	Nov 18, 1996	Nov 24, 1996	1	178	19731202	T
 GER	Steffi Graf (7)	Nov 25, 1996	Mar 30, 1997	18	377	19690614	T
-SUI	Martina Hingis	Mar 31, 1997	Oct 11, 1998	80	80	19800930 T
-USA	Lindsay Davenport	Oct 12, 1998	Feb 7, 1999	17	17	19760608 T
-SUI	Martina Hingis (2)	Feb 8, 1999	Jul 4, 1999	21	101	19800930 T
-USA	Lindsay Davenport (2)	Jul 5, 1999	Aug 8, 1999	5	22	19760608 T
-SUI	Martina Hingis (3)	Aug 9, 1999	Apr 2, 2000	34	135	19800930 T
-USA	Lindsay Davenport (3)	Apr 3, 2000	May 7, 2000	5	27	19760608 T
-SUI	Martina Hingis (4)	May 8, 2000	May 14, 2000	1	136	19800930 T
-USA	Lindsay Davenport (4)	May 15, 2000	May 21, 2000	1	28	19760608 T
-SUI	Martina Hingis (5)	May 22, 2000	Oct 14, 2001	73	209	19800930 T
-USA	Jennifer Capriati	Oct 15, 2001	Nov 4, 2001	3	3	19760329 T
-USA	Lindsay Davenport (5)	Nov 5, 2001	Jan 13, 2002	10	38	19760608 T
-USA	Jennifer Capriati (2)	Jan 14, 2002	Feb 24, 2002	6	9	19760329 T
+SUI	Martina Hingis	Mar 31, 1997	Oct 11, 1998	80	80	19800930	T
+USA	Lindsay Davenport	Oct 12, 1998	Feb 7, 1999	17	17	19760608	T
+SUI	Martina Hingis (2)	Feb 8, 1999	Jul 4, 1999	21	101	19800930	T
+USA	Lindsay Davenport (2)	Jul 5, 1999	Aug 8, 1999	5	22	19760608	T
+SUI	Martina Hingis (3)	Aug 9, 1999	Apr 2, 2000	34	135	19800930	T
+USA	Lindsay Davenport (3)	Apr 3, 2000	May 7, 2000	5	27	19760608	T
+SUI	Martina Hingis (4)	May 8, 2000	May 14, 2000	1	136	19800930	T
+USA	Lindsay Davenport (4)	May 15, 2000	May 21, 2000	1	28	19760608	T
+SUI	Martina Hingis (5)	May 22, 2000	Oct 14, 2001	73	209	19800930	T
+USA	Jennifer Capriati	Oct 15, 2001	Nov 4, 2001	3	3	19760329	T
+USA	Lindsay Davenport (5)	Nov 5, 2001	Jan 13, 2002	10	38	19760608	T
+USA	Jennifer Capriati (2)	Jan 14, 2002	Feb 24, 2002	6	9	19760329	T
 USA	Venus Williams	Feb 25, 2002	Mar 17, 2002	3	3	19800617	F
-USA	Jennifer Capriati (3)	Mar 18, 2002	Apr 21, 2002	5	14	19760329 T
+USA	Jennifer Capriati (3)	Mar 18, 2002	Apr 21, 2002	5	14	19760329	T
 USA	Venus Williams (2)	Apr 22, 2002	May 19, 2002	4	7	19800617	F
 USA	Jennifer Capriati (4)	May 20, 2002	Jun 9, 2002	3	17	19760329	T
 USA	Venus Williams (3)	Jun 10, 2002	Jul 7, 2002	4	11	19800617	F
@@ -62,11 +62,11 @@ BEL	Justine Henin	Oct 20, 2003	Oct 26, 2003	1	1	19820601	T
 BEL	Kim Clijsters (2)	Oct 27, 2003	Nov 9, 2003	2	12	19830608	T
 BEL	Justine Henin (2)	Nov 10, 2003	Sep 12, 2004	44	45	19820601	T
 FRA	Amélie Mauresmo	Sep 13, 2004	Oct 17, 2004	5	5	19790705	T
-USA	Lindsay Davenport (6)	Oct 18, 2004	Aug 21, 2005	44	82	19760608 T
+USA	Lindsay Davenport (6)	Oct 18, 2004	Aug 21, 2005	44	82	19760608	T
 RUS	Maria Sharapova	Aug 22, 2005	Aug 28, 2005	1	1	19870419	F
-USA	Lindsay Davenport (7)	Aug 29, 2005	Sep 11, 2005	2	84	19760608 T
+USA	Lindsay Davenport (7)	Aug 29, 2005	Sep 11, 2005	2	84	19760608	T
 RUS	Maria Sharapova (2)	Sep 12, 2005	Oct 23, 2005	6	7	19870419	F
-USA	Lindsay Davenport (8)	Oct 24, 2005	Jan 29, 2006	14	98	19760608 T
+USA	Lindsay Davenport (8)	Oct 24, 2005	Jan 29, 2006	14	98	19760608	T
 BEL	Kim Clijsters (3)	Jan 30, 2006	Mar 19, 2006	7	19	19830608	T
 FRA	Amélie Mauresmo (2)	Mar 20, 2006	Nov 12, 2006	34	39	19790705	T
 BEL	Justine Henin (3)	Nov 13, 2006	Jan 28, 2007	11	56	19820601	T

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { interpolatePath } from 'd3-interpolate-path';
 import '../../css/App.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
 import {scroller} from '../scripts/scroller.js';
+import * as _ from 'lodash';
 
 
 export default class No1Weeks extends Component {
@@ -38,26 +40,12 @@ export default class No1Weeks extends Component {
 
   componentDidMount() {
     const that = this
-    const margin = {top: 25, bottom: 25, right: 25, left: 40}
-    let {rankingdata} = this.props
+    const margin = {top: 25, bottom: 50, right: 25, left: 70}
+    let {rankingdata, slamdata} = this.props
+
+    const dateParser = d3.timeParse("%b %e, %Y")
+    const birthdayParser = d3.timeParse("%Y%m%d")
     
-    let data = d3.nest()
-      .key(function(d) { return d['player']; })
-      .entries(rankingdata)
-
-   
-
-    let formattedData = []
-    for (let i = 0; i < data.length; i++) {
-      let outputArray = []
-      for (let j = 0; j < data[i].values.length; j++) {
-        let obj = data[i].values[j]
-        outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['startdate'], 'weeks': obj['total'] - obj['consecutive']})
-        outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['enddate'], 'weeks': obj['total']})
-      }
-      formattedData.push({'key': data[i].key, values: outputArray})
-    }
-    console.log(formattedData)
     /*data = data.map(d => {  
 
       d.values
@@ -66,21 +54,17 @@ export default class No1Weeks extends Component {
       //{country: d['country'], d['player']: d['player'], d['birthday']: d['birthday'], d['retired']: d['retired'], d['date']: d['enddate'], d['weeks']: d['total']}]
 
     })*/
+    let xCut = "time"
+    let yCut = "weeks"
     const chart = linechart()
     const el = d3.select('.goatcontainer')
     let weeksScale = d3.scaleLinear()    
     let slamsScale = d3.scaleLinear()
     let timeScale = d3.scaleTime()
     let ageScale = d3.scaleLinear()
+   
+    let line = null
 
-
-    console.log("set state")
-    console.log(this.state.scaleY)
-    console.log(this.state.scaleX)
-    const dateParser = d3.timeParse("%b %e, %Y")
-    const birthdayParser = d3.timeParse("%Y%m%d")
-
-    let line
 
 
 
@@ -89,13 +73,10 @@ export default class No1Weeks extends Component {
       //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
       const width = window.innerWidth
       const height = window.innerHeight
-      console.log(width)
-      console.log(height)
       chart.width(width).height(height)
       el.call(chart)
     }
     function linechart() {
-
       let width = 0
       let height = 0
       let chartWidth = 0
@@ -103,12 +84,43 @@ export default class No1Weeks extends Component {
       let currXScale = null
       let currYScale = null
 
+     
+      
+
+     /*let formattedData = []
+
+      if (yCut == "weeks") {
+        let data = d3.nest()
+          .key(function(d) { return d['player']; })
+          .entries(rankingdata)
+
+        for (let i = 0; i < data.length; i++) {
+          let outputArray = []
+          for (let j = 0; j < data[i].values.length; j++) {
+            let obj = data[i].values[j]
+            let ageBefore = (dateParser(obj['startdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+            let ageAfter = (dateParser(obj['enddate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+            outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['startdate'], 'weeks': obj['total'] - obj['consecutive'], 'age': ageBefore})
+            outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['enddate'], 'weeks': obj['total'], 'age': ageAfter})
+          }
+          formattedData.push({'key': data[i].key, values: outputArray})
+        }
+      } else {
+        let data = d3.nest()
+          .key(function(d) { return d['player']; })
+          .entries(slamdata)
+
+        console.log(data)
+
+      }
+      console.log(formattedData)*/
 
       function translate(x, y) {
         return `translate(${x}, ${y})`
       }
 
       function enter({ container, data }) {
+        console.log(data)
         const svg = container.selectAll('svg').data([data])
         const svgEnter = svg.enter().append('svg')
         const gEnter = svgEnter.append('g')
@@ -116,6 +128,33 @@ export default class No1Weeks extends Component {
         const xAxis = axis.append('g').attr('class', 'x-axis')
         const yAxis = axis.append('g').attr("class", 'y-axis')
         const playerLines = gEnter.append('g').attr("class", 'player-lines')
+
+        xAxis.append('text').attr('class', 'axis__label')
+          .attr('text-anchor', 'middle')
+          .text('Year')
+      
+
+        yAxis.append('text').attr('class', 'axis__label')
+          .attr('text-anchor', 'middle')
+          .text('Cumulative Weeks at No. 1')  
+
+        /*const playerline = playerLines.selectAll(".player-line")
+          .data(data, d => {
+            console.log(d)
+            return d['key']
+          })
+
+
+        playerline.exit().remove()
+
+         playerline
+          .enter()
+          .append("path")
+        .merge(playerline)
+          //.transition()
+          //.duration(1000)
+          .attr("d", d => line(d.values))
+          .attr("class", "player-line")*/
 
       }
 
@@ -131,17 +170,18 @@ export default class No1Weeks extends Component {
 
 
         timeScale
-          .domain([dateParser("Nov 3, 1975"), dateParser("Apr 30, 2018")])
+          .domain([d3.min(data, array => d3.min(array.values, d => dateParser(d['date']))), d3.max(data, array => d3.max(array.values, d => dateParser(d['date'])))])
           .range([0, chartWidth])
 
         ageScale
-          .domain([15, 40])
+          .domain([d3.min(data, array => d3.min(array.values, d => d['age'])), d3.max(data, array => d3.max(array.values, d => d['age']))])
           .range([0, chartWidth])
 
 
       }
 
       function updateDom({ container, data }) {
+        console.log(data)
         const svg = container.select('svg')
     
         svg
@@ -154,46 +194,61 @@ export default class No1Weeks extends Component {
         const lines = g.select(".player-lines")
 
         const playerline = lines.selectAll(".player-line")
-          .data(formattedData)
+         .data(data, d => d['key'])
 
-        console.log(line)
+        playerline.exit().remove()
 
+        console.log(playerline)
 
+        console.log(data)
         playerline
-          .datum(d => {
-            console.log(d.values)
-            return d.values
-          })
           .enter()
           .append("path")
         .merge(playerline)
-          .attr("d", line)
+          .on("mouseover", function(d) {
+            d3.select(this).moveToFront()
+            console.log(d['key'])
+            return d
+          })
+          .transition()
+          .duration(1000)
+          .attrTween("d", (d, i, nodes) => {
+            var previous = d3.select(nodes[i]).attr('d');
+            var current = line(d.values);
+            return interpolatePath(previous, current);
+          }) 
           .attr("class", "player-line")
+         
 
 
 
 
       }
 
+      
       function updateAxis({ container, data }) {
         const axis = container.select('.g-axis')
 
         const axisLeft = d3.axisLeft(currYScale)
         const axisBottom = d3.axisBottom(currXScale)
+        //axisBottom.selectAll(".domain").remove()
+        //axisBottom.selectAll(".tick").remove()
 
-        //axisLeft.ticks(Math.floor(scaleY.range()[0] / 100))
-        //axisBottom.ticks(d3.timeYear.every(5), "%Y"); //for yearscale
+        axisLeft.ticks(Math.floor(currYScale.range()[0] / 100))
+        axisBottom.ticks(Math.floor(currXScale.range()[1]/ 100)); //for yearscale
         //axisBottom.ticks(d3.range(scaleX.domain()[0], scaleX.domain()[1], 5)) //for agescale
         //axisLeft.ticks(d3.range(scaleY.domain()[0], scaleY.domain()[1], 100)) //for weeks
         //axisLeft.ticks(d3.range(scaleY.domain([0], scaleY.domain([1], 5)))) //for slams
         const x = axis.select('.x-axis')
-        
+
+
         const maxY = currYScale.range()[0]
-        console.log(maxY)
         const offset = maxY
 
         const buffer = Math.ceil(margin / 2)
-        x.attr('transform', translate(0, chartHeight))
+        
+        x
+          .attr('transform', translate(0, chartHeight))
           .call(axisBottom)
 
         const y = axis.select('.y-axis')
@@ -201,15 +256,42 @@ export default class No1Weeks extends Component {
         y.call(axisLeft)
 
         x.select('.axis__label')
-          .attr('y', margin - 1)
+          .attr("transform", `translate(${chartWidth/2}, ${margin.bottom*1.5/2})`)
 
         y.select('.axis__label')
-          .attr('x', offset)
-          .attr('y', margin - 1)
-          .attr('transform', `rotate(90)`)
+          .attr('transform', `translate(${-margin.left/2}, ${chartHeight/2}) rotate(-90)`)
+
+        x.select(".domain").remove()
+        y.select(".domain").remove()
+        //x.selectAll(".tick").append("")
+        y.selectAll(".tick")
+          .filter(d => d == 0)
+          .select("line")
+          .remove()
+        y.selectAll(".tick")
+          //.filter(d => d != 0)
+          .select("line")
+          .attr("y1", 0)
+          .attr("y2", 0)
+          .attr("fill", "none")
+          .attr("stroke-dasharray", "4,4")
+          .attr("stroke", "#a9a9a9")
+          .attr("x1", 0)
+          .attr("x2", chartWidth)
+          
+           
+
+        x.select(".axis__label")
+          .text(xCut)
+
+        y.select(".axis__label")
+          .text(yCut)
+
+
       }
 
       function chart(container) {
+        console.log("chart being called")
         const data = container.datum()
         enter({ container, data })
         updateScales({ container, data })
@@ -235,29 +317,40 @@ export default class No1Weeks extends Component {
       chart.scaleX = function(...args) {
 
         currXScale = args[0]
-        console.log(currXScale)
+        xCut = args[1]
         return chart
       }
 
-       chart.scaleY = function(...args) {
-        if (!args.length) return height
+      chart.scaleY = function(...args) {
         currYScale = args[0]
-        console.log(currYScale)
+        yCut = args[1]
         return chart
       }
 
-
+      d3.selection.prototype.moveToFront = function() {  
+        return this.each(function(){
+          this.parentNode.appendChild(this);
+        });
+      };
+      d3.selection.prototype.moveToBack = function() {  
+          return this.each(function() { 
+              var firstChild = this.parentNode.firstChild; 
+              if (firstChild) { 
+                  this.parentNode.insertBefore(this, firstChild); 
+              } 
+          });
+    };
       return chart
 
       
     }
 
     function init() {
-      el.datum(that.props.data)
+      chart.width(window.innerWidth).height(window.innerHeight)
+      
       weekstime()
-      el.call(chart)
-      resize()
-      weekstime()
+      
+      //resize()
       window.addEventListener('resize', resize)
       //graphic.select('.slider input').on('input', handleInput)
     }
@@ -266,38 +359,112 @@ export default class No1Weeks extends Component {
 
     function weekstime() {
       console.log("weekstime")
-      console.log(weekstime)
-      chart.scaleX(timeScale)
-      chart.scaleY(weeksScale)
-
+      chart.scaleX(timeScale, "time")
+      chart.scaleY(weeksScale, "weeks")
+      el.datum(formatWeeksData(that.props.rankingdata))
       line = d3.line()
-        .x(function(d) { console.log(d); return timeScale(dateParser(d['date'])); })
-        .y(function(d) { console.log(d); return weeksScale(d['weeks']); })
-        .curve(d3.curveStepBefore)
+        .x(function(d) { return timeScale(dateParser(d['date'])); })
+        .y(function(d) { return weeksScale(d['weeks']); })
+        //.curve(d3.curveStepBefore)
 
+      el.call(chart)
     }
     function weeksage() {
-      console.log("weeksage")
-      chart.scaleX(ageScale)
-      chart.scaleY(weeksScale)
 
+      console.log("weeksage")
+      chart.scaleX(ageScale, "age")
+      chart.scaleY(weeksScale, "weeks")
+      el.datum(formatWeeksData(that.props.rankingdata))
       line = d3.line()
-        .x(function(d) { console.log(d); return timeScale(dateParser(d['date'])); })
-        .y(function(d) { console.log(d); return ageScale(d['weeks']); });
+        .x(function(d) { return ageScale(d['age']); })
+        .y(function(d) { return weeksScale(d['weeks']); })
+
+      el.call(chart)
 
     }
 
     function slamstime() {
       console.log("slamstime")
-      chart.scaleX(timeScale)
-      chart.scaleY(slamsScale)
+      chart.scaleX(timeScale, "time")
+      chart.scaleY(slamsScale, "slams")
+      el.datum(formatSlamsData(that.props.slamdata))
+      line = d3.line()
+        .x(function(d) { console.log(d); console.log(timeScale(dateParser(d['date']))); return timeScale(dateParser(d['date'])); })
+        .y(function(d) { console.log(d); console.log(slamsScale(d['numslams'])); return slamsScale(d['numslams']); })
+        .curve(d3.curveStepAfter)
+      el.call(chart)
 
     }
 
     function slamsage() {
       console.log("slamsage")
-      chart.scaleX(ageScale)
-      chart.scaleY(slamsScale)
+      chart.scaleX(ageScale, "age")
+      chart.scaleY(slamsScale, "slams")
+      el.datum(formatSlamsData(that.props.slamdata))
+      line = d3.line()
+        .x(function(d) { console.log(d); console.log(ageScale(d['age'])); return ageScale(d['age']); })
+        .y(function(d) { console.log(d); console.log(slamsScale(d['numslams'])); return slamsScale(d['numslams']); })
+         .curve(d3.curveStepAfter)
+      el.call(chart)
+
+    }
+
+    function formatWeeksData(rankingdata) {
+      let formattedData = []
+      let data = d3.nest()
+          .key(function(d) { return d['player']; })
+          .entries(rankingdata)
+
+      for (let i = 0; i < data.length; i++) {
+        let outputArray = []
+        for (let j = 0; j < data[i].values.length; j++) {
+          let obj = data[i].values[j]
+          let ageBefore = (dateParser(obj['startdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+          let ageAfter = (dateParser(obj['enddate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+          outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['startdate'], 'weeks': obj['total'] - obj['consecutive'], 'age': ageBefore})
+          outputArray.push({'country': obj['country'], 'player': obj['player'], 'birthday': obj['birthday'], 'retired': obj['retired'], 'date': obj['enddate'], 'weeks': obj['total'], 'age': ageAfter})
+        }
+        formattedData.push({'key': data[i].key, values: outputArray})
+      }
+      console.log(formattedData)
+      return formattedData
+
+    }
+
+    function formatSlamsData(slamdata) {
+      console.log(slamdata)
+      let formattedData = []
+      let data = d3.nest()
+          .key(function(d) { return d['player']; })
+          .entries(slamdata)
+
+      for (let i = 0; i < data.length; i++) {
+        let outputArray = []
+        for (let j = 0; j < data[i].values.length; j++) {
+          let obj = data[i].values[j]
+          if (obj['date'] == "") {
+            console.log(obj)
+            let age = (dateParser(obj['slamdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+            console.log(age)
+            obj['numslams'] = j + 1
+            obj['age'] = age
+            obj['date'] = obj['slamdate']
+            let objBefore = _.clone(obj)
+            objBefore['numslams'] = j
+            outputArray.push(objBefore)
+            outputArray.push(obj)
+          } else {
+            let age = (dateParser(obj['slamdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
+            obj['age'] = age
+            outputArray.push(obj)
+          }
+          
+        }
+        formattedData.push({'key': data[i].key, values: outputArray})
+      }
+
+
+      return formattedData;
 
     }
 

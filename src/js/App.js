@@ -43,8 +43,8 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv", "data/slamdata.tsv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4, this.type5];
     var csvPattern = new RegExp(".csv$")
     //var tsvPattern = 
     Promise.all(files.map((url,i) => {
@@ -54,7 +54,7 @@ class App extends Component {
          return d3.tsv(url, types[i].bind(this))
       }
     })).then(values => {
-
+      console.log(values[8])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],
@@ -65,6 +65,7 @@ class App extends Component {
         servedirectiondata: values[5],
         serenamatches: values[6],
         weeksat1: values[7],
+        slamdata: values[8],
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -108,8 +109,16 @@ class App extends Component {
     d['total'] = +d['total']
     return d
   }
+
+  type5(d) {
+    var monthDict = {'Australian Open' : "Jan 29", "French Open" : "Jun 11", "Wimbledon" : "Jul 16", "US Open" : "Sep 10"}
+    d['player'] = d['player'].replace(/ *\([^)]*\) */g, "")
+    console.log(d['date'])
+    d['slamdate'] = d['date'] == "" ? `${monthDict[d['slam']]}, ${d['year']}` : d['date']
+    return d
+  }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1} = this.state
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1, slamdata} = this.state
     var rivalries, servestats, servedirection, input, goat
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
@@ -119,7 +128,7 @@ class App extends Component {
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
       servedirection = <ServeDirection data={servedirectiondata} />
       input = <Input data={serenamatches} />
-      goat = <No1Weeks rankingdata={weeksat1} />
+      goat = <No1Weeks rankingdata={weeksat1} slamdata={slamdata}/>
           
     } else {
       rivalries = <div></div>
@@ -349,7 +358,7 @@ class App extends Component {
              
             </div>
             <h2> Serve Direction</h2>
-            <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
+            <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is on serve. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
             <div className='graphic' id='graphic4'>
               <div className="viz" id="viz4">
                 {servedirection}
@@ -389,6 +398,7 @@ class App extends Component {
                 {goat}
               </div>
               <div className='sections' id='sections5'>
+      
                 <section className="step">
                   <p className="prose">WEEKS at no. 1 over time </p>                 
                 </section>

@@ -525,7 +525,7 @@
 h2 {
   font-family: "Source Sans Pro";
   font-weight: 700;
-  font-size: 5vw;
+  font-size: 3vw;
   text-align: center;
   max-width: 800px;
   display: block;
@@ -672,6 +672,10 @@ h2 {
 .player-line {
   fill: none;
   stroke: black;
+}
+
+.player-line:hover {
+  stroke: orange;
 }
 @media only screen and (max-width: 1107px) { 
   .title-container {
