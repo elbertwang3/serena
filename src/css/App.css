@@ -671,22 +671,59 @@ h2 {
 
 .player-line {
   fill: none;
-  stroke: black;
+
 }
 
-.player-line:hover {
-  stroke: orange;
-}
 
 .city--hover {
-  stroke: #000;
-  stroke-width: 3px;
+  stroke-width: 5px;
 }
 
 .voronoi {
   fill: none;
-  /*stroke: black;*/
+  /*stroke: #d3d3d3;*/
   pointer-events: all;
+
+}
+
+.voronoi:hover {
+  cursor: pointer;
+}
+.goatcontainer {
+  display: block;
+  margin: 0 auto;
+}
+
+#viz5 {
+
+
+}
+.no1svg {
+  display: block;
+  margin: 0 auto;
+
+}
+
+.name-anno-g {
+  pointer-events: none;
+}
+.name-anno {
+  font-family: "Roboto";
+  font-size: 12px;
+}
+
+.name-anno-name{
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.no1svg .axis__label {
+  font-family: "Roboto";
+}
+
+.no1svg .tick text {
+  font-family: "Roboto";
 }
 
 .voronoi--show path {

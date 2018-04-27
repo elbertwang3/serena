@@ -54,7 +54,7 @@ export default class No1Weeks extends Component {
       //{country: d['country'], d['player']: d['player'], d['birthday']: d['birthday'], d['retired']: d['retired'], d['date']: d['enddate'], d['weeks']: d['total']}]
 
     })*/
-    let xCut = "time"
+    let xCut = "date"
     let yCut = "weeks"
     const chart = linechart()
     const el = d3.select('.goatcontainer')
@@ -123,13 +123,14 @@ export default class No1Weeks extends Component {
       function enter({ container, data }) {
         console.log(data)
         const svg = container.selectAll('svg').data([data])
-        const svgEnter = svg.enter().append('svg')
+        const svgEnter = svg.enter().append('svg').attr("class", "no1svg")
         const gEnter = svgEnter.append('g')
         const axis = gEnter.append('g').attr('class', 'g-axis')
         const xAxis = axis.append('g').attr('class', 'x-axis')
         const yAxis = axis.append('g').attr("class", 'y-axis')
         const playerLines = gEnter.append('g').attr("class", 'player-lines')
         const voronoiLines = gEnter.append('g').attr("class", 'voronoi-lines')
+        const nameAnnos = gEnter.append('g').attr("class", 'name-annos')
 
         xAxis.append('text').attr('class', 'axis__label')
           .attr('text-anchor', 'middle')
@@ -190,6 +191,8 @@ export default class No1Weeks extends Component {
           .domain([d3.min(data, array => d3.min(array.values, d => d['age'])), d3.max(data, array => d3.max(array.values, d => d['age']))])
           .range([0, chartWidth])
 
+        voronoi
+        .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
 
       }
 
@@ -219,29 +222,36 @@ export default class No1Weeks extends Component {
           .enter()
           .append("path")
         .merge(playerline)
-          /*.on("mouseover", function(d) {
-            d3.select(this).moveToFront()
-            console.log(d['key'])
-            return d
-          })*/
           .transition()
           .duration(1000)
           .attrTween("d", (d, i, nodes) => {
             d.line = nodes[i];
-            console.log(d)
             var previous = d3.select(nodes[i]).attr('d');
             var current = line(d.values);
             return interpolatePath(previous, current);
           }) 
           .attr("class", d => {
-            console.log(d)
-            return `player-line ${d['key'].replace(/ +/g, '-')}`
+            return `player-line ${d['key'].replace(/[.,\/#!$%\^&\*;:{}'=\-_`~()]/g,"").replace(/ +/g, '-')}`
           })
+          .attr("stroke", (d,i,nodes) => {
+            if (d.values[0]['retired'] == 'T') {
+              return '#a9a9a9'
+            } else if (d.values[0]['player'] == 'Serena Williams') {
+              return '#5171BC'
+            } else {
+               d3.select(nodes[i]).moveToFront()
+              return '#FF8A4F'
+            }   
+          })
+          .attr("opacity", d => d['key'] == 'Serena Williams' ? 1 : 0.5)
+          .attr("stroke-width", d => d['key'] == 'Serena Williams' ? "4px" : "2px")
 
         console.log(data)
         const voronoiLines = g.select(".voronoi-lines")
         const voronoiLine = voronoiLines.selectAll("path")
           .data(voronoi.polygons(d3.merge(data.map(function(d) { return d.values; }))))
+
+        voronoiLine.exit().remove()
 
         voronoiLine
           .enter()
@@ -251,24 +261,241 @@ export default class No1Weeks extends Component {
             return d ? "M" + d.join("L") + "Z" : null;
           })
           .on("mouseover",  function(d) {
-             console.log(`mousing over ${d.data['player']}`)
-            console.log(d)
-            let line = d3.select(`.player-line.${d.data['player'].replace(/ +/g, '-')}`)
-            console.log(line)
+            const mouseoverdata = d
+            console.log(`mousing over ${d.data['player']}`)
+            let line = d3.select(`.player-line.${d.data['player'].replace(/[.,\/#!$%\^&\*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
             line.classed("city--hover", true);
+            line.moveToFront()
             //line.parentNode.appendChild(line);
             //d3.select(".focus").attr("transform", "translate(" + currXScale(d.data.date) + "," + currYScale(d.data.value) + ")")
             //d3.select(".focus").select("text").text(d.data.city.name);  
+            d3.selectAll(".player-line").attr("opacity", 0.25)
+            line.attr("opacity", 1)
+
+
+
+            const lineLength = line.node().getTotalLength()
+            const topPt = line.node().getPointAtLength(lineLength)
+
+            d3.select(".name-anno-g").remove()
+            const nameAnno = d3.select(".name-annos").selectAll(".name-anno-g")
+              .data(data.filter(d => d['key'] == mouseoverdata.data['player']))
+            nameAnno.exit().remove()
+            const annoG = nameAnno
+              .enter()
+              .append("g")
+            .merge(nameAnno)
+              .attr("class", "name-anno-g")
+
+            annoG
+              .append("text")
+              .text(d => d['key'])
+              .attr("x", d => {
+                return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                return currYScale(d.values[d.values.length - 1][yCut]) + 0
+              })
+              .attr("class", "name-anno-name")
+              .attr("text-anchor", "end")
+
+            const datum = line.datum()
+            annoG
+              .append("text")
+              .text(d => {
+                if (yCut == 'numslams') {
+
+                  return d.values[datum.values.length - 1].numslams == 1 ?  `${d.values[d.values.length - 1].numslams} slam` :  `${d.values[datum.values.length - 1].numslams} slams`
+                } else {
+                  return d.values[datum.values.length - 1].weeks == 1 ?  `${d.values[d.values.length - 1].weeks} week` :  `${d.values[datum.values.length - 1].weeks} weeks`
+                }
+              })
+              .attr("x", d => {
+                return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                return currYScale(d.values[d.values.length - 1][yCut]) + 15
+              })
+              .attr("class", "name-anno")
+              .attr("text-anchor", "end")
+
+
+
+
           })
             
           .on("mouseout", function(d) {
-            console.log(`mousing out of ${d.data['player']}`)
-              let line = d3.select(`.player-line.${d.data['player'].replace(/ +/g, '-')}`)
+            console.log("mousing out")
+              d3.select(".name-anno-g").remove()
+              const nameAnno = d3.select(".name-annos").selectAll(".name-anno-g")
+              .data(data.filter(d => d['key'] == 'Serena Williams'))
+            nameAnno.exit().remove()
+            const annoG = nameAnno
+              .enter()
+              .append("g")
+            .merge(nameAnno)
+              .attr("class", "name-anno-g")
+
+            annoG
+              .append("text")
+              .text(d => d['key'])
+              .attr("x", d => {
+                 return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                return currYScale(d.values[d.values.length - 1][yCut]) + 0
+              })
+              .attr("class", "name-anno-name")
+              .attr("text-anchor", "end")
+
+      
+            annoG
+              .append("text")
+              .text(d => {
+                if (yCut == 'numslams') {
+
+                  return d.values[d.values.length - 1].numslams == 1 ? `${d.values[d.values.length - 1].numslams} slam` :  `${d.values[d.values.length - 1].numslams} slams`
+                } else {
+                  return d.values[d.values.length - 1].weeks == 1 ?  `${d.values[d.values.length - 1].weeks} week` :  `${d.values[d.values.length - 1].weeks} weeks`
+                }
+              })
+              .attr("x", d => {
+               
+                return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                return currYScale(d.values[d.values.length - 1][yCut]) + 15
+              })
+              .attr("class", "name-anno")
+              .attr("text-anchor", "end")
+
+              d3.selectAll('.player-line').filter(d => d['retired'] == 'F').moveToFront()
+              d3.selectAll('.player-line.Serena-Williams').moveToFront()
+              d3.select(".x-axis").select(".domain").moveToFront()
+
+              let line = d3.select(`.player-line.${d.data['player'].replace(/[.,\/#!$%\^&\*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
             line.classed("city--hover", false);
+            d3.selectAll(".player-line").attr("opacity", d => d['key'] == 'Serena Williams' ? 1 : 0.25)
             //d3.select(".focus").attr("transform", "translate(-100,-100)");
           })
           .attr("class", "voronoi")
+
+        d3.selectAll('.player-line').filter(d => d['retired'] == 'F').moveToFront()
+
+        d3.selectAll('.player-line.Serena-Williams').moveToFront()
+        d3.select(".x-axis").select(".domain").moveToFront()
+
+        console.log(lines)
+        /*const serenaline = lines.selectAll('.player-line')
+        console.log(serenaline)
+        const lineLength = serenaline.node().getTotalLength()
+        const topPt = serenaline.node().getPointAtLength(lineLength)*/
+        const nameAnno = d3.select(".name-annos").selectAll(".name-anno-g")
+              .data(data.filter(d => d['key'] == 'Serena Williams'))
+            nameAnno.exit().remove()
+            const annoG = nameAnno
+              .enter()
+              .append("g")
+            .merge(nameAnno)
+              .attr("class", "name-anno-g")
+
+            annoG
+              .append("text")
+              .text(d => d['key'])
+              .attr("x", d => {
+                 return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                return currYScale(d.values[d.values.length - 1][yCut]) + 0
+              })
+              .attr("class", "name-anno-name")
+              .attr("text-anchor", "end")
+
+      
+            annoG
+              .append("text")
+              .text(d => {
+                if (yCut == 'numslams') {
+
+                  return d.values[d.values.length - 1].numslams == 1 ? `${d.values[d.values.length - 1].numslams} slam` :  `${d.values[d.values.length - 1].numslams} slams`
+                } else {
+                  return d.values[d.values.length - 1].weeks == 1 ?  `${d.values[d.values.length - 1].weeks} week` :  `${d.values[d.values.length - 1].weeks} weeks`
+                }
+              })
+              .attr("x", d => {
+                console.log(xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30)
+            
+                return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 30 : currXScale(d.values[d.values.length - 1][xCut]) - 30
+              })
+              .attr("y", d => {
+                console.log(currYScale(d.values[d.values.length - 1][yCut]) + 15)
+                return currYScale(d.values[d.values.length - 1][yCut]) + 15
+              })
+              .attr("class", "name-anno")
+              .attr("text-anchor", "end")
+
          
+
+        /*const nameAnnos = g.select(".name-annos")
+        console.log(yCut)
+        if (yCut == 'numslams') {
+
+          const nameAnno = nameAnnos.selectAll(".name-anno")
+            .data(data.filter(d => {
+              console.log(d.values)
+              
+              return d.values.length > 8
+            }), d => d['key'])
+          nameAnno.exit().remove()
+
+          nameAnno
+            .enter()
+            .append("text")
+          .merge(nameAnno)
+            .text(d => d['key'])
+            .transition()
+            .duration(1000)
+            .attr("x", d => {
+              console.log(xCut)
+              console.log(d.values[d.values.length - 1][xCut])
+
+              return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 10 : currXScale(d.values[d.values.length - 1][xCut]) - 10
+            })
+            .attr("y", d => {
+              return currYScale(d.values[d.values.length - 1][yCut]) + 10
+            })
+            .attr("class", "name-anno")
+            .attr("text-anchor", "end")
+        } else {
+          const nameAnno = nameAnnos.selectAll(".name-anno")
+            .data(data.filter(d => {
+              console.log(d)
+              console.log(d.values[d.values.length - 1]['weeks'])
+              return d.values[d.values.length - 1]['weeks'] > 200
+            }), d => d['key'])
+
+
+          console.log(nameAnnos)
+          nameAnno.exit().remove()
+          nameAnno
+            .enter()
+            .append("text")
+          .merge(nameAnno)
+            .text(d => d['key'])
+            .transition()
+            .duration(1000)
+            .attr("x", d => {
+              console.log(xCut)
+              console.log(d.values[d.values.length - 1][xCut])
+
+              return xCut == 'date' ? currXScale(dateParser(d.values[d.values.length - 1][xCut])) - 10 : currXScale(d.values[d.values.length - 1][xCut]) - 10
+            })
+            .attr("y", d => {
+              return currYScale(d.values[d.values.length - 1][yCut]) + 10
+            })
+            .attr("class", "name-anno")
+            .attr("text-anchor", "end")
+        }*/
 
 
 
@@ -311,7 +538,7 @@ export default class No1Weeks extends Component {
         y.select('.axis__label')
           .attr('transform', `translate(${-margin.left/2}, ${chartHeight/2}) rotate(-90)`)
 
-        x.select(".domain").remove()
+        //x.select(".domain").remove()
         y.select(".domain").remove()
         //x.selectAll(".tick").append("")
         y.selectAll(".tick")
@@ -411,7 +638,7 @@ export default class No1Weeks extends Component {
 
     function weekstime() {
       console.log("weekstime")
-      chart.scaleX(timeScale, "time")
+      chart.scaleX(timeScale, "date")
       chart.scaleY(weeksScale, "weeks")
       el.datum(formatWeeksData(that.props.rankingdata))
       line = d3.line()
@@ -438,7 +665,7 @@ export default class No1Weeks extends Component {
         .y(function(d) { return weeksScale(d['weeks']); })
         .curve(d3.curveLinear)
 
-      voronoi = d3.voronoi()
+      voronoi
         .x(function(d) { return ageScale(d['age']); })
         .y(function(d) { return weeksScale(d['weeks']); })
         .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
@@ -449,15 +676,15 @@ export default class No1Weeks extends Component {
 
     function slamstime() {
       console.log("slamstime")
-      chart.scaleX(timeScale, "time")
-      chart.scaleY(slamsScale, "slams")
+      chart.scaleX(timeScale, 'date')
+      chart.scaleY(slamsScale, "numslams")
       el.datum(formatSlamsData(that.props.slamdata))
       line = d3.line()
         .x(function(d) { return timeScale(dateParser(d['date'])); })
         .y(function(d) { return slamsScale(d['numslams']); })
         .curve(d3.curveStepAfter)
 
-      voronoi = d3.voronoi()
+      voronoi
         .x(function(d) { return timeScale(dateParser(d['date'])); })
         .y(function(d) { return slamsScale(d['numslams']); })
         .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
@@ -468,14 +695,14 @@ export default class No1Weeks extends Component {
     function slamsage() {
       console.log("slamsage")
       chart.scaleX(ageScale, "age")
-      chart.scaleY(slamsScale, "slams")
+      chart.scaleY(slamsScale, "numslams")
       el.datum(formatSlamsData(that.props.slamdata))
       line = d3.line()
         .x(function(d) { return ageScale(d['age']); })
         .y(function(d) { return slamsScale(d['numslams']); })
         .curve(d3.curveStepAfter)
 
-      voronoi = d3.voronoi()
+      voronoi
         .x(function(d) { return ageScale(d['age']); })
         .y(function(d) { return slamsScale(d['numslams']); })
         .extent([[-margin.left, -margin.top], [chartWidth + margin.right, chartHeight + margin.bottom]]);
@@ -520,11 +747,11 @@ export default class No1Weeks extends Component {
             console.log(obj)
             let age = (dateParser(obj['slamdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
             console.log(age)
-            obj['numslams'] = j + 1
+            obj['numslams'] = j
             obj['age'] = age
             obj['date'] = obj['slamdate']
             let objBefore = _.clone(obj)
-            objBefore['numslams'] = j
+            objBefore['numslams'] = j - 1
             outputArray.push(objBefore)
             outputArray.push(obj)
           } else {
@@ -541,7 +768,15 @@ export default class No1Weeks extends Component {
       return formattedData;
 
     }
-
+    var entityMap = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': '&quot;',
+      "'": '\'',
+      "/": '&#x2F;'
+    };
+   
     window.addEventListener('scroll', (event) => {
       const divRect = ReactDOM.findDOMNode(this).parentNode.parentNode.getBoundingClientRect();
       const topoffset = divRect.top + window.pageYOffset

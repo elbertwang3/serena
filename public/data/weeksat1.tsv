@@ -27,11 +27,11 @@ YUG	Monica Seles (2)	Aug 12, 1991	Aug 18, 1991	1	22	19731202	T
 GER	Steffi Graf (3)	Aug 19, 1991	Sep 8, 1991	3	190	19690614	T
 YUG	Monica Seles (3)	Sep 9, 1991	Jun 6, 1993	91	113	19731202	T
 GER	Steffi Graf (4)	Jun 7, 1993	Feb 5, 1995	87	277	19690614	T
-ESP	Arantxa Sánchez Vicario	Feb 6, 1995	Feb 19, 1995	2	2	19711218	T
+ESP	Arantxa Sanchez Vicario	Feb 6, 1995	Feb 19, 1995	2	2	19711218	T
 GER	Steffi Graf (5)	Feb 20, 1995	Feb 26, 1995	1	278	19690614	T
-ESP	Arantxa Sánchez Vicario (2)	Feb 27, 1995	Apr 9, 1995	6	8	19711218	T
+ESP	Arantxa Sanchez Vicario (2)	Feb 27, 1995	Apr 9, 1995	6	8	19711218	T
 GER	Steffi Graf (6)	Apr 10, 1995	May 14, 1995	5	283	19690614	T
-ESP	Arantxa Sánchez Vicario (3)	May 15, 1995	Jun 11, 1995	4	12	19711218	T
+ESP	Arantxa Sanchez Vicario (3)	May 15, 1995	Jun 11, 1995	4	12	19711218	T
 GER	Steffi Graf (7)	Jun 12, 1995	Aug 14, 1995	9	292	19690614	T
 GER	Steffi Graf (7)	Aug 15, 1995	Nov 3, 1996	64	356	19690614	T
 YUG	Monica Seles (4)	Aug 15, 1995	Nov 3, 1996	64	177	19731202	T
@@ -61,23 +61,23 @@ BEL	Kim Clijsters	Aug 11, 2003	Oct 19, 2003	10	10	19830608	T
 BEL	Justine Henin	Oct 20, 2003	Oct 26, 2003	1	1	19820601	T
 BEL	Kim Clijsters (2)	Oct 27, 2003	Nov 9, 2003	2	12	19830608	T
 BEL	Justine Henin (2)	Nov 10, 2003	Sep 12, 2004	44	45	19820601	T
-FRA	Amélie Mauresmo	Sep 13, 2004	Oct 17, 2004	5	5	19790705	T
+FRA	Amelie Mauresmo	Sep 13, 2004	Oct 17, 2004	5	5	19790705	T
 USA	Lindsay Davenport (6)	Oct 18, 2004	Aug 21, 2005	44	82	19760608	T
 RUS	Maria Sharapova	Aug 22, 2005	Aug 28, 2005	1	1	19870419	F
 USA	Lindsay Davenport (7)	Aug 29, 2005	Sep 11, 2005	2	84	19760608	T
 RUS	Maria Sharapova (2)	Sep 12, 2005	Oct 23, 2005	6	7	19870419	F
 USA	Lindsay Davenport (8)	Oct 24, 2005	Jan 29, 2006	14	98	19760608	T
 BEL	Kim Clijsters (3)	Jan 30, 2006	Mar 19, 2006	7	19	19830608	T
-FRA	Amélie Mauresmo (2)	Mar 20, 2006	Nov 12, 2006	34	39	19790705	T
+FRA	Amelie Mauresmo (2)	Mar 20, 2006	Nov 12, 2006	34	39	19790705	T
 BEL	Justine Henin (3)	Nov 13, 2006	Jan 28, 2007	11	56	19820601	T
 RUS	Maria Sharapova (3)	Jan 29, 2007	Mar 18, 2007	7	14	19870419	F
 BEL	Justine Henin (4)	Mar 19, 2007	May 18, 2008	61	117	19820601	T
 RUS	Maria Sharapova (4)	May 19, 2008	Jun 8, 2008	3	17	19870419	F
 SRB	Ana Ivanovic	Jun 9, 2008	Aug 10, 2008	9	9	19871106	T
-SRB	Jelena Janković	Aug 11, 2008	Aug 17, 2008	1	1	19850228	F
+SRB	Jelena Jankovic	Aug 11, 2008	Aug 17, 2008	1	1	19850228	F
 SRB	Ana Ivanovic (2)	Aug 18, 2008	Sep 7, 2008	3	12	19871106	T
 USA	Serena Williams (2)	Sep 8, 2008	Oct 5, 2008	4	61	19810926	F
-SRB	Jelena Janković (2)	Oct 6, 2008	Feb 1, 2009	17	18	19850228	F
+SRB	Jelena Jankovic (2)	Oct 6, 2008	Feb 1, 2009	17	18	19850228	F
 USA	Serena Williams (3)	Feb 2, 2009	Apr 19, 2009	11	72	19810926	F
 RUS	Dinara Safina	Apr 20, 2009	Oct 11, 2009	25	25	19860427	T
 USA	Serena Williams (4)	Oct 12, 2009	Oct 25, 2009	2	74	19810926	F
@@ -95,7 +95,7 @@ USA	Serena Williams (7)	Jan 30, 2017	Mar 19, 2017	7	316	19810926	F
 GER	Angelique Kerber (2)	Mar 20, 2017	Apr 23, 2017	5	25	19880118	F
 USA	Serena Williams (8)	Apr 24, 2017	May 14, 2017	3	319	19810926	F
 GER	Angelique Kerber (3)	May 15, 2017	Jul 16, 2017	9	34	19880118	F
-CZE	Karolína Plíšková	Jul 17, 2017	Sep 10, 2017	8	8	19920321	F
+CZE	Karolina Pliskova	Jul 17, 2017	Sep 10, 2017	8	8	19920321	F
 ESP	Garbiñe Muguruza	Sep 11, 2017	Oct 8, 2017	4	4	19931008	F
 ROU	Simona Halep	Oct 9, 2017	Jan 28, 2018	16	16	19910927	F
 DEN	Caroline Wozniacki (3)	Jan 29, 2018	Feb 25, 2018	4	71	19900711	F
