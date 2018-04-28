@@ -8,9 +8,11 @@ import ServeBreak from './components/ServeBreak.js';
 import ServeDirection from './components/ServeDirection.js';
 import Input from './components/Input.js';
 import No1Weeks from './components/No1Weeks.js';
+import UnderPressure from './components/UnderPressure.js';
 import '../css/App.css';
 import * as d3 from 'd3';
 import compton2 from '../images/compton2.jpg';
+import * as _ from 'lodash';
 
 
 class App extends Component {
@@ -26,6 +28,8 @@ class App extends Component {
       servedirectiondata: null,
       serenamatches: null,
       weeksat1: null,
+      topplayers: null,
+      topmatches: null,
     };
 
   }
@@ -43,8 +47,8 @@ class App extends Component {
         }
       )
     }) */ 
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv", "data/slamdata.tsv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4, this.type5];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv", "data/slamdata.tsv", "data/topplayers.csv", "data/topmatches.csv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4, this.type5, this.type, this.type];
     var csvPattern = new RegExp(".csv$")
     //var tsvPattern = 
     Promise.all(files.map((url,i) => {
@@ -54,7 +58,8 @@ class App extends Component {
          return d3.tsv(url, types[i].bind(this))
       }
     })).then(values => {
-      console.log(values[8])
+      console.log(values[9])
+      console.log(values[10])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],
@@ -66,6 +71,8 @@ class App extends Component {
         serenamatches: values[6],
         weeksat1: values[7],
         slamdata: values[8],
+        topplayers: values[9],
+        topmatches: values[10]
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -117,8 +124,8 @@ class App extends Component {
     return d
   }
   render() {
-    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1, slamdata} = this.state
-    var rivalries, servestats, servedirection, input, goat
+    const {venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1, slamdata, topplayers, topmatches} = this.state
+    var rivalries, servestats, servedirection, input, goat, pressure
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
              <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
@@ -128,6 +135,7 @@ class App extends Component {
       servedirection = <ServeDirection data={servedirectiondata} />
       input = <Input data={serenamatches} />
       goat = <No1Weeks rankingdata={weeksat1} slamdata={slamdata}/>
+      pressure = <UnderPressure players={topplayers} matches={topmatches} />
           
     } else {
       rivalries = <div></div>
@@ -135,8 +143,12 @@ class App extends Component {
       servedirection = <div></div>
       input = null
       goat = null
+      pressure = null
     }
-    
+    const serveTemplate = _.range(1,30).map((i) => 
+    <section className="smallerstep" key={i}>
+      <p className="prose"></p>                 
+    </section>)
     return (
       /*<div className="App">
         <header className="App-header">
@@ -203,135 +215,8 @@ class App extends Component {
                 <ServeAnimation />
               </div>
               <div className='sections' id='sections3'>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose">hi</p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
-                <section className="smallerstep">
-                  <p className="prose"></p>                 
-                </section>
+
+                {serveTemplate}
               </div>
              
             </div>
@@ -356,7 +241,7 @@ class App extends Component {
               </div>
              
             </div>
-            <h2> Serve Direction</h2>
+            <h2> Hitting Her Spots</h2>
             <p className="prose">Yet speed doesn't tell the whole story. Plenty of players can serve fast, but they aren't nearly as successful as Serena is on serve. One difference is that Serena hits her spots on her serve. On first serves, she rarely serves in the middle of the box, most wide or up the T.</p>
             <div className='graphic' id='graphic4'>
               <div className="viz" id="viz4">
@@ -383,6 +268,30 @@ class App extends Component {
             <h2> Dominating on Serve and Return </h2>
             <p className="prose">Her powerful serve translates into higher % of serve points won and % break points saved. When she's down break point she can easily erase it with an ace, and she can make quick work of her service games when she's in a rhythm, ending points quickly. This has been the key to her success.</p>
             {servestats}
+            <h2> Keeping Points Short </h2>
+            <h2> Under Pressure </h2>
+            <div className='graphic' id='graphic6'>
+              <div className="viz" id="viz6">
+                {pressure}
+              </div>
+              <div className='sections' id='sections6'>
+      
+                <section className="step">
+                  <p className="prose">win-loss </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">3 set win-loss </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">down first set win-loss </p>                 
+                </section>
+                <section className="step">
+                  <p className="prose">tiebreak win-loss</p>           
+                </section>
+            
+              </div>
+             
+            </div>
             <h2> Serena's Rivals </h2>
             <p className="prose">While the men's tour has been dominated by the Big 4, the WTA does not have such an equivalent. Serena is in a league of her own. Still, throughout the years Serena has had her share of rivals, with her sister Venus being her main one for all these years. In the beginning, Venus was supposed to be the bigger star, but father Richard knew that Serena would be better. </p>
             {rivalries}

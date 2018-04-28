@@ -525,7 +525,7 @@
 h2 {
   font-family: "Source Sans Pro";
   font-weight: 700;
-  font-size: 3vw;
+  font-size: 6vw;
   text-align: center;
   max-width: 800px;
   display: block;
@@ -720,10 +720,17 @@ h2 {
 
 .no1svg .axis__label {
   font-family: "Roboto";
+  font-size: 14px;
 }
 
 .no1svg .tick text {
   font-family: "Roboto";
+
+}
+
+.no1svg .tick line {
+}
+.no1svg .x-axis .domain {
 }
 
 .voronoi--show path {
