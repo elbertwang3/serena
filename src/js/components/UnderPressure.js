@@ -10,9 +10,9 @@ export default class UnderPressure extends Component {
   constructor(props){
 
     super(props);
-   
 
-    
+
+
 
     this.state = {
 
@@ -21,10 +21,15 @@ export default class UnderPressure extends Component {
 
     componentDidMount() {
     	const that = this
-    	const {players, matches} = this.props
+    	const {data} = this.props
+      console.log(data)
 
-    	console.log(players)
-    	console.log(matches)
+
+
+
+
+
+
 
     	console.log(ReactDOM.findDOMNode(this))
     	window.addEventListener('scroll', (event) => {
@@ -43,9 +48,9 @@ export default class UnderPressure extends Component {
 	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
 	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
 	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
-	      } 
-	      
-	  
+	      }
+
+
 	    })
 
     	function winloss() {
@@ -75,27 +80,27 @@ export default class UnderPressure extends Component {
 	    var scroll = scroller()
 	      .container(d3.select('#graphic6'));
 
-	    scroll(d3.selectAll('#sections5 .step'), 'scroller6'); 
+	    scroll(d3.selectAll('#sections6 .step'), 'scroller6');
 
 
-	    
+
 
 	    scroll.on('active', function (index) {
 	      // highlight current step text
 	      d3.selectAll('#sections5 .step')
-	        .style('opacity', function (d, i) { 
+	        .style('opacity', function (d, i) {
 	          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
-	              return i === index ? 0.8 : 0.1; 
+	              return i === index ? 0.8 : 0.1;
 	          } else {
-	            return i === index ? 1 : 0.1; 
+	            return i === index ? 1 : 0.1;
 	          }
 	        });
 	        activate(index);
 
 	    })
-	    
+
 	    function activate(index) {
-	    
+
 	      that.setState({activeIndex: index});
 	      var sign = (that.state.activeIndex - that.state.lastIndex) < 0 ? -1 : 1;
 	      var scrolledSections = d3.range(that.state.lastIndex + sign, that.state.activeIndex + sign, sign);
@@ -107,9 +112,8 @@ export default class UnderPressure extends Component {
 
     }
 
-  
+
   render() {
   	return <div className="pressurecontainer"></div>
   }
 }
-
