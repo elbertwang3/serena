@@ -21,7 +21,7 @@ export default class UnderPressure extends Component {
 
     componentDidMount() {
     	const that = this
-      const margin = {top: 25, bottom: 25, right: 25, left: 150}
+      const margin = {top: 25, bottom: 25, right: 100, left: 150}
     	const {data} = this.props
 
       const chart = stackedbar()
@@ -107,6 +107,33 @@ export default class UnderPressure extends Component {
             .transition()
             .duration(1000)
             .attr("transform", d => `translate(0, ${playerScale(d['player'])})`)
+
+          const barpercent = barg.selectAll(".percent-anno")
+            .data(d => {
+              console.log(d)
+              switch(cut) {
+              case "total":
+                return [d['totalwin'] / d['total']]
+                break
+              case "three":
+                return [d['threesetwin'] / d['totalthreeset']]
+                break
+              case "down":
+                return [d['downasetwin'] / d['totaldownaset']]
+                break
+              case "tiebreak":
+                return [d['tiebreakwin'] / d['totaltiebreak']]
+                break
+              }
+            })
+          barpercent.exit().remove()
+          barpercent
+            .enter()
+            .append("text")
+            .text(d => d)
+            .attr("class", "percent-anno")
+            .attr("transform", `translate(${chartWidth+10}, 0)`)
+            .attr("text-anchor", "start")
 
           const bar = barg.selectAll(".stacked-bar")
             .data(d => {
