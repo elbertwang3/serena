@@ -124,12 +124,16 @@ class App extends Component {
   type6(d) {
     d['totalwin'] = +d['totalwin']
     d['totalloss'] = +d['totalloss']
+    d['total'] = +d['total']
     d['threesetwin'] = +d['threesetwin']
     d['threesetloss'] = +d['threesetloss']
+    d['totalthreeset'] = +d['totalthreeset']
     d['tiebreakwin'] = +d['tiebreakwin']
     d['tiebreakloss'] = +d['tiebreakloss']
+    d['totaltiebreak'] = +d['totaltiebreak']
     d['downasetwin'] = +d['downasetwin']
     d['downasetloss'] = +d['downasetloss']
+    d['totaldownaset'] = +d['totaldownaset']
     return d
   }
   render() {

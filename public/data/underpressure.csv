@@ -1,38 +1,23 @@
-player,totalwin,totalloss,threesetwin,threesetloss,tiebreakwin,tiebreakloss,downasetwin,downasetloss
-Steffi Graf,903,108,154,45,81,60,74,79
-Martina Navratilova,1231,150,176,80,135,63,82,111
-Chris Evert,880,111,126,38,53,32,75,84
-Serena Williams,775,141,148,56,104,52,89,85
-Monica Seles,595,125,103,46,70,53,59,94
-Justine Henin,463,104,101,55,70,44,55,69
-Martina Hingis,534,131,95,60,56,30,41,96
-Kim Clijsters,487,126,104,55,57,37,52,83
-Maria Sharapova,584,157,157,52,71,59,77,119
-Lindsay Davenport,737,194,156,79,101,72,75,125
-Gabriela Sabatini,619,185,112,58,66,54,46,152
-Tracy Austin,314,84,47,21,28,13,24,62
-Venus Williams,757,231,167,102,126,88,78,162
-Hana Mandlikova,505,177,108,57,73,46,59,130
-Na Li,366,164,93,67,65,49,50,119
-Victoria Azarenka,424,162,79,51,61,41,41,105
-Arantxa Sanchez Vicario,762,290,165,101,100,64,91,234
-Angelique Kerber,367,210,101,77,69,48,53,164
-Jana Novotna,527,207,118,91,70,74,63,150
-Amelie Mauresmo,493,194,134,80,92,66,81,131
-Caroline Wozniacki,561,232,139,76,86,78,74,169
-Conchita Martinez,712,296,148,104,87,60,73,225
-Jennifer Capriati,411,172,105,77,58,45,49,133
-Agnieszka Radwanska,536,239,104,98,72,62,51,183
-Pam Shriver,597,264,100,102,105,76,59,208
-Zina Garrison,585,268,130,94,86,61,60,215
-Petra Kvitova,360,175,104,71,71,51,54,136
-Simona Halep,304,146,82,43,38,49,44,112
-Mary Joe Fernandez,426,201,102,47,54,49,57,169
-Ana Ivanovic,438,223,97,84,76,62,46,165
-Jelena Jankovic,579,348,151,157,104,97,79,239
-Mary Pierce,479,227,93,65,74,61,42,173
-Elena Dementieva,505,250,153,93,90,66,82,188
-Dinara Safina,304,163,80,57,61,46,46,131
-Svetlana Kuznetsova,577,292,183,117,119,95,91,216
-Vera Zvonareva,442,224,110,79,73,66,57,170
-Helena Sukova,620,308,173,93,109,95,103,251
+player,totalwin,totalloss,total,threesetwin,threesetloss,totalthreeset,tiebreakwin,tiebreakloss,totaltiebreak,downasetwin,downasetloss,totaldownaset
+Steffi Graf,903,108,1011,154,45,199,81,60,141,74,79,153
+Martina Navratilova,1231,150,1381,176,80,256,135,63,198,82,111,193
+Chris Evert,880,111,991,126,38,164,53,32,85,75,84,159
+Serena Williams,775,141,916,148,56,204,104,52,156,89,85,174
+Monica Seles,595,125,720,103,46,149,70,53,123,59,94,153
+Justine Henin,463,104,567,101,55,156,70,44,114,55,69,124
+Martina Hingis,534,131,665,95,60,155,56,30,86,41,96,137
+Kim Clijsters,487,126,613,104,55,159,57,37,94,52,83,135
+Maria Sharapova,584,157,741,157,52,209,71,59,130,77,119,196
+Lindsay Davenport,737,194,931,156,79,235,101,72,173,75,125,200
+Tracy Austin,314,84,398,47,21,68,28,13,41,24,62,86
+Venus Williams,757,231,988,167,102,269,126,88,214,78,162,240
+Victoria Azarenka,424,162,586,79,51,130,61,41,102,41,105,146
+Arantxa Sanchez Vicario,762,290,1052,165,101,266,100,64,164,91,234,325
+Angelique Kerber,367,210,577,101,77,178,69,48,117,53,164,217
+Amelie Mauresmo,493,194,687,134,80,214,92,66,158,81,131,212
+Caroline Wozniacki,561,232,793,139,76,215,86,78,164,74,169,243
+Jennifer Capriati,411,172,583,105,77,182,58,45,103,49,133,182
+Simona Halep,304,146,450,82,43,125,38,49,87,44,112,156
+Ana Ivanovic,438,223,661,97,84,181,76,62,138,46,165,211
+Jelena Jankovic,579,348,927,151,157,308,104,97,201,79,239,318
+Dinara Safina,304,163,467,80,57,137,61,46,107,46,131,177

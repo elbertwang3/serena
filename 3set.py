@@ -75,6 +75,11 @@ with open('public/data/allmatches.csv', 'rb') as csvfile:
 
 		with open('public/data/underpressure.csv', 'wb') as csvfile3:
 			writer = csv.writer(csvfile3)
-			writer.writerow(['player', 'totalwin', 'totalloss', 'threesetwin', 'threesetloss', 'tiebreakwin', 'tiebreakloss', 'downasetwin', 'downasetloss'])
+			writer.writerow(['player', 'totalwin', 'totalloss', 'total', 'threesetwin', 'threesetloss', 'totalthreeset', 'tiebreakwin', 'tiebreakloss', 'totaltiebreak', 'downasetwin', 'downasetloss', 'totaldownaset'])
 			for player in players:
-				writer.writerow([player, newwinloss[player][0], newwinloss[player][1], newthreeset[player][0], newthreeset[player][1], newtiebreak[player][0], newtiebreak[player][1], newdownaset[player][0], newdownaset[player][1]])
+				#print str(int(newwinloss[player][0]) + int(newwinloss[player][1]))
+				writer.writerow([player,
+				newwinloss[player][0], newwinloss[player][1], int(newwinloss[player][0]) + int(newwinloss[player][1]),
+				newthreeset[player][0], newthreeset[player][1], int(newthreeset[player][0]) + int(newthreeset[player][1]),
+				newtiebreak[player][0], newtiebreak[player][1], int(newtiebreak[player][0]) + int(newtiebreak[player][1]),
+				newdownaset[player][0], newdownaset[player][1], int(newdownaset[player][0]) + int(newdownaset[player][1])])

@@ -572,7 +572,6 @@ export default class No1Weeks extends Component {
     }
 
     function formatWeeksData(rankingdata) {
-      console.log(rankingdata)
       let formattedData = []
       let data = d3.nest()
           .key(function(d) { return d['player']; })
