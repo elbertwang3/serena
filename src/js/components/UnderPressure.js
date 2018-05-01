@@ -39,6 +39,7 @@ export default class UnderPressure extends Component {
       let barHeight = 0
 
       function resize() {
+        console.log("resizing")
         //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
         const width = window.innerWidth
         const height = window.innerHeight
@@ -69,7 +70,8 @@ export default class UnderPressure extends Component {
           const players = data.map(d => d['player'])
           playerScale
             .domain(players)
-            .rangeRound([chartHeight, 0])
+            .rangeRound([0, chartHeight])
+            .paddingInner(0.1)
 
           percentScale
             .domain([0, 1])
@@ -84,39 +86,16 @@ export default class UnderPressure extends Component {
             .attr('height', height)
 
           barHeight = chartHeight/data.length
-          console.log(barHeight)
+
 
           const g = svg.select('g')
           g.attr('transform', translate(margin.left, margin.top))
 
           const bars = g.select(".stacked-bars")
-          console.log(cut)
-          const sortedData = data.sort((a, b) => {
-            switch(cut) {
-              case "total":
-                console.log("in total")
-                return a['totalwin']/a['total'] -  b['totalwin']/b['total']
-                break
-              case "three":
-                console.log("in three")
-                return a['threesetwin']/a['totalthreesetwin'] - b['threesetwin']/b['totalthreesetwin']
-                break
-              case "down":
-                console.log("down")
-                return a['downasetwin']/a['totaldownaset'] - b['downasetwin']/b['totaldownaset']
-                break
-              case "tiebreak":
-                console.log("tiebreak")
-                return a['tiebreakwin']/a['totaltiebreak'] - b['tiebreakwin']/b['totaltiebreak']
-                break
-              default:
-                return a['totalwin']/a['total'] - b['totalwin']/b['total']
-            }
-          })
-          console.log(sortedData)
+
 
           const barg = bars.selectAll(".stacked-bar-g")
-            .data(sortedData)
+            .data(data, d => d['player'])
 
           barg.exit().remove()
 
@@ -127,7 +106,7 @@ export default class UnderPressure extends Component {
             .attr("class", "stacked-bar-g")
             .transition()
             .duration(1000)
-            .attr("transform", d => `translate(0, ${playerScale(d['player']) + 1})`)
+            .attr("transform", d => `translate(0, ${playerScale(d['player'])})`)
 
           const bar = barg.selectAll(".stacked-bar")
             .data(d => {
@@ -154,7 +133,7 @@ export default class UnderPressure extends Component {
               .enter()
               .append("rect")
             .merge(bar)
-              .attr("height", barHeight - 2)
+              .attr("height", playerScale.bandwidth())
 
               .attr("y", 0)
               .transition()
@@ -168,7 +147,6 @@ export default class UnderPressure extends Component {
                 let total = i == 0 ? d + d3.select(nodes[i + 1]).data()[0] : d + d3.select(nodes[i - 1]).data()[0]
                 return percentScale(d/total)
               })
-              .attr("height", barHeight - 2)
               .attr("fill", (d, i) => i == 0 ? "blue" : "orange")
               .attr("class", "stacked-bar")
 
@@ -197,6 +175,7 @@ export default class UnderPressure extends Component {
                 .append("text")
               .merge(bartext)
                 .text(d => d)
+                .attr("transform", (d, i) => i == 0 ? "translate(0,0)" : `translate(${chartWidth}, 0)`)
                 .attr("text-anchor", (d, i) => i == 0 ? "start" : "end")
                 .attr("class", "stacked-bar-text")
 
@@ -292,7 +271,7 @@ export default class UnderPressure extends Component {
       }
       function init() {
         chart.width(window.innerWidth).height(window.innerHeight)
-        el.datum(that.props.data)
+
         winloss()
 
         //resize()
@@ -303,56 +282,45 @@ export default class UnderPressure extends Component {
       init()
 
 
-
-
-
-
-
-
-
-
-    	console.log(ReactDOM.findDOMNode(this))
-    	window.addEventListener('scroll', (event) => {
-	      const divRect = ReactDOM.findDOMNode(this).parentNode.parentNode.getBoundingClientRect();
-	      const topoffset = divRect.top + window.pageYOffset
-	      const bottomoffset = divRect.bottom + window.pageYOffset
-	      if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
-	      } else if (window.pageYOffset > bottomoffset - window.innerHeight) {
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", true)
-	      } else {
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
-	        d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
-	      }
-
-
-	    })
-
     	function winloss() {
         chart.cut("total")
+        const data = that.props.data.sort((a, b) => {
+          return (b['totalwin']/b['total']) -  (a['totalwin']/a['total'])
+        })
+        el.datum(data)
         el.call(chart)
 
     	}
 
     	function threesets() {
         chart.cut("three")
+        const data = that.props.data.sort((a, b) => {
+          return (b['threesetwin']/b['totalthreeset']) - (a['threesetwin']/a['totalthreeset'])
+        })
+        el.datum(data)
         el.call(chart)
+
+
+
 
     	}
 
     	function downaset() {
         chart.cut("down")
+        const data = that.props.data.sort((a, b) => {
+          return (b['downasetwin']/b['totaldownaset']) - (a['downasetwin']/a['totaldownaset'])
+        })
+        el.datum(data)
         el.call(chart)
 
     	}
 
     	function tiebreak() {
         chart.cut("tiebreak")
+        const data = that.props.data.sort((a, b) => {
+          return (b['tiebreakwin']/b['totaltiebreak']) - (a['tiebreakwin']/a['totaltiebreak'])
+        })
+        el.datum(data)
         el.call(chart)
 
     	}
@@ -362,8 +330,8 @@ export default class UnderPressure extends Component {
 	    }
 	    activateFunctions[0] = winloss;
 	    activateFunctions[1] = threesets;
-	    activateFunctions[2] = downaset;
-	    activateFunctions[3] = tiebreak;
+	    activateFunctions[2] = tiebreak;
+	    activateFunctions[3] = downaset;
 
 	    var scroll = scroller()
 	      .container(d3.select('#graphic6'));
@@ -397,6 +365,28 @@ export default class UnderPressure extends Component {
 	      });
 	      that.setState({lastIndex: that.state.activeIndex});
 	  	};
+
+      window.addEventListener('scroll', (event) => {
+        const divRect = ReactDOM.findDOMNode(this).parentNode.parentNode.getBoundingClientRect();
+        const topoffset = divRect.top + window.pageYOffset
+        const bottomoffset = divRect.bottom + window.pageYOffset
+        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
+        } else if (window.pageYOffset > bottomoffset - window.innerHeight) {
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", true)
+        } else {
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
+          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
+        }
+
+
+      })
+
 
     }
 

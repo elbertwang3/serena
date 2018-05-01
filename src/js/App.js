@@ -296,10 +296,10 @@ class App extends Component {
                   <p className="prose">3 set win-loss </p>
                 </section>
                 <section className="step">
-                  <p className="prose">down first set win-loss </p>
+                  <p className="prose">tiebreak </p>
                 </section>
                 <section className="step">
-                  <p className="prose">tiebreak win-loss</p>
+                  <p className="prose">downaset</p>
                 </section>
 
               </div>
