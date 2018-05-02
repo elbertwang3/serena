@@ -110,7 +110,7 @@ export default class UnderPressure extends Component {
 
           const barpercent = barg.selectAll(".percent-anno")
             .data(d => {
-              console.log(d)
+    
               switch(cut) {
               case "total":
                 return [d['totalwin'] / d['total']]
