@@ -51,7 +51,6 @@ class App extends Component {
     $('.onhover-toggle-child-class').on(
       'mouseenter mouseleave',
       function() {
-        console.log("getting in or out")
         var element = $(this);
         var selector = element.data('target');
         var child = element.find(selector);
@@ -71,8 +70,11 @@ class App extends Component {
         }
       )
     }) */
-    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv", "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv", "data/weeksat1.tsv", "data/slamdata.tsv", "data/underpressure.csv"];
-    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type, this.type4, this.type5, this.type6];
+    var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv",
+    "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv",
+    "data/weeksat1.tsv", "data/slamdata.tsv", "data/underpressure.csv", "data/servespeed.csv"];
+    var types = [this.type, this.type, this.type, this.type, this.type2, this.type3, this.type,
+      this.type4, this.type5, this.type6, this.type7];
     var csvPattern = new RegExp(".csv$")
     //var tsvPattern =
     Promise.all(files.map((url,i) => {
@@ -82,6 +84,7 @@ class App extends Component {
          return d3.tsv(url, types[i].bind(this))
       }
     })).then(values => {
+      console.log(values[10])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],
@@ -94,6 +97,7 @@ class App extends Component {
         weeksat1: values[7],
         slamdata: values[8],
         underpressure: values[9],
+        servespeed: values[10],
         }, () => {
           this.setState({renderReady: true})
           //this.createLineChart()
@@ -160,9 +164,14 @@ class App extends Component {
     d['totaldownaset'] = +d['totaldownaset']
     return d
   }
+
+  type7(d) {
+    d['speed'] = +d['speed'];
+    return d;
+  }
   render() {
-    const {images, venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1, slamdata, underpressure} = this.state
-    var rivalries, servestats, servedirection, input, goat, pressure
+    const {images, venusdata, mariadata, venusannotation, mariaannotation, renderReady, servedata, servedirectiondata, serenamatches, weeksat1, slamdata, underpressure, servespeed} = this.state
+    var rivalries, servestats, servedirection, input, goat, pressure, servegraphic
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
              <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
@@ -173,22 +182,22 @@ class App extends Component {
       input = <Input data={serenamatches} />
       goat = <No1Weeks rankingdata={weeksat1} slamdata={slamdata}/>
       pressure = <UnderPressure data={underpressure} />
+      servegraphic = <ServeGraphic data={servespeed}/>
 
-    } else {
+    } /*else {
       rivalries = <div></div>
       servestats = <div></div>
       servedirection = <div></div>
       input = null
       goat = null
       pressure = null
-    }
+      servegraphic = null
+    }*/
     const serveTemplate = _.range(1,33).map((i) =>
     <section className="smallerstep" key={i}>
       <p className="prose"></p>
     </section>)
 
-    console.log(images)
-    console.log(images['titles.jpg'])
     return (
       /*<div className="App">
         <header className="App-header">
@@ -232,26 +241,10 @@ class App extends Component {
                    <span className="absolute target hidden on-top">
                      <img src={images['titles.jpg']} alt="image" height="200"></img>
                    </span>
-                 </a> reads a shirt she wore during a press conference at Wimbledon in 2009. She has 23 Grand Slam titles, more than any man or woman
+                 </a> reads a shirt she wore during a press conference at Wimbledon in 2009. She has won 23 Grand Slam titles, more than any man or woman
                    in the open era. She has nothing left to prove, and yet she's back. This time, perhaps, it's to prove to herself
                    that she's still got it. That she's a mother now, but she's still a champion. That she can still win again, and again, and again.
-                 </p>
-                <p className="prose">
-
-                So why is she the greatest of all time? Let us count the ways.
-
-
-                he would go about doing that
-
-                He wrote
-
-
-                When should I get my kid on the court? “I feel like I started too early—at four years, six months, and one day,” he said. Better, he now thought, to let kids grow up; a more sensible age to start serious training, he said, would be six years old.
-
-
-
-                Once they were born, he put up signs in the family’s front yard to emphasize lessons about life (“Venus, You Must Take Control of Your Future”) and tennis (“Serena, You Must Learn to Use More Top Spin on the Ball”).
-              </p>
+                </p>
 
 
             <div className='graphic' id='graphic1'>
@@ -280,8 +273,8 @@ class App extends Component {
                 </section>
                 <section className="step">
                   <p className="prose">Shortly after, the family, including their three older sisters, relocated to Compton, California.
-                  Their journey began on the rough public tennis courts of East Compton Park, where they would often have to stop practice
-                  and duck when they heard gunshots. With weeds poking through and broken glass and beer bottles strewn about, the courts were a
+                  Their journey began on the rough public tennis courts of East Compton Park, where they once had to stop practice
+                  to duck for cover when they heard gunshots. With weeds poking through the ground and broken glass and beer bottles strewn around, the courts were a
                   far cry from the manicured lawns of Wimbledon's Centre Court.
                 </p>
                   <p className="prose">
@@ -293,35 +286,46 @@ class App extends Component {
                 </p>
                 </section>
                 <section className="step">
-                  <p className="prose">When Serena turned 9, the family moved to West Palm Beach, FL to attend Rick Macci tennis academy. While Macci and Williams sometimes clashed
-                    he pulled his daughter out of the junior circuit
-                    lamented that the best athletes aren't educated
-                    left tennis academy in 1995 and Richard coached them himself
-                    wanted them to focus on schoolwork and get an education
-                    clashed soon left </p>
+                  <p className="prose">When Serena turned 9, the family moved to West Palm Beach, FL
+                    to train at Rick Macci's tennis academy. Macci and Richard sometimes clashed, and in 1995,
+                    he pulled his daughters out of the academy, coaching them himself. He also took them out
+                    of the junior circuit, citing the intensity of the other parents and how time consuming it was.
+                  </p>
+                  <p className="prose">
+                    More important than tennis, Richard wanted Serena and Venus to receive and education and develop
+                    interests off the court as well. "When I look at young players on the tennis tour, it seems
+                    the better they are, the less education they have," he said. With the time they would have used
+                    preparing for junior tournaments, he sent them to private school and enrolled them in other activities.
+                    Through careful planning by Richard and mom Oracene, Serena and Venus have lasted on the tour well
+                    into their 30s and avoided burnout because they've balanced their time on and off the court. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Her very first WTA match was against Annie Miller in a qualifying round at the Bell Challenge in Quebec. She lost, 1-6, 1-6. While Miller retired 2 years later at 22,
-                    ,and lived a very ordinary life, Serena went on to something quite extraordinary. </p>
-                </section>
-                <section className="step">
-
+                  <p className="prose">On October 28, 1995, Serena played her very first pro match for a qualifying round
+                    at the Bell Challenge in Quebec against American Annie Miller. Serena lost, 1-6, 1-6.
+                  </p>
+                  <p className="prose">
+                    Asked to comment on the match years later, Miller said, smiling, "In my mind I had every shot of winning the match [because I had]
+                    a little more experience than she had at the time, so I played a good match, and won. I thought it was just another
+                    day at the tennis courts." While Miller left tennis a couple years later and sought out a normal life,
+                    Serena went on to accomplish something quite extraordinary.
+                  </p>
                 </section>
               </div>
 
             </div>
               <p className="prose">
-            So why is she the greatest of all time? Let us count the ways.
+            So why is Serena the greatest of all time? Let us count the ways.
             </p>
-            <h2> Serena's Weapon: Her Serve </h2>
-            <p className="prose"> While ATP players routinely dominate on serve and hold serve,
-              WTA players don't hold serve nearly as successfully due to weaker serves. Some of this discrepancy
-              has been attributed to physiological differences, but a NY Times found that it's a technical, not physiological
-              deficit.
-             The largest disparity found by Kibler between male and female professionals was in pushing off with
-             their back legs, which 75 percent of the men in the study did effectively compared with only 28 percent of the women.
-              Yet the serve is why Serena is so successful.
-              It allows her to get out of tight points, hold serve, end points early.
+
+            <p className="prose"> While ATP players routinely dominate their serve,
+              WTA players don't hold serve nearly as often due to their relatively weaker serves. Some of this discrepancy
+              has been attributed to physiological differences, but Dr. Ben Kibler, an orthopedic surgeon, found that it's
+              often a technical not physiological deficit. "The largest disparity found by Kibler between male and
+              female professionals was in pushing off with their back legs, which 75 percent of the men in the study
+              did effectively compared with only 28 percent of the women," a NY Times story found.
+
+              In the following graphic, you can see how Serena does a deep knee bend and before pushing off,
+              generating power not just from racquet speed but more importantly, her legs.
            </p>
             <div className='graphic' id='graphic3'>
               <div className="viz" id="viz3">
@@ -333,10 +337,10 @@ class App extends Component {
               </div>
 
             </div>
-            <h2> Serve Speed</h2>
             <div className='graphic' id='graphic2'>
               <div className="viz" id="viz2">
-                <ServeGraphic />
+
+                {servegraphic}
               </div>
               <div className='sections' id='sections2'>
                 <section className="step">
@@ -412,7 +416,10 @@ class App extends Component {
 
             </div>
             <h2> Serena's Rivals </h2>
-            <p className="prose">While the men's tour has been dominated by the Big 4, the WTA does not have such an equivalent. Serena is in a league of her own. Still, throughout the years Serena has had her share of rivals, with her sister Venus being her main one for all these years. In the beginning, Venus was supposed to be the bigger star, but father Richard knew that Serena would be better. </p>
+            <p className="prose">While the men's tour has been dominated by the Big 4 for the last decade, the
+              women's tour does not have an equivalent cohort of players. Serena is in a league of her own. Still,
+              throughout the years, Serena has had her share of rivals, with her sister Venus being her
+              fiercest one all these years.  </p>
             {rivalries}
             <h2> Search for a Head-to-Head </h2>
             <div className="finder">

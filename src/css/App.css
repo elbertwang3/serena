@@ -496,13 +496,13 @@
   display: block;
   margin: 0 auto;
 }
-.serve-graphic-svg {
+.servesvg {
   display: block;
   margin: 0 auto;
 }
 
 
-.serve-graphic-svg .arc {
+.servesvg .arc {
   stroke: #d3d3d3;
   fill: none;
 }

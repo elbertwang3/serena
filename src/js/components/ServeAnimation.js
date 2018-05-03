@@ -40,7 +40,6 @@ export default class ServeAnimation extends Component {
       console.log(window.pageYOffset)*/
       if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
         //console.log("fixed")
-				console.log("getting inside")
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
