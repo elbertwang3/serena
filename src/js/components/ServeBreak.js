@@ -11,7 +11,7 @@ export default class ServeBreak extends Component {
   constructor(props){
 
 	  super(props);
-	  this.chartRef = React.createRef(); 
+	  this.chartRef = React.createRef();
 	  this.elRef = React.createRef();
 
 	  this.handleChange = this.handleChange.bind(this);
@@ -24,7 +24,7 @@ export default class ServeBreak extends Component {
   }
 
   importAllFlags(r) {
- 
+
     let images = {};
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
     return images;
@@ -75,7 +75,7 @@ export default class ServeBreak extends Component {
 		}
 
 		function scatterplot() {
-			
+
 			const scaleX = d3.scaleLinear()
 			const scaleY = d3.scaleLinear()
 			const scaleR = d3.scaleSqrt()
@@ -99,7 +99,7 @@ export default class ServeBreak extends Component {
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg').attr("class", "servebreak-svg")
 		      	const gEnter = svgEnter.append('g')
-				
+
 				/*svgEnter.append("text")
 					.text("Serena on Serve")
 					.attr("text-anchor", "middle")
@@ -117,11 +117,14 @@ export default class ServeBreak extends Component {
 				x.append('text').attr('class', 'axis__label')
 					.attr('text-anchor', 'start')
 					.text('% serve points won')
-			
+
 
 				y.append('text').attr('class', 'axis__label')
 					.attr('text-anchor', 'end')
-					.text('% return points won')	
+					.text('% return points won')
+
+        console.log(chartWidth)
+
 
 
 			}
@@ -153,17 +156,49 @@ export default class ServeBreak extends Component {
 
 			function updateDom({ container, data }) {
 				const svg = container.select('svg')
-				
+
 				svg
 					.attr('width', width)
 					.attr('height', height)
+
+          /*const title = svg.selectAll(".chart-title")
+            .data([data])
+          title.exit().remove()
+
+          title
+            .enter()
+            .append("text")
+          .merge(title)
+    					.text("Dominating on Serve and Return")
+    					.attr("class", "chart-title")
+    					.attr("text-anchor", "start")
+              .attr("dy", "1.25em")
+    					.attr("x", 0)
+    					.attr("y", 0)
+              //.attr("transform", "translate(0, 40)")
+              .call(that.wrap, width)
+          const subtitle = svg.selectAll(".chart-subtitle")
+            .data([data])
+          subtitle.exit().remove()
+          subtitle
+            .enter()
+            .append("text")
+          .merge(subtitle)
+  					.text("Serena wins the most serve points by a large margin, and is not far behind leader Justin Henin on return")
+  					.attr("class", "chart-subtitle")
+  					.attr("text-anchor", "start")
+
+            .attr("dy", "1.25em")
+  					.attr("x", 0)
+  					.attr("y", svg.select(".chart-title").node().getBBox().height + 10)
+            .call(that.wrap, width)*/
 
 				/*svg.select(".title")
 					.attr("x", width/2)
 					.attr("y", 40)
 					.attr("class", "title")*/
 				const g = svg.select('g')
-				
+
 				const maxY = scaleY.range()[0]
 				const offsetX = chartWidth / 2
 				const offsetY = chartHeight - maxY
@@ -176,7 +211,7 @@ export default class ServeBreak extends Component {
 
 				const plot = g.select('.g-plot')
 				const serenaData = data.filter(d => d['winner_name'] == 'Serena Williams')[0]
-				
+
 				let xLine = plot.selectAll(".guide-line-x")
 					.data([serenaData])
 
@@ -194,7 +229,7 @@ export default class ServeBreak extends Component {
 
 				let yLine = plot.selectAll(".guide-line-y")
 					.data([serenaData])
-				
+
 				yLine
 					.enter()
 					.append("line")
@@ -207,10 +242,16 @@ export default class ServeBreak extends Component {
 					})
 					.attr("class", "guide-line-y")
 
+          /*const voronoi = d3.voronoi()
+            .x(d => scaleX(d['percent_servept_won']) - 7.5)
+            .y(d => scaleY(d['percent_returnpt_won']) - 7.5)
+            .size([plotAreaWidth, plotAreaHeight])(data);*/
+
+
 				const item = plot.selectAll('.item').data(d => d, d => d.winner_name)
-				
-			
-				
+
+
+
 				item.enter().append('svg:image')
 					.attr('class', 'item')
 					.attr("xlink:href", d => {
@@ -261,13 +302,13 @@ export default class ServeBreak extends Component {
 
 					})
 					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
-					.on("mouseout", function(){ 
+					.on("mouseout", function(){
 						/*xLine.attr("opacity", 0)
 						yLine.attr("opacity", 0)*/
 						tooltip.style("display", "none");
-						const d = serenaData 
+						const d = serenaData
 						console.log(d)
-							
+
 						 console.log("getting here2")
 						xLine = plot.selectAll(".guide-line-x")
 							.data([d])
@@ -294,8 +335,8 @@ export default class ServeBreak extends Component {
 							})
 					});
 
-				
-				
+
+
 			}
 
 			function updateAxis({ container, data }) {
@@ -307,7 +348,7 @@ export default class ServeBreak extends Component {
 				axisLeft.ticks(Math.max(0, Math.floor(weightY / 10)))
 				axisBottom.ticks(Math.max(0, Math.floor(weightX / 10)))
 				const x = axis.select('.axis--x')
-				
+
 				const maxY = scaleY.range()[0]
 				const offset = maxY
 
@@ -331,7 +372,7 @@ export default class ServeBreak extends Component {
 
 			function chart(container) {
 				const data = container.datum()
-				
+
 				enter({ container, data })
 				exit({ container, data })
 				updateScales({ container, data })
@@ -376,7 +417,7 @@ export default class ServeBreak extends Component {
 
   	function init() {
 			var weighted = el.datum(weightData({ x: 50, y: 50 }))
-			el.call(chart)
+
 			resize()
 			window.addEventListener('resize', resize)
 			//graphic.select('.slider input').on('input', handleInput)
@@ -388,10 +429,34 @@ export default class ServeBreak extends Component {
   	this.setState({sliderValue: event.target.value})
   	this.handleInput(event.target.value)
   }
+  wrap(text, width) {
+		text.each(function() {
+			var text = d3.select(this),
+					words = text.text().split(/\s+/).reverse(),
+					word,
+					line = [],
+					lineNumber = 0,
+					lineHeight = 1.1,
+					x = text.attr("x"), // ems
+					y = text.attr("y"),
+					dy = parseFloat(text.attr("dy")),
+					tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+			while (word = words.pop()) {
+				line.push(word);
+				tspan.text(line.join(" "));
+				if (tspan.node().getComputedTextLength() > width) {
+					line.pop();
+					tspan.text(line.join(" "));
+					line = [word];
+					tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				}
+			}
+		});
+	}
   render() {
   	const {sliderValue} = this.state
   	return <div><div className="servebreak-container" ref={this.divRef}>
-  		
+
    	</div>
    	<div className='slider'>
   			<div className="before">% return points won</div>

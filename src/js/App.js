@@ -174,7 +174,7 @@ class App extends Component {
     var rivalries, servestats, servedirection, input, goat, pressure, servegraphic
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
-             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a feud off the court. On the court, however, Serena gets the last word.</p>
+             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a <a href="https://www.vox.com/culture/2017/9/15/16297562/maria-sharapova-feud-serena-williams-explained">feud</a> off the court. On the court, however, Serena has had the last word.</p>
             <Rivalry data={mariadata} annotations={mariaannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
@@ -219,7 +219,7 @@ class App extends Component {
               Serena The Great
             </div>
             <div className="subhed">
-              A visual story of the most dominant tennis player, male or female, of the open era
+              A visual story of the most dominant player, male or female, in tennis
             </div>
           </div>
 
@@ -255,13 +255,13 @@ class App extends Component {
               <div className='sections' id='sections1'>
 
                 <section className="step">
-                  <p className="prose">Serena's story starts before she and older sister Venus were even born.
+                  <p className="prose dark">Serena's story starts before she and older sister Venus were even born.
                  Their father, the inimitable Richard Williams, had already had conceived a vision for his future
                  daughters. It was in 1980--after flipping through channels on television when he came across
                   Romanian tennis player Virginia Ruzici, who had won a tournament in Salt Lake City and collected a
                   check for $40,000--that he decided that his not-yet-existent daughters would be tennis stars.
                </p>
-               <p className="prose">He started to take tennis lessons from a man who went by Old Whiskey, lessons
+               <p className="prose dark">He started to take tennis lessons from a man who went by Old Whiskey, lessons
                  he paid for with booze. He then drafted a 78-page plan, a manifesto of sorts, about how he was going to make
                  his daughters champions. In 1990, when Venus was just 10 years old, he predicted that she was going to be No. 1
                  in the world, and that Serena, then 9, would be even better than Venus. When film producer Arnon Milchan met
@@ -269,15 +269,15 @@ class App extends Component {
                  Looking back, history has judged him the latter, and his wild proclamations seem almost prophetic today. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Serena was born in Saginaw, Michigan on September 26, 1981, a little over a year after Venus was born. </p>
+                  <p className="prose dark">Serena was born in Saginaw, Michigan on September 26, 1981, a little over a year after Venus was born. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Shortly after, the family, including their three older sisters, relocated to Compton, California.
+                  <p className="prose dark">Shortly after, the family, including their three older sisters, relocated to Compton, California.
                   Their journey began on the rough public tennis courts of East Compton Park, where they once had to stop practice
                   to duck for cover when they heard gunshots. With weeds poking through the ground and broken glass and beer bottles strewn around, the courts were a
                   far cry from the manicured lawns of Wimbledon's Centre Court.
                 </p>
-                  <p className="prose">
+                  <p className="prose dark">
                   Yet Compton "would make them tough, give them a fighter's mentality," Richard wrote
                   in his autobiography. "And how much easier would it be to play in front of thousands of
                   white people if they had already learned to play in front of scores of armed gang members?"
@@ -286,24 +286,25 @@ class App extends Component {
                 </p>
                 </section>
                 <section className="step">
-                  <p className="prose">When Serena turned 9, the family moved to West Palm Beach, FL
+                  <p className="prose dark">When Serena turned 9, the family moved to West Palm Beach, FL
                     to train at Rick Macci's tennis academy. Macci and Richard sometimes clashed, and in 1995,
                     he pulled his daughters out of the academy, coaching them himself. He also took them out
                     of the junior circuit, citing the intensity of the other parents and how time consuming it was.
                   </p>
-                  <p className="prose">
+                  <p className="prose dark">
                     More important than tennis, Richard wanted Serena and Venus to receive and education and develop
                     interests off the court as well. "When I look at young players on the tennis tour, it seems
                     the better they are, the less education they have," he said. With the time they would have used
                     preparing for junior tournaments, he sent them to private school and enrolled them in other activities.
-                    Through careful planning by Richard and mom Oracene, Serena and Venus have lasted on the tour well
-                    into their 30s and avoided burnout because they've balanced their time on and off the court. </p>
+                    Through careful planning by Richard and mom Oracene, Serena and Venus balanced their time on and off
+                    the court, and a result, they've avoided burnout and lasted on the tour well into their 30s,
+                    long after most players retire. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">On October 28, 1995, Serena played her very first pro match for a qualifying round
+                  <p className="prose dark">On October 28, 1995, Serena played her very first pro match for a qualifying round
                     at the Bell Challenge in Quebec against American Annie Miller. Serena lost, 1-6, 1-6.
                   </p>
-                  <p className="prose">
+                  <p className="prose dark">
                     Asked to comment on the match years later, Miller said, smiling, "In my mind I had every shot of winning the match [because I had]
                     a little more experience than she had at the time, so I played a good match, and won. I thought it was just another
                     day at the tennis courts." While Miller left tennis a couple years later and sought out a normal life,
@@ -316,11 +317,13 @@ class App extends Component {
               <p className="prose">
             So why is Serena the greatest of all time? Let us count the ways.
             </p>
-
+            <h2> Serena's Serve </h2>
             <p className="prose"> While ATP players routinely dominate their serve,
               WTA players don't hold serve nearly as often due to their relatively weaker serves. Some of this discrepancy
               has been attributed to physiological differences, but Dr. Ben Kibler, an orthopedic surgeon, found that it's
-              often a technical not physiological deficit. "The largest disparity found by Kibler between male and
+              often a technical--not physiological--deficit.
+            </p>
+            <p className="prose">"The largest disparity found by Kibler between male and
               female professionals was in pushing off with their back legs, which 75 percent of the men in the study
               did effectively compared with only 28 percent of the women," a NY Times story found.
 
@@ -344,55 +347,78 @@ class App extends Component {
               </div>
               <div className='sections' id='sections2'>
                 <section className="step">
-                  <p className="prose">Serena is consistently one of the WTA tour's fastest servers. </p>
+                  <p className="prose dark">Serena is consistently one of the WTA tour's fastest servers. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Here are the top 5 fastest serves on the WTA tour </p>
+                  <p className="prose dark">Here are the top 5 fastest serves on the WTA tour </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Here are the average first and second serve speeds of Serena
-                  compared with that of the average WTA player. She has about 10mph faster on both serves. </p>
+                  <p className="prose dark">Here are the average first and second serve speeds of Serena
+                  and the average WTA player. She has about 10mph on both serves. </p>
                 </section>
                 <section className="step">
-                  <p className="prose"></p>
                 </section>
               </div>
 
             </div>
-            <h2> Hitting Her Spots</h2>
-            <p className="prose">Yet serve speed doesn't tell the whole story. Plenty of players can serve fast,
+            <p className="prose">Yet serve speed doesn't tell the whole story. Plenty of players serve fast,
               but they aren't nearly as successful as Serena is on serve. One difference is that Serena hits
-              her spots on serve.</p>
+              her spots.</p>
             <div className='graphic' id='graphic4'>
               <div className="viz" id="viz4">
                 {servedirection}
               </div>
               <div className='sections' id='sections4'>
                 <section className="step">
-                  <p className="prose">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
-                     out wide or up the T. With speed combined with placement, many of her first serves are unreturnable,
-                     her likelihood of hitting an ace on any given serve is the highest on the tour. </p>
+                  <p className="prose dark">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
+                     out wide or up the T. With speed combined with placement, many of her first serves are unreturnable. On any given serve,
+                   her likelihood of hitting an ace is <a href="http://www.latimes.com/projects/la-sp-serena-williams-greatest-all-time/">13%</a>, a rate three times higher than the average WTA player.  </p>
                 </section>
                 <section className="step">
-                  <p className="prose">The average WTA player serves down the middle three times as often as Serena does. Serena punishes
-                   opponents with weak serves and poor placement, hitting return winners on serves that sit up for her to bla </p>
+                  <p className="prose dark">The average WTA player serves down the middle three times as often as Serena does, making it easier to return. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">Serena's 2nd serve direction She hits this with spin, body serve</p>
+                  <p className="prose dark">She prefers to hit her second serve with topspin and toward her opponent's body.</p>
                 </section>
                 <section className="step">
-                  <p className="prose">average WTA 2nd serve direction</p>
+                  <p className="prose dark">The average WTA player also hits 2nd serves down the middle to minimize double faults.</p>
                 </section>
 
               </div>
 
             </div>
 
+
+            <p className="prose">Serena's serve allows her to get ahead during the rally, end points quickly,
+              and wipe away break points easily when she's down. When it's on, no one can break her serve.
+               It has been the key to her success.</p>
             <h2> Dominating on Serve and Return </h2>
-            <p className="prose">Her powerful serve translates into higher % of serve points won and % break points saved. When she's down break point she can easily erase it with an ace, and she can make quick work of her service games when she's in a rhythm, ending points quickly. This has been the key to her success.</p>
+            <p className="prose"> Serena wins the highest percentage of serve points by a largin margin, and she's
+              not far behind leader Justine Henin on return. Serena punishes opponents with weak serves, hitting return
+              winners on serves that sit up for her to pummel back. cornerstone of their power game.
+            </p>
             {servestats}
-            <h2> Keeping Points Short </h2>
+            <h2> Serena's Rivals </h2>
+            <p className="prose">While the men's tour has been dominated by the Big 4 for the last decade, the
+              women's tour has not had quite an equivalent cohort of players. Although several players have taken
+              the No. 1 spot (some even without a grand slam), they've come and gone. For most of her career,
+              Serena has been a league of her own. Still, throughout the years, she has had her share of rivals,
+              with Venus being her fiercest one for all these years.  </p>
+            {rivalries}
+            <h2> Search for a Head-to-Head </h2>
+
+            <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning
+              record against her, except for one player--Arantxa Sanchez Vicario. Search for her,
+              and other players using the search box. Some other notable rivalries include Victoria Azarenka,
+              Jennifer Capriati, Justin Henin, and Elena Dementieva. </p>
+            <div className="finder">
+              {input}
+            </div>
             <h2> Under Pressure </h2>
+            <p className="prose"> When Serena is at her best, no player can beat her. In that vein, tennis commentators have often
+              said Serena is her own worst enemy. To win, she simply must overcome herself. Yet she thrives under these moments.
+               How Serena digs deep in the third set, during a tiebreak, and when she's down is what makes her a champion
+            </p>
             <div className='graphic' id='graphic6'>
               <div className="viz" id="viz6">
                 {pressure}
@@ -415,17 +441,7 @@ class App extends Component {
               </div>
 
             </div>
-            <h2> Serena's Rivals </h2>
-            <p className="prose">While the men's tour has been dominated by the Big 4 for the last decade, the
-              women's tour does not have an equivalent cohort of players. Serena is in a league of her own. Still,
-              throughout the years, Serena has had her share of rivals, with her sister Venus being her
-              fiercest one all these years.  </p>
-            {rivalries}
-            <h2> Search for a Head-to-Head </h2>
-            <div className="finder">
-              {input}
-            </div>
-            <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning record against her, except for one player--Arantxa Sanchez Vicario. Search for her, and other players using the search box. Some other notable rivalries include Victoria Azarenka, Jennifer Capriati, Justin Henin, and Elena Dementieva. </p>
+
             <h2> Greatest of All Time </h2>
             <div className='graphic' id='graphic5'>
               <div className="viz" id="viz5">

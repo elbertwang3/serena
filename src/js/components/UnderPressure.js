@@ -39,7 +39,6 @@ export default class UnderPressure extends Component {
       let barHeight = 0
 
       function resize() {
-        console.log("resizing")
         //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
         const width = window.innerWidth
         const height = window.innerHeight
@@ -110,7 +109,7 @@ export default class UnderPressure extends Component {
 
           const barpercent = barg.selectAll(".percent-anno")
             .data(d => {
-    
+
               switch(cut) {
               case "total":
                 return [d['totalwin'] / d['total']]
@@ -265,7 +264,6 @@ export default class UnderPressure extends Component {
         }
 
         function chart(container) {
-          console.log("chart being called")
           const data = container.datum()
           enter({ container, data })
           updateScales({ container, data })

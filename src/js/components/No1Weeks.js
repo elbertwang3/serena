@@ -432,7 +432,6 @@ export default class No1Weeks extends Component {
       }
 
       function chart(container) {
-        console.log("chart being called")
         const data = container.datum()
         enter({ container, data })
         updateScales({ container, data })
@@ -498,7 +497,6 @@ export default class No1Weeks extends Component {
     init()
 
     function weekstime() {
-      console.log("weekstime")
       chart.scaleX(timeScale, "date")
       chart.scaleY(weeksScale, "weeks")
       el.datum(formatWeeksData(that.props.rankingdata))

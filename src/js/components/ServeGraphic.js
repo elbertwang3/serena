@@ -36,12 +36,14 @@ export default class ServeGraphic extends Component {
 
   componentDidMount() {
 		const that = this
-		const margin = {top: 150, bottom: 25, right: 25, left: 25}
+		const margin = {top: 60, bottom: 25, right: 25, left: 45}
 		const {data} = this.props
 
 		let chart = servechart()
 		const el = d3.select('.serve-graphic')
 		const yScale = d3.scaleLinear()
+		const offsetScaleX = d3.scaleLinear()
+		const offsetScaleY = d3.scaleLinear()
 
 		let width = 0
 		let height = 0
@@ -53,14 +55,14 @@ export default class ServeGraphic extends Component {
 		}
 
 		function resize() {
-			console.log("resizing")
 			//const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
-			let width
+			/*let width
 			if (window.innerWidth > 700) {
 				width = 700
 			} else {
 				width = window.innerWidth
-			}
+			}*/
+			const width = window.innerWidth > 700 ? 700 : window.innerWidth
 			const height = window.innerHeight
 			chart.width(width).height(height)
 			el.call(chart)
@@ -75,16 +77,37 @@ export default class ServeGraphic extends Component {
 		      .attr("class", "arcs")
 				/*const arcgroupprofile = .append("g")
 		      .attr("class", "arc-group-profile")*/
+				gEnter.append("text")
+					.text("Serve Speed")
+					.attr("class", "chart-title")
+					.attr("text-anchor", "start")
+
+				gEnter.append("text")
+					.text("How does Serena's serve measure up to the fastest serves, and the average serve?")
+					.attr("class", "chart-subtitle")
+					.attr("transform", "translate(0,10)")
+					.attr("text-anchor", "start")
+					.attr("dy", "1.25em")
+					.attr("x", 0)
+					.attr("y", 0)
+					.call(that.wrap, chartWidth)
 			}
 
 			function updateScales({ container, data }) {
 				yScale
 				.domain([0, data.length])
-				.range([chartHeight/5, chartHeight])
+				.range([chartHeight/10, chartHeight])
+
+				offsetScaleX
+					.domain([700, 400])
+					.range([25, 100])
+
+				offsetScaleY
+					.domain([700, 400])
+					.range([15, 0])
 			}
 
 			function updateDom({ container, data }) {
-				console.log(data)
 				const svg = container.select('svg')
 
 				svg
@@ -93,6 +116,7 @@ export default class ServeGraphic extends Component {
 
 
 				const g = svg.select('g')
+
 				g.attr('transform', translate(margin.left, margin.top))
 
 				const arcs = g.select(".arcs")
@@ -107,7 +131,7 @@ export default class ServeGraphic extends Component {
 				.merge(arcgroup)
 		      .attr("class", "arc-group")
 		      .attr("transform", (d, i) => `translate(0, ${yScale(i)})`)
-				console.log(chartWidth)
+
 				var arcGenerator = d3.arc()
 					.innerRadius(chartWidth/2)
 					.outerRadius(chartWidth/2)
@@ -117,7 +141,7 @@ export default class ServeGraphic extends Component {
 
 				const arc = arcgroup.selectAll(".arc")
 					.data(d => [d])
-				console.log(arc)
+
 				arc.exit().remove()
 				arc
 					.enter()
@@ -125,7 +149,7 @@ export default class ServeGraphic extends Component {
 				.merge(arc)
 		      .attr("d", arcGenerator)
 		      .attr("class", "arc")
-		      .attr("transform", (d, i) => `translate(${chartWidth/2 + 20}, ${chartWidth/2})`)
+		      .attr("transform", (d, i) => `translate(${chartWidth/2 + offsetScaleX(width)}, ${chartWidth/2 - offsetScaleY(width)})`)
 		      .attr("stroke-dasharray", function(d) { return d3.select(this).node().getTotalLength() + " " + d3.select(this).node().getTotalLength()})
 		      .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
 
@@ -141,7 +165,13 @@ export default class ServeGraphic extends Component {
 		      .attr("xlink:href", that.state.serves['tennisball.svg'])
 		      .attr("height", 10)
 		      .attr("class", "tennis-ball")
-		      .attr("transform", `translate(165,40)`)
+		      .attr("transform", d => {
+							let path = d3.select('.arc').node()
+					    var l = path.getTotalLength()/2;
+
+			       	var p = path.getPointAtLength(0);
+			      	return "translate(" + (p.x + chartWidth/2 + offsetScaleX(width)) + "," + (p.y + chartWidth/2 - 2.5 - offsetScaleY(width)) + ")";
+				  	})
 
 				const arcgroupprofile = arcgroup.selectAll(".arc-group-profile")
 					.data(d => [d])
@@ -151,7 +181,7 @@ export default class ServeGraphic extends Component {
 					.append("g")
 				.merge(arcgroupprofile)
 		      .attr("class", "arc-group-profile")
-		      .attr("transform", `translate(0,20)`)
+		      //.attr("transform", `translate(0,)`)
 
 				const playername = arcgroupprofile.selectAll(".arc-group-profile .player-name")
 					.data(d => [d])
@@ -188,6 +218,7 @@ export default class ServeGraphic extends Component {
 					.attr("class", "flag")
 
 				const servetype = arcgroupprofile.selectAll(".arc-group-profile .serve-type")
+					.data(d => [d])
 				servetype.exit().remove()
 				servetype
 					.enter()
@@ -199,6 +230,7 @@ export default class ServeGraphic extends Component {
 		     	.attr("class", "serve-type")
 
 		    const picture = arcgroupprofile.selectAll(".arc-group-profile .arc-photo")
+					.data(d => [d])
 				picture.exit().remove()
 				picture
 					.enter()
@@ -213,7 +245,7 @@ export default class ServeGraphic extends Component {
 	        .attr("transform", "translate(100,0)")
 
 
-		    const speedanno = arcgroup.selectAll(".speed-anntoation")
+		    const speedanno = arcgroup.selectAll(".speed-annotation")
 					.data(d => [d])
 				speedanno.exit().remove()
 				speedanno
@@ -221,9 +253,11 @@ export default class ServeGraphic extends Component {
 					.append("g")
 				.merge(speedanno)
 		      .attr("class", "speed-annotation")
-		      .attr("transform", `translate(${4.1*chartWidth/5}, 40)`)
+		      .attr("transform", `translate(${4.5*chartWidth/5}, 20)`)
 
 				const mph = speedanno.selectAll(".speed-annotation .mph")
+					.data(d => [d])
+
 				mph.exit().remove()
 				mph
 					.enter()
@@ -233,6 +267,7 @@ export default class ServeGraphic extends Component {
 		      .attr("class", "serve-speed mph")
 
 				const kph = speedanno.selectAll(".speed-annotation .kph")
+					.data(d => [d])
 				kph.exit().remove()
 		   	kph
 					.enter()
@@ -249,7 +284,6 @@ export default class ServeGraphic extends Component {
 
 
 			function chart(container) {
-				console.log("chart being called")
 				const data = container.datum()
 				enter({ container, data })
 				updateScales({ container, data })
@@ -280,8 +314,8 @@ export default class ServeGraphic extends Component {
 
 			//resize()
 			el.datum(that.props.data)
-			el.call(chart)
 			resize()
+
 
 			window.addEventListener('resize', resize)
 			//graphic.select('.slider input').on('input', handleInput)
@@ -300,7 +334,7 @@ export default class ServeGraphic extends Component {
 	           console.log(p)
 	      }*/
        	var p = path.getPointAtLength(t * l);
-      	return "translate(" + (p.x + 375) + "," + (p.y + 345) + ")";
+      	return "translate(" + (p.x + chartWidth/2 + offsetScaleX(width)) + "," + (p.y + chartWidth/2 - 2.5 - + offsetScaleY(width)) + ")";
       };
   	}
 		function transitionBall(type) {
@@ -430,6 +464,31 @@ export default class ServeGraphic extends Component {
 	    }
 	  })
   }
+
+	wrap(text, width) {
+		text.each(function() {
+			var text = d3.select(this),
+					words = text.text().split(/\s+/).reverse(),
+					word,
+					line = [],
+					lineNumber = 0,
+					lineHeight = 1.1,
+					x = text.attr("x"), // ems
+					y = text.attr("y"),
+					dy = parseFloat(text.attr("dy")),
+					tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+			while (word = words.pop()) {
+				line.push(word);
+				tspan.text(line.join(" "));
+				if (tspan.node().getComputedTextLength() > width) {
+					line.pop();
+					tspan.text(line.join(" "));
+					line = [word];
+					tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				}
+			}
+		});
+	}
   render() {
     return <div className="serve-graphic">
     </div>

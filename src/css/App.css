@@ -395,7 +395,7 @@
 }
 
 .sections {
-  pointer-events: none;
+  z-index: 2;
 }
 
 .sections .step:first-child {
@@ -427,6 +427,10 @@
   padding: 1em;
   font-size: 16px;
   line-height: 1.5em;
+}
+
+.prose.dark {
+  background-color: rgba(255,255,255,0.5);
 }
 .sections .smallerstep {
   position: relative;
@@ -514,6 +518,19 @@
   font-size: 12px;
 }
 
+.chart-title {
+  font-family: "Source Sans Pro";
+  font-size: 32px;
+  font-weight: 700;
+
+}
+
+.chart-subtitle {
+  font-family: "Roboto";
+  font-size: 14px;
+
+}
+
 .arc-group-profile .serve-type {
   font-family: "Roboto";
   fill: #a1a1a1;
@@ -557,7 +574,6 @@ h2 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 0;
 }
 
 .serve-animation {
@@ -668,6 +684,29 @@ h2 {
 
 .servedirection-container {
   background-color: #4CBB17;
+}
+
+.servedirection-container .title{
+  font-family: "Source Sans Pro";
+  font-size: 28px;
+  font-weight: 700;
+  fill: white;
+}
+.serve-rect {
+  fill: black;
+  opacity: 0.4;
+  stroke: white;
+}
+.serve-rect-anno {
+  font-family: "Roboto";
+  fill: white;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.serve-anno-line {
+  stroke: white;
+  fill: black;
 }
 
 .court-line {
