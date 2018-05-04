@@ -441,6 +441,7 @@ class App extends Component {
                      narrowly behind Austin and Navratilova. </p>
                 </section>
                 <section className="step">
+
                   <p className="prose dark">But get this: Serena is the only player with a positive record when <i>down</i> the first set. Half the time,
                 she comes back from a set down to win the match.</p>
                 </section>
@@ -451,6 +452,23 @@ class App extends Component {
 
             <h2> Serena's Longevity </h2>
             <p className="prose">
+              Much of Serena's greatness can be attributed to her longevity. Other than Venus, she's simply been around longer
+              than anyone else on tour. While many of her rivals retired early and made short-lived comebacks (read: Hingis, Clijsters, Henin),
+              Serena has stuck around, outlasting her contemporary rivals and surpassing past tennis legends in the process.
+            </p>
+            <p className="prose">
+              On the men's tour, Roger Federer seemed like he was on the decline when he went slamless for four years,
+              but he is also in the middle of a late-career renaissance, winning the Australian Open and Wimbledon last year.
+              Like Serena, he's avoided injury and burnout by choosing tournaments carefully and prioritizing the slams,
+              a strategy that has allowed them to be successful
+              players can be successful avoiding injury and burnout
+              outlasting  Serena is so great is that she's been around longer  anyone on tour, only topped by Venus
+              Roger Federer is also 36and despite a period of decline,is playing as well as he ever as, winning 2 slams last year
+              Tennis is favoring  older playerScaleThe
+              THere hasn't been someone to over take them
+            </p>
+            <p className="prose">
+              <span style={{color: "#a9a9a9"}}>Retired</span> players are in grey, currently <span style={{color: "#ff8a4f"}}>active</span> players in orange, and <span style={{color: "#5171bc"}}>Serena</span> in blue.
             </p>
             <div className='graphic' id='graphic5'>
               <div className="viz" id="viz5">
@@ -459,25 +477,32 @@ class App extends Component {
               <div className='sections' id='sections5'>
 
                 <section className="step">
-                  <p className="prose">WEEKS at no. 1 over time </p>
+                  <p className="prose dark">When comparing total weeks at no. 1, Serena is behind Graf and Navratilova at 319 weeks,
+                  but her run between 2013-2016 ties Graf's record of 186 <i>consecutive</i> weeks at no. 1.  </p>
                 </section>
                 <section className="step">
-                  <p className="prose">weeks at no. 1 over age </p>
+                  <p className="prose dark">But this run of 186 weeks started when she was nearly 32, the oldest a no. 1 player has been to date.
+                  While other players retire or begin to decline before 30, Serena was experiencing a second wind in her career.</p>
                 </section>
                 <section className="step">
-                  <p className="prose">num slams over time </p>
+                  <p className="prose dark">When counting total grand slams, Serena has 23, the most of anyone in the Open Era. Only Margaret
+                    Court has won more, winning 11 in the Open Era and 24 in total. On coming back to tennis, Serena has said, "I absolutely want more
+                  grand slams. I'm well aware of the record books, unfortunately. It's not a secret that I have my sights on 25."
+                </p>
                 </section>
                 <section className="step">
-                  <p className="prose">num slams over age, longevity</p>
+                  <p className="prose dark">Navratilova won her last grand slam title when she won Wimbledon at 33, and
+                    Flavia Pennetta won her first and last grand slam at the U.S. Open at 33. Serena won the 2017 Australian Open at 35,
+                    and she's made it clear she's hungry for more. </p>
                 </section>
 
               </div>
 
             </div>
             <p className="prose"> When we think about measuring the greatest of all time, we tend to think in terms of numbers:
-              the best win-loss record (Graf), the most weeks at no. 1 (Graf), the most titles (Navratilova). Serena has none of these. Yet she
-              possesses something far more intangible--something that can't be easily measured or compared--that makes her
-              one of the greatest athletes of all time. </p>
+              the best win-loss record (Graf), the most weeks at no. 1 (Graf), the most titles (Navratilova). Serena doesn't win
+              in any of these categories. Yet shs possesses something far more intangible--something that can't be easily
+              measured or compared--that makes her one of the greatest athletes of all time. </p>
             <p className="prose"> When I think about Serena, I think about her childhood and upbringing fed her tennis balls
               from an old shopping cart. I think about the way she and Venus reshaped
               I think about how she changed the game (power tennis)

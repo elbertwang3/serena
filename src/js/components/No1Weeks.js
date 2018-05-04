@@ -195,6 +195,7 @@ export default class No1Weeks extends Component {
           })
           .on("mouseover",  function(d) {
             const mouseoverdata = d
+            console.log(d.data['player'])
             let line = d3.select(`.player-line.${d.data['player'].replace(/[.,/#!$%^&*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
             line.classed("city--hover", true);
             line.moveToFront()
