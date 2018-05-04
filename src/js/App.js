@@ -174,7 +174,7 @@ class App extends Component {
     var rivalries, servestats, servedirection, input, goat, pressure, servegraphic
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
-             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a <a href="https://www.vox.com/culture/2017/9/15/16297562/maria-sharapova-feud-serena-williams-explained">feud</a> off the court. On the court, however, Serena has had the last word.</p>
+             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a <a href="https://www.vox.com/culture/2017/9/15/16297562/maria-sharapova-feud-serena-williams-explained">feud</a> off the court. On the court, however, Serena has had the last word, winning the last 18 matches.</p>
             <Rivalry data={mariadata} annotations={mariaannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
@@ -394,8 +394,10 @@ class App extends Component {
                It has been the key to her success.</p>
             <h2> Dominating on Serve and Return </h2>
             <p className="prose"> Serena wins the highest percentage of serve points by a largin margin, and she's
-              not far behind leader Justine Henin on return. Serena punishes opponents with weak serves, hitting return
-              winners on serves that sit up for her to pummel back. cornerstone of their power game.
+              not far behind leader Justine Henin on return. Punishing opponents with weak serves, she can hit return
+              winners on serves that sit up for her to pummel back. This is a cornerstone of her power game,
+              a playstyle that she and Venus popularized, and what tennis commentator Mary Carillo affectionately
+              calls "Big Babe Tennis."
             </p>
             {servestats}
             <h2> Serena's Rivals </h2>
@@ -416,8 +418,8 @@ class App extends Component {
             </div>
             <h2> Under Pressure </h2>
             <p className="prose"> When Serena is at her best, no player can beat her. In that vein, tennis commentators have often
-              said Serena is her own worst enemy. To win, she simply must overcome herself. Yet she thrives under these moments.
-               How Serena digs deep in the third set, during a tiebreak, and when she's down is what makes her a champion
+              said that Serena is her own worst enemy. To win, she simply must overcome herself. Yet she thrives under these moments.
+               How Serena digs deep in the third set, during a tiebreak, and when she's down is what makes her a champion.
             </p>
             <div className='graphic' id='graphic6'>
               <div className="viz" id="viz6">

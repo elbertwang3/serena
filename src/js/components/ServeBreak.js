@@ -123,10 +123,6 @@ export default class ServeBreak extends Component {
 					.attr('text-anchor', 'end')
 					.text('% return points won')
 
-        console.log(chartWidth)
-
-
-
 			}
 
 			function exit({ container, data }) {
@@ -297,8 +293,7 @@ export default class ServeBreak extends Component {
 							.style('left', `${scaleX(d['percent_servept_won']) - 7.5}px`)
 							.style('top', `${scaleY(d['percent_returnpt_won']) - 7.5}px`)
 							.text(d['winner_name'])*/
-						 console.log(scaleX(serenaData['percent_servept_won']))
-						 console.log("getting here")
+
 
 					})
 					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
@@ -307,9 +302,9 @@ export default class ServeBreak extends Component {
 						yLine.attr("opacity", 0)*/
 						tooltip.style("display", "none");
 						const d = serenaData
-						console.log(d)
 
-						 console.log("getting here2")
+
+
 						xLine = plot.selectAll(".guide-line-x")
 							.data([d])
 

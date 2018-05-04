@@ -131,8 +131,9 @@ export default class UnderPressure extends Component {
             .append("text")
             .text(d => d)
             .attr("class", "percent-anno")
-            .attr("transform", `translate(${chartWidth+10}, 0)`)
+            .attr("transform", `translate(${chartWidth+10}, ${playerScale.bandwidth()/2})`)
             .attr("text-anchor", "start")
+            .attr("alignment-baseline", "middle")
 
           const bar = barg.selectAll(".stacked-bar")
             .data(d => {
@@ -201,9 +202,10 @@ export default class UnderPressure extends Component {
                 .append("text")
               .merge(bartext)
                 .text(d => d)
-                .attr("transform", (d, i) => i == 0 ? "translate(0,0)" : `translate(${chartWidth}, 0)`)
+                .attr("transform", (d, i) => i == 0 ? `translate(0,${playerScale.bandwidth()/2})` : `translate(${chartWidth},${playerScale.bandwidth()/2})`)
                 .attr("text-anchor", (d, i) => i == 0 ? "start" : "end")
                 .attr("class", "stacked-bar-text")
+                .attr("alignment-baseline", "middle")
 
 
 
@@ -215,12 +217,12 @@ export default class UnderPressure extends Component {
           const axis = container.select('.g-axis')
 
           const axisLeft = d3.axisLeft(playerScale)
-          const axisBottom = d3.axisBottom(percentScale)
+          //const axisBottom = d3.axisBottom(percentScale)
           //axisBottom.selectAll(".domain").remove()
           //axisBottom.selectAll(".tick").remove()
 
           //axisLeft.ticks(Math.floor(currYScale.range()[0] / 100))
-          axisBottom.ticks(Math.floor(percentScale.range()[1]/ 100)); //for yearscale
+          //axisBottom.ticks(Math.floor(percentScale.range()[1]/ 100)); //for yearscale
           //axisBottom.ticks(d3.range(scaleX.domain()[0], scaleX.domain()[1], 5)) //for agescale
           //axisLeft.ticks(d3.range(scaleY.domain()[0], scaleY.domain()[1], 100)) //for weeks
           //axisLeft.ticks(d3.range(scaleY.domain([0], scaleY.domain([1], 5)))) //for slams
@@ -230,9 +232,7 @@ export default class UnderPressure extends Component {
           const maxY = playerScale.range()[0]
 
 
-          x
-            .attr('transform', translate(0, chartHeight))
-            .call(axisBottom)
+
 
           const y = axis.select('.y-axis')
 
