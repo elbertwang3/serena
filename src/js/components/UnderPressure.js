@@ -37,6 +37,8 @@ export default class UnderPressure extends Component {
       let cut = "total"
       let barSpacing = 2
       let barHeight = 0
+      let formatPercent = d3.format(".2f")
+      let formatNumber = d3.format(".0f")
 
       function resize() {
         //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
@@ -90,9 +92,10 @@ export default class UnderPressure extends Component {
           const g = svg.select('g')
           g.attr('transform', translate(margin.left, margin.top))
 
+
           const bars = g.select(".stacked-bars")
 
-
+          console.log(data)
           const barg = bars.selectAll(".stacked-bar-g")
             .data(data, d => d['player'])
 
@@ -101,15 +104,17 @@ export default class UnderPressure extends Component {
           barg
             .enter()
             .append("g")
-          .merge(barg)
             .attr("class", "stacked-bar-g")
+          .merge(barg)
+
             .transition()
             .duration(1000)
             .attr("transform", d => `translate(0, ${playerScale(d['player'])})`)
 
-          const barpercent = barg.selectAll(".percent-anno")
-            .data(d => {
 
+          const barpercent = g.selectAll(".stacked-bar-g").selectAll(".percent-anno")
+            .data(d => {
+              console.log(d)
               switch(cut) {
               case "total":
                 return [d['totalwin'] / d['total']]
@@ -134,9 +139,30 @@ export default class UnderPressure extends Component {
             .attr("transform", `translate(${chartWidth+10}, ${playerScale.bandwidth()/2})`)
             .attr("text-anchor", "start")
             .attr("alignment-baseline", "middle")
+          .merge(barpercent)
 
-          const bar = barg.selectAll(".stacked-bar")
+
+            .transition()
+            .duration(1000)
+            .tween("text", function(d,i,nodes) {
+              var textElement = d3.select(this).node()
+              var currentValue = +textElement.textContent;
+              // create interpolator and do not show nasty floating numbers
+              var interpolator = d3.interpolateNumber( currentValue, d);
+
+              // this returned function will be called a couple
+              // of times to animate anything you want inside
+              // of your custom tween
+              return function( t ) {
+                // set new value to current text element
+
+                textElement.textContent = formatPercent(interpolator( t ));
+              };
+            });
+
+          const bar = g.selectAll(".stacked-bar-g").selectAll(".stacked-bar")
             .data(d => {
+              console.log(d)
               switch(cut) {
                 case "total":
                   return [d['totalwin'], d['totalloss']]
@@ -154,15 +180,18 @@ export default class UnderPressure extends Component {
                   return [d['totalwin'], d['totalloss']]
               }
             })
-
+            console.log(bar)
             bar.exit().remove()
             bar
               .enter()
               .append("rect")
-            .merge(bar)
+              .attr("class", "stacked-bar")
               .attr("height", playerScale.bandwidth())
-
               .attr("y", 0)
+                  .attr("fill", (d, i) => i == 0 ? "#1A80C4" : "#CC3D3D")
+            .merge(bar)
+
+
               .transition()
               .delay(1000)
               .duration(1000)
@@ -174,10 +203,10 @@ export default class UnderPressure extends Component {
                 let total = i == 0 ? d + d3.select(nodes[i + 1]).data()[0] : d + d3.select(nodes[i - 1]).data()[0]
                 return percentScale(d/total)
               })
-              .attr("fill", (d, i) => i == 0 ? "blue" : "orange")
-              .attr("class", "stacked-bar")
 
-              const bartext = barg.selectAll(".stacked-bar-text")
+
+
+              const bartext = g.selectAll(".stacked-bar-g").selectAll(".stacked-bar-text")
                 .data(d => {
                   switch(cut) {
                     case "total":
@@ -200,12 +229,31 @@ export default class UnderPressure extends Component {
               bartext
                 .enter()
                 .append("text")
-              .merge(bartext)
                 .text(d => d)
-                .attr("transform", (d, i) => i == 0 ? `translate(0,${playerScale.bandwidth()/2})` : `translate(${chartWidth},${playerScale.bandwidth()/2})`)
+                .attr("transform", (d, i) => i == 0 ? `translate(5,${playerScale.bandwidth()/2})` : `translate(${chartWidth -5},${playerScale.bandwidth()/2})`)
                 .attr("text-anchor", (d, i) => i == 0 ? "start" : "end")
                 .attr("class", "stacked-bar-text")
                 .attr("alignment-baseline", "middle")
+              .merge(bartext)
+
+
+                .transition()
+                .duration(1000)
+                .tween("text", function(d,i,nodes) {
+                  var textElement = d3.select(this).node()
+                  var currentValue = +textElement.textContent;
+                  // create interpolator and do not show nasty floating numbers
+                  var interpolator = d3.interpolateNumber( currentValue, d );
+
+                  // this returned function will be called a couple
+                  // of times to animate anything you want inside
+                  // of your custom tween
+                  return function( t ) {
+                    // set new value to current text element
+
+                    textElement.textContent = formatNumber(interpolator( t ));
+                  };
+                });
 
 
 
@@ -264,6 +312,7 @@ export default class UnderPressure extends Component {
         }
 
         function chart(container) {
+          console.log("chart being called")
           const data = container.datum()
           enter({ container, data })
           updateScales({ container, data })

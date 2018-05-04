@@ -262,7 +262,7 @@ class App extends Component {
                   check for $40,000--that he decided that his not-yet-existent daughters would be tennis stars.
                </p>
                <p className="prose dark">He started to take tennis lessons from a man who went by Old Whiskey, lessons
-                 he paid for with booze. He then drafted a 78-page plan, a manifesto of sorts, about how he was going to make
+                 he paid for with booze. He then drafted a 78-page plan, a manifesto of sorts, on how he was going to make
                  his daughters champions. In 1990, when Venus was just 10 years old, he predicted that she was going to be No. 1
                  in the world, and that Serena, then 9, would be even better than Venus. When film producer Arnon Milchan met
                  Richard late in 1997, he said, "You know when you meet somebody, and you think he's either insane or he's a genius?"
@@ -274,8 +274,8 @@ class App extends Component {
                 <section className="step">
                   <p className="prose dark">Shortly after, the family, including their three older sisters, relocated to Compton, California.
                   Their journey began on the rough public tennis courts of East Compton Park, where they once had to stop practice
-                  to duck for cover when they heard gunshots. With weeds poking through the ground and broken glass and beer bottles strewn around, the courts were a
-                  far cry from the manicured lawns of Wimbledon's Centre Court.
+                  to duck for cover when they heard gunshots. With weeds poking through the ground and broken glass and beer bottles strewn about, the courts were a
+                  far cry from the manicured lawns of Centre Court at Wimbledon.
                 </p>
                   <p className="prose dark">
                   Yet Compton "would make them tough, give them a fighter's mentality," Richard wrote
@@ -292,11 +292,11 @@ class App extends Component {
                     of the junior circuit, citing the intensity of the other parents and how time consuming it was.
                   </p>
                   <p className="prose dark">
-                    More important than tennis, Richard wanted Serena and Venus to receive and education and develop
+                    More important than tennis, Richard wanted his daughters to receive and education and develop
                     interests off the court as well. "When I look at young players on the tennis tour, it seems
                     the better they are, the less education they have," he said. With the time they would have used
-                    preparing for junior tournaments, he sent them to private school and enrolled them in other activities.
-                    Through careful planning by Richard and mom Oracene, Serena and Venus balanced their time on and off
+                    preparing for junior tournaments, they attended private school and participated in other activities.
+                    Through careful planning by Richard and mom Oracene, Serena and Venus have balanced their time on and off
                     the court, and a result, they've avoided burnout and lasted on the tour well into their 30s,
                     long after most players retire. </p>
                 </section>
@@ -318,8 +318,8 @@ class App extends Component {
             So why is Serena the greatest of all time? Let us count the ways.
             </p>
             <h2> Serena's Serve </h2>
-            <p className="prose"> While ATP players routinely dominate their serve,
-              WTA players don't hold serve nearly as often due to their relatively weaker serves. Some of this discrepancy
+            <p className="prose"> While ATP players routinely dominate on serve,
+              WTA players don't win their service games nearly as often due to their relatively weaker serves. Some of this discrepancy
               has been attributed to physiological differences, but Dr. Ben Kibler, an orthopedic surgeon, found that it's
               often a technical--not physiological--deficit.
             </p>
@@ -327,8 +327,8 @@ class App extends Component {
               female professionals was in pushing off with their back legs, which 75 percent of the men in the study
               did effectively compared with only 28 percent of the women," a NY Times story found.
 
-              In the following graphic, you can see how Serena does a deep knee bend and before pushing off,
-              generating power not just from racquet speed but more importantly, her legs.
+              In the following graphic, you can see how Serena does a deep knee bend before pushing off,
+              generating power not just from racquet head speed but more importantly, her legs.
            </p>
             <div className='graphic' id='graphic3'>
               <div className="viz" id="viz3">
@@ -354,7 +354,7 @@ class App extends Component {
                 </section>
                 <section className="step">
                   <p className="prose dark">Here are the average first and second serve speeds of Serena
-                  and the average WTA player. She has about 10mph on both serves. </p>
+                  and the average WTA player. She has about 10mph on the average WTA player on both serves. </p>
                 </section>
                 <section className="step">
                 </section>
@@ -396,8 +396,8 @@ class App extends Component {
             <p className="prose"> Serena wins the highest percentage of serve points by a largin margin, and she's
               not far behind leader Justine Henin on return. Punishing opponents with weak serves, she can hit return
               winners on serves that sit up for her to pummel back. This is a cornerstone of her power game,
-              a playstyle that she and Venus popularized, and what tennis commentator Mary Carillo affectionately
-              calls "Big Babe Tennis."
+              a playstyle that she and Venus popularized, and what tennis commentator Mary Carillo has affectionately
+              dubbed "Big Babe Tennis."
             </p>
             {servestats}
             <h2> Serena's Rivals </h2>
@@ -406,8 +406,10 @@ class App extends Component {
               the No. 1 spot (some even without a grand slam), they've come and gone. For most of her career,
               Serena has been a league of her own. Still, throughout the years, she has had her share of rivals,
               with Venus being her fiercest one for all these years.  </p>
+            <p className="prose"><span style={{color: "#91ceff"}}>Hard court</span> matches are in blue, <span style={{color: "#f28b02"}}>clay</span> in orange, and <span style={{color: "#4ec291"}}>grass</span> in green.</p>
+
             {rivalries}
-            <h2> Search for a Head-to-Head </h2>
+            <h3> Search for a Head-to-Head </h3>
 
             <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning
               record against her, except for one player--Arantxa Sanchez Vicario. Search for her,
@@ -416,7 +418,7 @@ class App extends Component {
             <div className="finder">
               {input}
             </div>
-            <h2> Under Pressure </h2>
+            <h2> Serena Under Pressure </h2>
             <p className="prose"> When Serena is at her best, no player can beat her. In that vein, tennis commentators have often
               said that Serena is her own worst enemy. To win, she simply must overcome herself. Yet she thrives under these moments.
                How Serena digs deep in the third set, during a tiebreak, and when she's down is what makes her a champion.
@@ -428,23 +430,28 @@ class App extends Component {
               <div className='sections' id='sections6'>
 
                 <section className="step">
-                  <p className="prose">win-loss </p>
+                  <p className="prose dark">When looking at career win-loss records, Serena trails Graf, Evert, and Navratilova in win percentage. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">3 set win-loss </p>
+                  <p className="prose dark">For matches that go to a third-set decider, Serena is also 4th, behind Graf, Evert, and Sharapova,
+                    winning nearly three-quarters of them. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">tiebreak </p>
+                  <p className="prose dark">In sets that go to a tiebreak (sets tied at 6-6), Serena wins two-thirds of those tiebreakers,
+                     narrowly behind Austin and Navratilova. </p>
                 </section>
                 <section className="step">
-                  <p className="prose">downaset</p>
+                  <p className="prose dark">But get this: Serena is the only player with a positive record when <i>down</i> the first set. Half the time,
+                she comes back from a set down to win the match.</p>
                 </section>
 
               </div>
 
             </div>
 
-            <h2> Greatest of All Time </h2>
+            <h2> Serena's Longevity </h2>
+            <p className="prose">
+            </p>
             <div className='graphic' id='graphic5'>
               <div className="viz" id="viz5">
                 {goat}
@@ -466,6 +473,59 @@ class App extends Component {
 
               </div>
 
+            </div>
+            <p className="prose"> When we think about measuring the greatest of all time, we tend to think in terms of numbers:
+              the best win-loss record (Graf), the most weeks at no. 1 (Graf), the most titles (Navratilova). Serena has none of these. Yet she
+              possesses something far more intangible--something that can't be easily measured or compared--that makes her
+              one of the greatest athletes of all time. </p>
+            <p className="prose"> When I think about Serena, I think about her childhood and upbringing fed her tennis balls
+              from an old shopping cart. I think about the way she and Venus reshaped
+              I think about how she changed the game (power tennis)
+              I think about her performance at the 2007 Australian Open,
+              when she, ranked 81st and unseeded, out of shape, and having dealt with injuries and the death her sister
+              Yetunde, crushed Sharapova in the final to win the title.
+              pulmonary embolism
+              I think about all the times she's down a set and a break, but finds it in herself to come back. I think about
+              the way she roars "Come on!" with fists pumped, willing herself to win. I think about how, over 20 years into
+              her career, she is still playing the best tennis of her life. I think about how, unlike Federer who
+              makes tennis look easy, Serena makes it look effortful, the way she runs down every ball, fights for every point,
+              and claws her way into a match. And I think about all of the great victories
+            </p>
+            <p className="prose">
+              She embodies an athlete.
+              We are there with her through every up and down.
+
+              Coming back from her pregnancy may be the toughest hurdle in her career yet, mentally and physically.
+              But if anyone is up to the challenge, its Serena.
+              all of the times
+
+              2007 Australian Open
+
+
+              high-profile female athlete
+
+              It doesn't matterSerena is the greatest because she embodies an athlete
+              mentally physically
+
+              deep lows in her career
+              redefining athlete
+              we tend to think of athletes as male,
+
+              yet serena possesses more intangible characteristics
+              under pressure, longevity, overcoming adversity, changing the game
+              redefine the face of the sport
+              unlikely
+            </p>
+
+            <div className="credits">
+              <h3> Credits and Methodology </h3>
+              <p className="creditsp">
+                Analysis done in <a href="https://www.dremio.com/">Dremio</a> and Python. Created using d3.js and <a href="https://github.com/facebook/create-react-app">create-react-app</a>.
+                Cover photo image credits go to Getty Images. Data is from Wikipedia and Jeff Sackmann's <a href="https://github.com/JeffSackmann/tennis_wta">database</a>. Design inspiration from Swiss
+                Info's <a href="https://interactive.swissinfo.ch/2018_01_28_federer20/en.html">20 Years, 20 Titles</a>.
+                The <a href="https://bl.ocks.org/russellgoldenberg/aba5f81a8bd0633a399d692289ab97eb">weighted pivot scatter
+                plot</a> is based on Russell Goldenberg's chart. Analysis using
+              </p>
             </div>
         </div>
 

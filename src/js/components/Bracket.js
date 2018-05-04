@@ -13,7 +13,6 @@ export default class Bracket extends Component {
 
   		const {winner_seed, loser_seed, winner_name, loser_name, winner_ioc, loser_ioc, score} = this.props.data
       const {border} = this.props
-			console.log(score);
   		if (score != 'W/O' && score != 'DEF') {
         const splitScore = score.split(" ")
     		return <div className="bracket"><PlayerRow border={border} top={false} seed={winner_seed} name={winner_name} ioc={winner_ioc} score1={splitScore[0].split("-")[0]} score2={splitScore[1].split("-")[0]} score3={splitScore[2] == null ? '\xa0' : splitScore[2][0]}/>
