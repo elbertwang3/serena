@@ -395,6 +395,7 @@
 }
 
 .sections {
+  position: relative;
   z-index: 2;
 }
 
