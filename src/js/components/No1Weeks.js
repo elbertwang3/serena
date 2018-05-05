@@ -245,10 +245,6 @@ export default class No1Weeks extends Component {
               })
               .attr("class", "name-anno")
               .attr("text-anchor", "end")
-
-
-
-
           })
 
           .on("mouseout", function(d) {
