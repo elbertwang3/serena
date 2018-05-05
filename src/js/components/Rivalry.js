@@ -367,6 +367,7 @@ export default class Rivalry extends Component {
          return profileimages[`${d['key']}.gif`] ? profileimages[`${d['key']}.gif`] : profileimages[`averageWTAplayer.gif`]
       })
       .attr("width", 50)
+      .attr("height", 50)
       .attr("x", -25)
       .attr("class", "profile-pic")
 
