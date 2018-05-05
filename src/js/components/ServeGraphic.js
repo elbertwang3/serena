@@ -3,7 +3,6 @@ import '../../css/App.css';
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
 import {scroller} from '../scripts/scroller.js';
-import serveSound from '../../images/servesound.mp3'
 
 export default class ServeGraphic extends Component {
 	constructor(props){
@@ -12,7 +11,6 @@ export default class ServeGraphic extends Component {
     this.state = {
       flags: null,
       serves: null,
-      sound: new Audio(serveSound)
 
 
     };
@@ -99,7 +97,7 @@ export default class ServeGraphic extends Component {
 
 				offsetScaleX
 					.domain([700, 400])
-					.range([25, 100])
+					.range([25, 50])
 
 				offsetScaleY
 					.domain([700, 400])
@@ -162,6 +160,7 @@ export default class ServeGraphic extends Component {
 					.append("svg:image")
 				.merge(ball)
 		      .attr("xlink:href", that.state.serves['tennisball.svg'])
+					.attr("width", 10)
 		      .attr("height", 10)
 		      .attr("class", "tennis-ball")
 		      .attr("transform", d => {
@@ -211,6 +210,7 @@ export default class ServeGraphic extends Component {
 		             return that.state.flags[`${d['country']}.png`]
 		        }
 		      })
+					.attr("height", 12)
 		      .attr("width", 20)
 		      .attr("transform", "translate(75, 10)")
 					.attr("class", "flag")
@@ -352,7 +352,7 @@ export default class ServeGraphic extends Component {
 		}
     function fastest() {
 			el.call(chart)
-      that.state.sound.play()
+
       console.log("fastest")
       d3.selectAll('.arc')
         .filter(d => d['type'] === 'first')
@@ -368,7 +368,6 @@ export default class ServeGraphic extends Component {
     }
     function averages() {
 			el.call(chart)
-      that.state.sound.play()
       console.log("averages")
       d3.selectAll('.arc')
         .filter(d => d['type'] === 'second')
@@ -386,7 +385,6 @@ export default class ServeGraphic extends Component {
 
      function all() {
 			 el.call(chart)
-      that.state.sound.play()
       console.log("all")
       d3.selectAll('.arc')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })

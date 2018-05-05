@@ -840,6 +840,7 @@ h3 {
   display: block;
   margin: auto;
   line-height: 1.5em;
+    padding: 1em;
 }
 
 .credits {

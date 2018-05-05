@@ -20,7 +20,7 @@ export default class UnderPressure extends Component {
 
     componentDidMount() {
     	const that = this
-      const margin = {top: 25, bottom: 25, right: 100, left: 150}
+      const margin = {top: 25, bottom: 25, right: 40, left: 145}
 
       const chart = stackedbar()
 
@@ -39,7 +39,7 @@ export default class UnderPressure extends Component {
 
       function resize() {
         //const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
-        const width = window.innerWidth
+        const width = window.innerWidth > 1000 ? 1000 : window.innerWidth
         const height = window.innerHeight
         chart.width(width).height(height)
         el.call(chart)
@@ -299,7 +299,7 @@ export default class UnderPressure extends Component {
 
       }
       function init() {
-        chart.width(window.innerWidth).height(window.innerHeight)
+        chart.width(window.innerWidth > 1000 ? 1000 : window.innerWidth).height(window.innerHeight)
 
         winloss()
 

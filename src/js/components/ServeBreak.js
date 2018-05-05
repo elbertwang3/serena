@@ -243,6 +243,7 @@ export default class ServeBreak extends Component {
 					.attr('x', 0)
 					.attr('y', 0)
 					.attr('width', 15)
+          .attr("height", 15)
 					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_returnpt_won']) - 7.5))
 					.on("mouseover", function(d){
 						tooltip.text(d['winner_name'])
