@@ -738,11 +738,12 @@ h2 {
 .player-line {
   fill: none;
 
+
 }
 
 
 .city--hover {
-  stroke-width: 5px;
+  stroke-width: 4px;
 }
 
 .voronoi {

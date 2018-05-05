@@ -37,7 +37,6 @@ export default class ServeGraphic extends Component {
   componentDidMount() {
 		const that = this
 		const margin = {top: 60, bottom: 25, right: 25, left: 45}
-		const {data} = this.props
 
 		let chart = servechart()
 		const el = d3.select('.serve-graphic')
@@ -73,7 +72,7 @@ export default class ServeGraphic extends Component {
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg').attr("class", "servesvg")
 				const gEnter = svgEnter.append('g')
-				const arcs = gEnter.append("g")
+				gEnter.append("g")
 		      .attr("class", "arcs")
 				/*const arcgroupprofile = .append("g")
 		      .attr("class", "arc-group-profile")*/
@@ -125,7 +124,7 @@ export default class ServeGraphic extends Component {
 		      .data(data)
 
 				arcgroup.exit().remove()
-				const arcgroupg = arcgroup
+				arcgroup
 		      .enter()
 		      .append('g')
 				.merge(arcgroup)
@@ -167,7 +166,6 @@ export default class ServeGraphic extends Component {
 		      .attr("class", "tennis-ball")
 		      .attr("transform", d => {
 							let path = d3.select('.arc').node()
-					    var l = path.getTotalLength()/2;
 
 			       	var p = path.getPointAtLength(0);
 			      	return "translate(" + (p.x + chartWidth/2 + offsetScaleX(width)) + "," + (p.y + chartWidth/2 - 2.5 - offsetScaleY(width)) + ")";
@@ -192,7 +190,7 @@ export default class ServeGraphic extends Component {
 				.merge(playername)
 		      .text(d => d['player'])
 		      .attr("transform", d => {
-		        if (d['country'] != "") {
+		        if (d['country'] !== "") {
 		            return "translate(70,20)"
 		        } else {
 		           return "translate(90,20)"
@@ -357,7 +355,7 @@ export default class ServeGraphic extends Component {
       that.state.sound.play()
       console.log("fastest")
       d3.selectAll('.arc')
-        .filter(d => d['type'] == 'first')
+        .filter(d => d['type'] === 'first')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
         .transition()
         .ease(d3.easeLinear)
@@ -373,7 +371,7 @@ export default class ServeGraphic extends Component {
       that.state.sound.play()
       console.log("averages")
       d3.selectAll('.arc')
-        .filter(d => d['type'] == 'second')
+        .filter(d => d['type'] === 'second')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
         .transition()
         .ease(d3.easeLinear)

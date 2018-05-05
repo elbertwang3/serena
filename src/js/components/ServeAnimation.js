@@ -92,14 +92,10 @@ export default class ServeAnimation extends Component {
   }
 
   render() {
-    const {serves, currentServe} = this.state
-    const serveUrl = `url('${currentServe}')`
-    const backgroundStyle = {
-      backgroundImage: serveUrl
+    const {currentServe} = this.state
 
-    }
     return <div className="serve-image-container">
-      <img className="serve-image" src={currentServe}></img>
+      <img className="serve-image" alt="serve" src={currentServe}></img>
     </div>
   }
 }

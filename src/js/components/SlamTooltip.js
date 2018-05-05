@@ -33,12 +33,12 @@ export default class SlamTooltip extends Component {
 	 	} else {
 	 		let slamdata = this.props.data
 	 		Object.keys(slamdata).map(function (key) {
-				if (slamdata[key] == " ") {
+				if (slamdata[key] === " ") {
 					slamdata[key] = '\xa0';
 				}
 			})
 
-	 		const {tourney_id, tourney_name, round, data} = slamdata
+	 		const {tourney_id, tourney_name, round} = slamdata
 	 		const tourney_year = tourney_id.slice(0,4)
 	 		const {border} = this.props
 	 		const borderStyle={borderBottom: "1px solid #a1a1a1"}

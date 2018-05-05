@@ -1,10 +1,8 @@
 import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
-import ReactMapGL, {NavigationControl, FlyToInterpolator, Marker} from 'react-map-gl';
+import ReactMapGL, {NavigationControl, FlyToInterpolator} from 'react-map-gl';
 import * as d3 from 'd3';
 import {scroller} from '../scripts/scroller.js';
-import compton2img from '../../images/compton2.jpg';
-import floridaimg from '../../images/rickmacci.jpg';
 
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiZWxiZXJ0d2FuZyIsImEiOiJjajk3dmw4amUwYmV2MnFydzl3NDIyaGFpIn0.46xwSuceSuv2Fkeqyiy0JQ";
@@ -35,7 +33,7 @@ export default class Map extends Component {
     this.setState({
       viewport: {...this.state.viewport}
     })
-    this._resize(); 
+    this._resize();
 
     window.addEventListener('scroll', (event) => {
       //console.log(ReactDOM.findDOMNode(this))
@@ -56,9 +54,9 @@ export default class Map extends Component {
          d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
-      } 
-    
-  
+      }
+
+
     })
 
     function defaultmap() {
@@ -75,7 +73,6 @@ export default class Map extends Component {
 
     }
     function saginaw() {
-    console.log("getting inside saginaw")
       const viewport = {
             ...that.state.viewport,
             longitude: -83.9508,
@@ -88,7 +85,6 @@ export default class Map extends Component {
         that.setState({viewport: viewport});
   }
   function compton() {
-    console.log("getting inside compton")
     const viewport = {
             ...that.state.viewport,
             longitude: -118.2201,
@@ -104,12 +100,11 @@ export default class Map extends Component {
 
   }
   function florida() {
-    console.log("getting inside florida")
     const viewport = {
             ...that.state.viewport,
             longitude: -80.0534,
             latitude: 26.7153,
-            zoom: 12, 
+            zoom: 12,
             transitionDuration: 2000,
             transitionInterpolator: new FlyToInterpolator(),
             transitionEasing: d3.easeCubic
@@ -124,7 +119,7 @@ export default class Map extends Component {
             ...that.state.viewport,
             longitude: -71.277572,
             latitude: 46.784652,
-            zoom: 16, 
+            zoom: 16,
             transitionDuration: 2000,
             transitionInterpolator: new FlyToInterpolator(),
             transitionEasing: d3.easeCubic
@@ -143,27 +138,27 @@ export default class Map extends Component {
   var scroll = scroller()
     .container(d3.select('#graphic1'));
 
-  scroll(d3.selectAll('#sections1 .step'), "scroller1"); 
+  scroll(d3.selectAll('#sections1 .step'), "scroller1");
 
-  
+
 
   scroll.on('active', function (index) {
 
     // highlight current step text
     d3.selectAll('#sections1 .step')
-      .style('opacity', function (d, i) { 
+      .style('opacity', function (d, i) {
         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
-            return i === index ? 0.8 : 0.1; 
+            return i === index ? 0.8 : 0.1;
         } else {
-          return i === index ? 1 : 0.1; 
+          return i === index ? 1 : 0.1;
         }
       });
       activate(index);
 
   })
-    
+
   function activate(index) {
-  
+
     that.setState({activeIndex: index});
     var sign = (that.state.activeIndex - that.state.lastIndex) < 0 ? -1 : 1;
     var scrolledSections = d3.range(that.state.lastIndex + sign, that.state.activeIndex + sign, sign);
@@ -173,12 +168,12 @@ export default class Map extends Component {
     that.setState({lastIndex: that.state.activeIndex});
   };
 
- 
-  
 
-  
+
+
+
   }
- 
+
   _resize() {
     this._onViewportChange({
       width: window.innerWidth,
@@ -191,7 +186,7 @@ export default class Map extends Component {
       viewport: {...this.state.viewport, ...viewport}
     });
   }
-  
+
 
   render() {
     //const {viewport} = this.state;
@@ -200,7 +195,7 @@ export default class Map extends Component {
     return (
       <ReactMapGL
         {...this.state.viewport}
-        
+
         mapboxApiAccessToken={MAPBOX_TOKEN}
         scrollZoom={false}
         mapStyle={caliTerrain}

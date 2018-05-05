@@ -4,9 +4,7 @@ import Player from './Player';
 
 
 export default class PlayerRow extends Component {
-	constructor(props){
-	  super(props);
-  	}
+
 
   	render() {
   		if (this.props == null) {
@@ -39,7 +37,7 @@ export default class PlayerRow extends Component {
 		  		<div className="score" style={borderStyle}>{score3}</div>
 		  	</div>
 		  	}
-		  	
+
 		  }
   	}
  }

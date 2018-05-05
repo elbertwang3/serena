@@ -11,7 +11,7 @@ export default class PlayerRow extends Component {
   }
 
   importAllFlags(r) {
- 
+
     let images = {};
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
     return images;
@@ -24,15 +24,15 @@ export default class PlayerRow extends Component {
   render() {
     if (this.props != null) {
       const {name, ioc, border} = this.props
-      const borderStyle={borderRight: this.props.border}
+      const borderStyle={borderRight: border}
       return <div className="player" style={borderStyle}>
         <div className='flag-container'>
-      
+
           <img className='flag' src={this.state.flags[`${ioc}.png`]} alt="flag"></img>
         </div>
         <div className="player-name">{name}</div>
       </div>
-    } else 
+    } else
       return <div className="player">
         <div className='flag-container'>
           <img className='flag' src='' alt="flag"></img>

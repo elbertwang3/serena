@@ -41,7 +41,6 @@ export default class No1Weeks extends Component {
   componentDidMount() {
     const that = this
     const margin = {top: 25, bottom: 50, right: 25, left: 70}
-    let {rankingdata, slamdata} = this.props
 
     const dateParser = d3.timeParse("%b %e, %Y")
     const birthdayParser = d3.timeParse("%Y%m%d")
@@ -96,9 +95,9 @@ export default class No1Weeks extends Component {
         const axis = gEnter.append('g').attr('class', 'g-axis')
         const xAxis = axis.append('g').attr('class', 'x-axis')
         const yAxis = axis.append('g').attr("class", 'y-axis')
-        const playerLines = gEnter.append('g').attr("class", 'player-lines')
-        const voronoiLines = gEnter.append('g').attr("class", 'voronoi-lines')
-        const nameAnnos = gEnter.append('g').attr("class", 'name-annos')
+        gEnter.append('g').attr("class", 'player-lines')
+        gEnter.append('g').attr("class", 'voronoi-lines')
+        gEnter.append('g').attr("class", 'name-annos')
 
         xAxis.append('text').attr('class', 'axis__label')
           .attr('text-anchor', 'middle')
@@ -178,7 +177,7 @@ export default class No1Weeks extends Component {
             }
           })
           .attr("opacity", d => d['key'] === 'Serena Williams' ? 1 : 0.5)
-          .attr("stroke-width", d => d['key'] === 'Serena Williams' ? "4px" : "2px")
+          .attr("stroke-width", d => d['key'] === 'Serena Williams' ? "3px" : "1px")
 
         const voronoiLines = g.select(".voronoi-lines")
         const voronoiLine = voronoiLines.selectAll("path")
@@ -195,7 +194,6 @@ export default class No1Weeks extends Component {
           })
           .on("mouseover",  function(d) {
             const mouseoverdata = d
-            console.log(d.data['player'])
             let line = d3.select(`.player-line.${d.data['player'].replace(/[.,/#!$%^&*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
             line.classed("city--hover", true);
             line.moveToFront()
@@ -205,10 +203,6 @@ export default class No1Weeks extends Component {
             d3.selectAll(".player-line").attr("opacity", 0.25)
             line.attr("opacity", 1)
 
-
-
-            const lineLength = line.node().getTotalLength()
-            const topPt = line.node().getPointAtLength(lineLength)
 
             d3.select(".name-anno-g").remove()
             const nameAnno = d3.select(".name-annos").selectAll(".name-anno-g")
@@ -306,7 +300,7 @@ export default class No1Weeks extends Component {
               d3.select(".x-axis").select(".domain").moveToFront()
 
               if (d != null) {
-                let line = d3.select(`.player-line.${d.data['player'].replace(/[.,\/#!$%\^&\*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
+                let line = d3.select(`.player-line.${d.data['player'].replace(/[.,/#!$%^&*;':{}=\-_`~()]/g,"").replace(/ +/g, '-')}`)
                 line.classed("city--hover", false);
 
               }
@@ -384,10 +378,7 @@ export default class No1Weeks extends Component {
         const x = axis.select('.x-axis')
 
 
-        const maxY = currYScale.range()[0]
-        const offset = maxY
 
-        const buffer = Math.ceil(margin / 2)
 
         x
           .attr('transform', translate(0, chartHeight))
@@ -407,7 +398,7 @@ export default class No1Weeks extends Component {
         y.select(".domain").remove()
         //x.selectAll(".tick").append("")
         y.selectAll(".tick")
-          .filter(d => d == 0)
+          .filter(d => d === 0)
           .select("line")
           .remove()
         y.selectAll(".tick")
@@ -427,7 +418,7 @@ export default class No1Weeks extends Component {
           .text(xCut)
 
         y.select(".axis__label")
-          .text(yCut == "numslams" ? "slams" : "weeks at no. 1")
+          .text(yCut === "numslams" ? "slams" : "weeks at no. 1")
 
 
       }
@@ -516,7 +507,6 @@ export default class No1Weeks extends Component {
     }
     function weeksage() {
 
-      console.log("weeksage")
       chart.scaleX(ageScale, "age")
       chart.scaleY(weeksScale, "weeks")
       el.datum(formatWeeksData(that.props.rankingdata))
@@ -535,7 +525,6 @@ export default class No1Weeks extends Component {
     }
 
     function slamstime() {
-      console.log("slamstime")
       chart.scaleX(timeScale, 'date')
       chart.scaleY(slamsScale, "numslams")
       el.datum(formatSlamsData(that.props.slamdata))
@@ -553,7 +542,6 @@ export default class No1Weeks extends Component {
     }
 
     function slamsage() {
-      console.log("slamsage")
       chart.scaleX(ageScale, "age")
       chart.scaleY(slamsScale, "numslams")
       el.datum(formatSlamsData(that.props.slamdata))
@@ -601,7 +589,7 @@ export default class No1Weeks extends Component {
         let outputArray = []
         for (let j = 0; j < data[i].values.length; j++) {
           let obj = data[i].values[j]
-          if (obj['date'] == "") {
+          if (obj['date'] === "") {
             let age = (dateParser(obj['slamdate']).getTime() - birthdayParser(obj['birthday']).getTime()) / 31556952000
             obj['numslams'] = j
             obj['age'] = age
@@ -624,14 +612,6 @@ export default class No1Weeks extends Component {
       return formattedData;
 
     }
-    var entityMap = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': '&quot;',
-      "'": '\'',
-      "/": '&#x2F;'
-    };
 
     window.addEventListener('scroll', (event) => {
       const divRect = ReactDOM.findDOMNode(this).parentNode.parentNode.getBoundingClientRect();

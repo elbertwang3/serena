@@ -3,7 +3,6 @@ import '../../css/App.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
 import {scroller} from '../scripts/scroller.js';
-import * as _ from 'lodash';
 
 
 export default class UnderPressure extends Component {
@@ -22,7 +21,6 @@ export default class UnderPressure extends Component {
     componentDidMount() {
     	const that = this
       const margin = {top: 25, bottom: 25, right: 100, left: 150}
-    	const {data} = this.props
 
       const chart = stackedbar()
 
@@ -35,8 +33,7 @@ export default class UnderPressure extends Component {
       let chartWidth = 0
       let chartHeight = 0
       let cut = "total"
-      let barSpacing = 2
-      let barHeight = 0
+
       let formatPercent = d3.format(".2f")
       let formatNumber = d3.format(".0f")
 
@@ -50,9 +47,6 @@ export default class UnderPressure extends Component {
 
       function stackedbar() {
 
-        let currXScale = null
-        let currYScale = null
-
         function translate(x, y) {
           return `translate(${x}, ${y})`
         }
@@ -62,8 +56,8 @@ export default class UnderPressure extends Component {
           const svgEnter = svg.enter().append('svg').attr("class", "pressuresvg")
           const gEnter = svgEnter.append('g')
           const axis = gEnter.append('g').attr('class', 'g-axis')
-          const xAxis = axis.append('g').attr('class', 'x-axis')
-          const yAxis = axis.append('g').attr("class", 'y-axis')
+          axis.append('g').attr('class', 'x-axis')
+          axis.append('g').attr("class", 'y-axis')
           gEnter.append('g').attr("class", "stacked-bars")
         }
 
@@ -86,7 +80,7 @@ export default class UnderPressure extends Component {
             .attr('width', width)
             .attr('height', height)
 
-          barHeight = chartHeight/data.length
+          const barHeight = chartHeight/data.length
 
 
           const g = svg.select('g')
@@ -95,7 +89,6 @@ export default class UnderPressure extends Component {
 
           const bars = g.select(".stacked-bars")
 
-          console.log(data)
           const barg = bars.selectAll(".stacked-bar-g")
             .data(data, d => d['player'])
 
@@ -114,20 +107,20 @@ export default class UnderPressure extends Component {
 
           const barpercent = g.selectAll(".stacked-bar-g").selectAll(".percent-anno")
             .data(d => {
-              console.log(d)
               switch(cut) {
               case "total":
                 return [d['totalwin'] / d['total']]
-                break
+
               case "three":
                 return [d['threesetwin'] / d['totalthreeset']]
-                break
+
               case "down":
                 return [d['downasetwin'] / d['totaldownaset']]
-                break
+
               case "tiebreak":
                 return [d['tiebreakwin'] / d['totaltiebreak']]
-                break
+              default:
+                return [d['totalwin'] / d['total']]
               }
             })
           barpercent.exit().remove()
@@ -136,7 +129,7 @@ export default class UnderPressure extends Component {
             .append("text")
             .text(d => d)
             .attr("class", "percent-anno")
-            .attr("transform", `translate(${chartWidth+10}, ${playerScale.bandwidth()/2})`)
+
             .attr("text-anchor", "start")
             .attr("alignment-baseline", "middle")
           .merge(barpercent)
@@ -144,6 +137,7 @@ export default class UnderPressure extends Component {
 
             .transition()
             .duration(1000)
+            .attr("transform", `translate(${chartWidth+10}, ${playerScale.bandwidth()/2})`)
             .tween("text", function(d,i,nodes) {
               var textElement = d3.select(this).node()
               var currentValue = +textElement.textContent;
@@ -162,25 +156,24 @@ export default class UnderPressure extends Component {
 
           const bar = g.selectAll(".stacked-bar-g").selectAll(".stacked-bar")
             .data(d => {
-              console.log(d)
               switch(cut) {
                 case "total":
                   return [d['totalwin'], d['totalloss']]
-                  break
+
                 case "three":
                   return [d['threesetwin'], d['threesetloss']]
-                  break
+
                 case "down":
                   return [d['downasetwin'], d['downasetloss']]
-                  break
+
                 case "tiebreak":
                   return [d['tiebreakwin'], d['tiebreakloss']]
-                  break
+
                 default:
                   return [d['totalwin'], d['totalloss']]
               }
             })
-            console.log(bar)
+
             bar.exit().remove()
             bar
               .enter()
@@ -188,7 +181,7 @@ export default class UnderPressure extends Component {
               .attr("class", "stacked-bar")
               .attr("height", playerScale.bandwidth())
               .attr("y", 0)
-                  .attr("fill", (d, i) => i == 0 ? "#1A80C4" : "#CC3D3D")
+              .attr("fill", (d, i) => i === 0 ? "#1A80C4" : "#CC3D3D")
             .merge(bar)
 
 
@@ -197,10 +190,10 @@ export default class UnderPressure extends Component {
               .duration(1000)
               .attr("x", (d,i,nodes) => {
                 let lastdata = d3.select(nodes[i - 1]).data()[0]
-                return i == 0 ? 0 : percentScale(lastdata /(d+lastdata))
+                return i === 0 ? 0 : percentScale(lastdata /(d+lastdata))
               })
               .attr("width", (d,i,nodes) => {
-                let total = i == 0 ? d + d3.select(nodes[i + 1]).data()[0] : d + d3.select(nodes[i - 1]).data()[0]
+                let total = i === 0 ? d + d3.select(nodes[i + 1]).data()[0] : d + d3.select(nodes[i - 1]).data()[0]
                 return percentScale(d/total)
               })
 
@@ -211,16 +204,13 @@ export default class UnderPressure extends Component {
                   switch(cut) {
                     case "total":
                       return [d['totalwin'], d['totalloss']]
-                      break
                     case "three":
                       return [d['threesetwin'], d['threesetloss']]
-                      break
                     case "down":
                       return [d['downasetwin'], d['downasetloss']]
-                      break
+
                     case "tiebreak":
                       return [d['tiebreakwin'], d['tiebreakloss']]
-                      break
                     default:
                       return [d['totalwin'], d['totalloss']]
                   }
@@ -230,8 +220,8 @@ export default class UnderPressure extends Component {
                 .enter()
                 .append("text")
                 .text(d => d)
-                .attr("transform", (d, i) => i == 0 ? `translate(5,${playerScale.bandwidth()/2})` : `translate(${chartWidth -5},${playerScale.bandwidth()/2})`)
-                .attr("text-anchor", (d, i) => i == 0 ? "start" : "end")
+
+                .attr("text-anchor", (d, i) => i === 0 ? "start" : "end")
                 .attr("class", "stacked-bar-text")
                 .attr("alignment-baseline", "middle")
               .merge(bartext)
@@ -239,6 +229,7 @@ export default class UnderPressure extends Component {
 
                 .transition()
                 .duration(1000)
+                .attr("transform", (d, i) => i === 0 ? `translate(5,${playerScale.bandwidth()/2})` : `translate(${chartWidth -5},${playerScale.bandwidth()/2})`)
                 .tween("text", function(d,i,nodes) {
                   var textElement = d3.select(this).node()
                   var currentValue = +textElement.textContent;
@@ -254,9 +245,6 @@ export default class UnderPressure extends Component {
                     textElement.textContent = formatNumber(interpolator( t ));
                   };
                 });
-
-
-
         }
 
 
@@ -265,54 +253,21 @@ export default class UnderPressure extends Component {
           const axis = container.select('.g-axis')
 
           const axisLeft = d3.axisLeft(playerScale)
-          //const axisBottom = d3.axisBottom(percentScale)
-          //axisBottom.selectAll(".domain").remove()
-          //axisBottom.selectAll(".tick").remove()
 
-          //axisLeft.ticks(Math.floor(currYScale.range()[0] / 100))
-          //axisBottom.ticks(Math.floor(percentScale.range()[1]/ 100)); //for yearscale
-          //axisBottom.ticks(d3.range(scaleX.domain()[0], scaleX.domain()[1], 5)) //for agescale
-          //axisLeft.ticks(d3.range(scaleY.domain()[0], scaleY.domain()[1], 100)) //for weeks
-          //axisLeft.ticks(d3.range(scaleY.domain([0], scaleY.domain([1], 5)))) //for slams
           const x = axis.select('.x-axis')
-
-
-          const maxY = playerScale.range()[0]
-
-
-
-
           const y = axis.select('.y-axis')
-
 
           y.transition().duration(1000).call(axisLeft)
 
-          /*x.select('.axis__label')
-            .attr("transform", `translate(${chartWidth/2}, ${margin.bottom*1.5/2})`)
-
-          y.select('.axis__label')
-            .attr('transform', `translate(${-margin.left/2}, ${chartHeight/2}) rotate(-90)`)*/
-
-          //x.select(".domain").remove()
           y.select(".domain").remove()
-          //x.selectAll(".tick").append("")
           y.selectAll(".tick")
             .select("line")
             .remove()
-
-
-
-
           x.select(".axis__label")
             .text("percent wins")
-
-
-
-
         }
 
         function chart(container) {
-          console.log("chart being called")
           const data = container.datum()
           enter({ container, data })
           updateScales({ container, data })

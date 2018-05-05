@@ -87,13 +87,14 @@ export default class ServeDirection extends Component {
         title
           .enter()
           .append("text")
-          .attr("transform", `translate(0,100)`)
+
           .attr("class", "title")
           .attr("dy", "1.25em")
-					.attr("x", chartWidth/2)
-					.attr("y", chartHeight/2)
+					.attr("x", 0)
+					.attr("y", 0)
           .attr("text-anchor", "middle")
         .merge(title)
+          .attr("transform", `translate(${chartWidth/2},${chartHeight*4/5})`)
           .text(() => {
             switch(currentServe) {
               case 0:
@@ -104,6 +105,8 @@ export default class ServeDirection extends Component {
                   return "Serena's second serve direction"
               case 3:
                   return "average WTA player's second serve direction"
+              default:
+                return "Serena's first serve direction"
             }
           })
           .call(that.wrap, chartWidth)
@@ -184,8 +187,8 @@ export default class ServeDirection extends Component {
           .duration(1000)
           .attr("x1", d => scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2)
           .attr("x2", d => scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2)
-          .attr("y1", (d, i) => i == 1 || i == 4 ? scaleLength(40) : scaleLength(17))
-          .attr("y2", (d, i) => i == 1 || i == 4 ? scaleLength(38) : scaleLength(19))
+          .attr("y1", (d, i) => i === 1 || i === 4 ? scaleLength(40) : scaleLength(17))
+          .attr("y2", (d, i) => i === 1 || i === 4 ? scaleLength(38) : scaleLength(19))
 
         const serveAnno = serveRects.selectAll(".serve-rect-anno")
 					.data(serveData)
@@ -202,7 +205,7 @@ export default class ServeDirection extends Component {
           .transition()
           .duration(1000)
           .attr("transform", (d,i) => {
-  	         if (i == 1 || i == 4) {
+  	         if (i === 1 || i === 4) {
                return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2),scaleLength(42))
              } else {
                return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2),scaleLength(16))

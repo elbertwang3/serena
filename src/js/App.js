@@ -11,7 +11,6 @@ import No1Weeks from './components/No1Weeks.js';
 import UnderPressure from './components/UnderPressure.js';
 import '../css/App.css';
 import * as d3 from 'd3';
-import compton2 from '../images/compton2.jpg';
 import * as _ from 'lodash';
 import * as $ from 'jquery';
 
@@ -60,16 +59,6 @@ class App extends Component {
         child.toggleClass(classes);
       }
     );
-    /*var files = ["data/serenaranking.csv"];
-    Promise.all(files.map(url => d3.csv(url, this.type))).then(values => {
-      this.setState({
-        serena_ranking_data: values },
-        () => {
-          console.log(this.state.values)
-          this.refs.rankingline.createLineChart();
-        }
-      )
-    }) */
     var files = ["data/venusrivalry.csv", "data/mariarivalry.csv", "data/venusannotation.csv",
     "data/mariaannotation.csv", "data/servestats.csv", "data/servedirection.csv", "data/serenamatches.csv",
     "data/weeksat1.tsv", "data/slamdata.tsv", "data/underpressure.csv", "data/servespeed.csv"];
@@ -84,7 +73,6 @@ class App extends Component {
          return d3.tsv(url, types[i].bind(this))
       }
     })).then(values => {
-      console.log(values[10])
       this.setState({
         venusdata: values[0],
         mariadata: values[1],
@@ -145,7 +133,7 @@ class App extends Component {
   type5(d) {
     var monthDict = {'Australian Open' : "Jan 29", "French Open" : "Jun 11", "Wimbledon" : "Jul 16", "US Open" : "Sep 10"}
     d['player'] = d['player'].replace(/ *\([^)]*\) */g, "")
-    d['slamdate'] = d['date'] == "" ? `${monthDict[d['slam']]}, ${d['year']}` : d['date']
+    d['slamdate'] = d['date'] === "" ? `${monthDict[d['slam']]}, ${d['year']}` : d['date']
     return d
   }
 
@@ -184,31 +172,13 @@ class App extends Component {
       pressure = <UnderPressure data={underpressure} />
       servegraphic = <ServeGraphic data={servespeed}/>
 
-    } /*else {
-      rivalries = <div></div>
-      servestats = <div></div>
-      servedirection = <div></div>
-      input = null
-      goat = null
-      pressure = null
-      servegraphic = null
-    }*/
+    }
     const serveTemplate = _.range(1,33).map((i) =>
     <section className="smallerstep" key={i}>
       <p className="prose"></p>
     </section>)
 
     return (
-      /*<div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>*/
-
       <div className="content">
         <div className="header">
           <div className="background-container">
@@ -219,13 +189,12 @@ class App extends Component {
               Serena The Great
             </div>
             <div className="subhed">
-              A visual story of the most dominant player, male or female, in tennis
+              A visual story of the most dominant player in tennis
             </div>
           </div>
 
         </div>
         <div className="body">
-
             <RankingLine />
               <p className="prose">In the trailer for HBO's <i>Being Serena</i> documentary out this week, in a voiceover, Serena
                 says, "I don't know if there's anything left for me in tennis," followed by a pregnant pause. "But I'm not done yet,"
@@ -239,7 +208,7 @@ class App extends Component {
 
                   <a href="#" className="relative onhover-toggle-child-class" data-target=".target" data-toggle="hidden shown">"Are you looking at my titles?"
                    <span className="absolute target hidden on-top">
-                     <img src={images['titles.jpg']} alt="image" height="200"></img>
+                     <img src={images['titles.jpg']} alt="title" height="200"></img>
                    </span>
                  </a> reads a shirt she wore during a press conference at Wimbledon in 2009. She has won 23 Grand Slam titles, more than any man or woman
                    in the open era. She has nothing left to prove, and yet she's back. This time, perhaps, it's to prove to herself
@@ -249,7 +218,6 @@ class App extends Component {
 
             <div className='graphic' id='graphic1'>
               <div className="viz" id="viz1">
-                <img id="map-background-img"></img>
                 <Map />
               </div>
               <div className='sections' id='sections1'>
@@ -394,10 +362,16 @@ class App extends Component {
                It has been the key to her success.</p>
             <h2> Dominating on Serve and Return </h2>
             <p className="prose"> Serena wins the highest percentage of serve points by a largin margin, and she's
-              not far behind leader Justine Henin on return. Punishing opponents with weak serves, she can hit return
+              not far behind leader Justine Henin on return. Punishing opponents with weak serves, she hits return
               winners on serves that sit up for her to pummel back. This is a cornerstone of her power game,
-              a playstyle that she and Venus popularized, and what tennis commentator Mary Carillo has affectionately
+              a playstyle that she and would Venus popularize, and what tennis commentator Mary Carillo has affectionately
               dubbed "Big Babe Tennis."
+            </p>
+              <p className="prose">
+            When the sisters debuted on the tour, the no. 1 player at the time was Martina Hingis.
+              With a game based on touch and guile, for a period, Hingis was invincible. But it was short-lived.
+             She was was simply overpowered by the Williams sisters and the players they would later influence,
+             unable to handle the pace of her bigger and taller opponents.
             </p>
             {servestats}
             <h2> Serena's Rivals </h2>
@@ -442,8 +416,8 @@ class App extends Component {
                 </section>
                 <section className="step">
 
-                  <p className="prose dark">But get this: Serena is the only player with a positive record when <i>down</i> the first set. Half the time,
-                she comes back from a set down to win the match.</p>
+                  <p className="prose dark">But get this: Serena is the only player with a positive record when <i>down</i> the first set.
+                  More than half the time she loses the first set, she comes back to win the match.</p>
                 </section>
 
               </div>
@@ -458,14 +432,14 @@ class App extends Component {
             </p>
             <p className="prose">
               On the men's tour, Roger Federer seemed like he was on the decline when he went slamless for four years,
-              but he is also in the middle of a late-career renaissance, winning the Australian Open and Wimbledon last year.
-              Like Serena, he's avoided injury and burnout by choosing tournaments carefully and prioritizing the slams,
-              a strategy that has allowed them to be successful
-              players can be successful avoiding injury and burnout
-              outlasting  Serena is so great is that she's been around longer  anyone on tour, only topped by Venus
-              Roger Federer is also 36and despite a period of decline,is playing as well as he ever as, winning 2 slams last year
-              Tennis is favoring  older playerScaleThe
-              THere hasn't been someone to over take them
+              but over the past year and half he's been in the middle of a late-career renaissance, winning the Australian Open
+              and Wimbledon last year. Like Serena, he's avoided injury and burnout by choosing tournaments carefully
+              and prioritizing the slams, a strategy that has allowed them to be successful well into their 30s.
+            </p>
+            <p className="prose">
+              Some critics have said that Serena isn't the greatest of all time because she hasn't had a worthy rival
+              like Nadal is to Federer, Evert was to Navratilova, or Seles was to Graf. But she's simply been better
+              than everyone else, and no one has stood up to take her place for all these years.
             </p>
             <p className="prose">
               <span style={{color: "#a9a9a9"}}>Retired</span> players are in grey, currently <span style={{color: "#ff8a4f"}}>active</span> players in orange, and <span style={{color: "#5171bc"}}>Serena</span> in blue.
@@ -501,45 +475,26 @@ class App extends Component {
             </div>
             <p className="prose"> When we think about measuring the greatest of all time, we tend to think in terms of numbers:
               the best win-loss record (Graf), the most weeks at no. 1 (Graf), the most titles (Navratilova). Serena doesn't win
-              in any of these categories. Yet shs possesses something far more intangible--something that can't be easily
-              measured or compared--that makes her one of the greatest athletes of all time. </p>
-            <p className="prose"> When I think about Serena, I think about her childhood and upbringing fed her tennis balls
-              from an old shopping cart. I think about the way she and Venus reshaped
-              I think about how she changed the game (power tennis)
-              I think about her performance at the 2007 Australian Open,
-              when she, ranked 81st and unseeded, out of shape, and having dealt with injuries and the death her sister
-              Yetunde, crushed Sharapova in the final to win the title.
-              pulmonary embolism
-              I think about all the times she's down a set and a break, but finds it in herself to come back. I think about
+              in any of these categories. Yet her intangible qualities and accomplishments--ones not so easily
+              measured or compared--make her one of the greatest athletes of all time. </p>
+            <p className="prose"> When I think about Serena, I think of her childhood on the shabby public courts of
+              Compton, how her father fed tennis balls to her from a rickety shopping cart. I think about how she and
+              Venus transformed the women's game, ushering in the current era of power tennis. I think about her performance
+              at the 2007 Australian Open, when she, ranked 81st and unseeded, out of shape, and having dealt with injuries
+              and the death of her sister Yetunde, crushed Sharapova in the final to win the title. I think about how she's
+              recovered from life-threatening pulmonary embolisms--in 2010 and after her pregnancy--and returned to the game
+              as strong as ever.
+            </p>
+              <p className="prose">
+              I think about all the times she's been down a set and a break, but found it in herself to come back. I think about
               the way she roars "Come on!" with fists pumped, willing herself to win. I think about how, over 20 years into
               her career, she is still playing the best tennis of her life. I think about how, unlike Federer who
-              makes tennis look easy, Serena makes it look effortful, the way she runs down every ball, fights for every point,
-              and claws her way into a match. And I think about all of the great victories
+              makes it look easy, she makes tennis look effortful, the way she runs down every ball, fights for every point,
+              and claws her way back into a match.
             </p>
             <p className="prose">
-              She embodies an athlete.
-              We are there with her through every up and down.
-
-              Coming back from her pregnancy may be the toughest hurdle in her career yet, mentally and physically.
-              But if anyone is up to the challenge, its Serena.
-              all of the times
-
-              2007 Australian Open
-
-
-              high-profile female athlete
-
-              It doesn't matterSerena is the greatest because she embodies an athlete
-              mentally physically
-
-              deep lows in her career
-              redefining athlete
-              we tend to think of athletes as male,
-
-              yet serena possesses more intangible characteristics
-              under pressure, longevity, overcoming adversity, changing the game
-              redefine the face of the sport
-              unlikely
+              Coming back from her pregnancy may be the toughest hurdle in her career yet.
+              But if anyone is up to the challenge, it's Serena.
             </p>
 
             <div className="credits">

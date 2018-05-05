@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/App.css';
-import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
-import {swoopyArrow} from '../scripts/swoopyArrow';
-import SlamTooltip from './SlamTooltip.js';
-import Slider from './Slider.js'
 
 
 export default class ServeBreak extends Component {
@@ -39,8 +35,6 @@ export default class ServeBreak extends Component {
   	const that = this
   	const {data} = this.props
   	const margin = 45
-    const COLORS = ['#ff3814', '#fe5c34', '#fc764f', '#f88d69', '#f2a385', '#e8b8a0', '#dbcdbd']
-  	//const filtereddata = data.filter(d => d['Sum_Sum_w_1stWon'] > 5000)
 
   	var tooltip = d3.select(".body")
 			.append("div")
@@ -78,8 +72,6 @@ export default class ServeBreak extends Component {
 
 			const scaleX = d3.scaleLinear()
 			const scaleY = d3.scaleLinear()
-			const scaleR = d3.scaleSqrt()
-			const scaleC = d3.scaleQuantile()
 
 			let width = 0
 			let height = 0
@@ -95,7 +87,7 @@ export default class ServeBreak extends Component {
 			}
 
 			function enter({ container, data }) {
-				const sz = Math.min(el.node().offsetWidth, window.innerHeight) * 0.9
+
 				const svg = container.selectAll('svg').data([data])
 				const svgEnter = svg.enter().append('svg').attr("class", "servebreak-svg")
 		      	const gEnter = svgEnter.append('g')
@@ -141,13 +133,6 @@ export default class ServeBreak extends Component {
 					.domain([0.38, 0.5])
 					.range([rangeY, 0])
 
-				/*scaleR
-					.domain([0, data.length])
-					.range([maxR, 2])*/
-
-				scaleC
-					.domain(data.map(d => d.rank))
-					.range(COLORS)
 			}
 
 			function updateDom({ container, data }) {
@@ -206,7 +191,7 @@ export default class ServeBreak extends Component {
 				g.attr('transform', transform)
 
 				const plot = g.select('.g-plot')
-				const serenaData = data.filter(d => d['winner_name'] == 'Serena Williams')[0]
+				const serenaData = data.filter(d => d['winner_name'] === 'Serena Williams')[0]
 
 				let xLine = plot.selectAll(".guide-line-x")
 					.data([serenaData])
@@ -257,10 +242,7 @@ export default class ServeBreak extends Component {
 				.merge(item)
 					.attr('x', 0)
 					.attr('y', 0)
-					//.attr('r', d => scaleR(d.rank))
 					.attr('width', 15)
-					//.style('fill', d => scaleC(d.rank))
-					//.style('stroke', d => d3.color(scaleC(d.rank)).darker(0.7))
 					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_returnpt_won']) - 7.5))
 					.on("mouseover", function(d){
 						tooltip.text(d['winner_name'])
@@ -411,7 +393,7 @@ export default class ServeBreak extends Component {
 		}
 
   	function init() {
-			var weighted = el.datum(weightData({ x: 50, y: 50 }))
+			el.datum(weightData({ x: 50, y: 50 }))
 
 			resize()
 			window.addEventListener('resize', resize)

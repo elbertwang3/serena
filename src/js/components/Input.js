@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/App.css';
 import '../../css/awesomplete.css';
-import ReactDOM from 'react-dom';
 import Rivalry from './Rivalry.js';
-import * as d3 from 'd3';
 import {awesomplete} from '../scripts/awesomplete';
 export default class ServeBreak extends Component {
   constructor(props){
@@ -14,28 +12,29 @@ export default class ServeBreak extends Component {
 
 	  }
   }
-  
+
   componentDidMount() {
   	const that = this
   	const input = document.getElementById('myinput')
   	const {data} = this.props
   	let playerNames = [...data.map(item => item['winner_name']), ...data.map(item => item['loser_name'])];
   	playerNames = [...new Set(playerNames)]
-	  const awesompleteinput = awesomplete(input, {
+	  awesomplete(input, {
 	    list: playerNames
 	  });
 
 
 	   document.getElementById('myinput').addEventListener("awesomplete-select", function(event) {
-	   
+
 	   	const opponent = event.text.label
-	   	if (opponent == 'Serena Williams') {
-	   		console.log("Serena has never played herself, tennis critics have often said she needed to overcome herself")
+	   	if (opponent === 'Serena Williams') {
+	   		//console.log("Serena has never played herself, tennis critics have often said she needed to overcome herself")
+        that.setState({currOpponentData: "Serena Williams"})
 	   	} else {
-	   		const matches = data.filter(d => d['winner_name'] == opponent || d['loser_name'] == opponent)
+	   		const matches = data.filter(d => d['winner_name'] === opponent || d['loser_name'] === opponent)
 		   	that.setState({currOpponentData: matches})
 	   	}
-	   
+
 
 	   })
 
@@ -44,10 +43,19 @@ export default class ServeBreak extends Component {
 	render() {
 		const {currOpponentData} = this.state
 		if (currOpponentData != null) {
-			return <div>
-				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
-				<Rivalry data={currOpponentData} margin={{top:25, bottom: 25, right: 25, left: 25}} />
-			</div>
+      if (currOpponentData === "Serena Williams") {
+        return <div>
+  				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
+            <p className="prose">Although Serena has never played herself, tennis commentators have often said that
+            Serena is her own worst enemy. </p>
+  			</div>
+
+      } else {
+  			return <div>
+  				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
+  				<Rivalry data={currOpponentData} margin={{top:25, bottom: 25, right: 25, left: 25}} />
+  			</div>
+      }
 		} else {
 			return <div>
 				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
