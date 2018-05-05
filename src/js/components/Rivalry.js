@@ -177,12 +177,13 @@ export default class Rivalry extends Component {
     profilePic
       .enter()
       .append("svg:image")
+      .attr("height", 50)
+      .attr("width", 50)
     .merge(profilePic)
       .attr("xlink:href", d => {
         return profileimages[`${d['key']}.gif`] ? profileimages[`${d['key']}.gif`] : profileimages[`averageWTAplayer.gif`]
       })
-      .attr("height", 50)
-      .attr("width", 50)
+
       .attr("x", -25)
       .attr("class", "profile-pic")
 
