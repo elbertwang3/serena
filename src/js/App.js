@@ -54,6 +54,18 @@ class App extends Component {
   }
   componentDidMount() {
     $('.onhover-toggle-child-class').on(
+      'touchstart' 'touchend',
+      function() {
+        var element = $(this);
+        var selector = element.data('target');
+        var child = element.find(selector);
+        var classes = element.data('toggle');
+
+
+        child.toggleClass(classes);
+      }
+    );
+    $('.onhover-toggle-child-class').on(
       'mouseenter mouseleave',
       function() {
         var element = $(this);
@@ -224,8 +236,7 @@ class App extends Component {
                  </p>
                  <p className="prose">
 
-                    <a href="#" className="relative onhover-toggle-child-class" data-target=".target" data-toggle="hidden shown"
-                      onClick={() => this.titlesRef.current.style.display = 'none'}>"Are you looking at my titles?"
+                    <a href="#" className="relative onhover-toggle-child-class" data-target=".target" data-toggle="hidden shown">"Are you looking at my titles?"
                      <span className="absolute target hidden on-top">
                        <img className="mytitles" src={images['titles.jpg']} alt="title" height="200" ref={this.titlesRef}></img>
                      </span>
@@ -502,7 +513,7 @@ class App extends Component {
                 Venus transformed the women's game, ushering in the current era of power tennis. I think about her performance
                 at the 2007 Australian Open, when she, ranked 81st and unseeded, out of shape, and having dealt with injuries
                 and the death of her sister Yetunde, crushed Sharapova in the final to win the title. I think about how she's
-                recovered from life-threatening pulmonary embolisms--in 2010 and after her pregnancy--and returned to the game
+                recovered from life-threatening pulmonary embolisms--one in 2010 and another after her pregnancy--and returned to the game
                 as strong as ever.
               </p>
                 <p className="prose">
@@ -524,7 +535,7 @@ class App extends Component {
                   Cover photo image credits go to Getty Images. Data is from Wikipedia and Jeff Sackmann's <a href="https://github.com/JeffSackmann/tennis_wta">database</a>. Design inspiration from Swiss
                   Info's <a href="https://interactive.swissinfo.ch/2018_01_28_federer20/en.html">20 Years, 20 Titles</a>.
                   The <a href="https://bl.ocks.org/russellgoldenberg/aba5f81a8bd0633a399d692289ab97eb">weighted pivot scatter
-                  plot</a> is based on Russell Goldenberg's chart. Analysis using
+                  plot</a> is based on Russell Goldenberg's chart.
                 </p>
               </div>
           </div>
