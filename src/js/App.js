@@ -15,7 +15,6 @@ import * as _ from 'lodash';
 import * as $ from 'jquery';
 import ReactGA from 'react-ga';
 import MetaTags from 'react-meta-tags';
-import preview from '../images/preview.png'
 
 
 class App extends Component {
@@ -212,11 +211,11 @@ class App extends Component {
           <title>Serena the Great</title>
           <meta name="description" content="A visual story of the most dominant player in tennis" />
           <meta property="og:title" content="Serena the Great" />
-          <meta property="og:image" content={preview} />
+          <meta property="og:image" content="https://www.dremio.com/img/stories/serena/preview.png" />
           <meta property="og:type" content="article" />
           <meta property="og:url" content="https://www.dremio.com/serena/" />
           <meta property="twitter:title" content="The Winter Olympics" />
-           <meta property="twitter:image" content={preview} />
+           <meta property="twitter:image" content="https://www.dremio.com/img/stories/serena/preview.png" />
            <meta property="twitter:description" content="A visual story of the Winter Games." />
         </MetaTags>
         <div className="content">
