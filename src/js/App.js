@@ -62,7 +62,19 @@ class App extends Component {
     if (mobile) {
       console.log("mobile")
       $('.onhover-toggle-child-class').on(
-        'touchstart' 'touchend',
+        'touchstart',
+        function() {
+          var element = $(this);
+          var selector = element.data('target');
+          var child = element.find(selector);
+          var classes = element.data('toggle');
+
+
+          child.toggleClass(classes);
+        }
+      );
+      $('.onhover-toggle-child-class').on(
+        'touchend',
         function() {
           var element = $(this);
           var selector = element.data('target');
