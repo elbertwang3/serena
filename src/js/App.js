@@ -237,7 +237,7 @@ class App extends Component {
                  </p>
                  <p className="prose">
 
-                    <a href="#" className="relative onhover-toggle-child-class" data-target=".target" data-toggle="hidden shown">"Are you looking at my titles?"
+                    <a className="mousehover relative onhover-toggle-child-class" data-target=".target" data-toggle="hidden shown">"Are you looking at my titles?"
                      <span className="absolute target hidden on-top">
                        <img className="mytitles" src={images['titles.jpg']} alt="title" height="200" ref={this.titlesRef}></img>
                      </span>

@@ -189,6 +189,12 @@
 .hidden {
   display: none;
 }
+
+.mousehover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .ranking-line-svg {
   display: block;
   margin: 0 auto;
