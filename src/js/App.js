@@ -207,7 +207,7 @@ class App extends Component {
           <meta property="og:type" content="article" />
           <meta property="og:url" content="https://www.dremio.com/serena/" />
           <meta property="twitter:title" content="The Winter Olympics" />
-           <meta property="twitter:image" content={preview}>
+           <meta property="twitter:image" content={preview} />
            <meta property="twitter:description" content="A visual story of the Winter Games." />
         </MetaTags>
         <div className="content">
