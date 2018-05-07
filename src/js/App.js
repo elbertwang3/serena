@@ -60,8 +60,9 @@ class App extends Component {
 };
 		const mobile = window.mobilecheck()
     if (mobile) {
+      console.log("mobile")
       $('.onhover-toggle-child-class').on(
-        'touchstart', 'touchend',
+        'touchstart' 'touchend',
         function() {
           var element = $(this);
           var selector = element.data('target');
@@ -73,6 +74,7 @@ class App extends Component {
         }
       );
     } else {
+      console.log("not mobile")
       $('.onhover-toggle-child-class').on(
         'mouseenter mouseleave',
         function() {
