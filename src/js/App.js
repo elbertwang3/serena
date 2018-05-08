@@ -146,7 +146,7 @@ class App extends Component {
 
   type2(d) {
     d['percent_servept_won'] = +d['percent_servept_won']
-    d['percent_breakpt_saved'] = +d['percent_breakpt_saved']
+    d['percent_returnpt_won'] = +d['percent_returnpt_won']
     d['Sum_Sum_w_1stWon'] = +d['Sum_Sum_w_1stWon']
     return d
   }
@@ -509,8 +509,9 @@ class App extends Component {
                   </section>
                   <section className="step">
                     <p className="prose dark">Navratilova won her last grand slam title when she won Wimbledon at 33, and
-                      Flavia Pennetta won her first and last grand slam at the U.S. Open at 33. Serena won the 2017 Australian Open at 35,
-                      and she's made it clear she's hungry for more. </p>
+                      Flavia Pennetta won her first and last slam at the U.S. Open at 33. Serena won the 2017 Australian Open at 35,
+                      and if she wins another slam, she will join Evonne Goolagang and Kim Clijsters as mothers who have won
+                    a grand slam title.</p>
                   </section>
 
                 </div>
@@ -530,8 +531,7 @@ class App extends Component {
               </p>
                 <p className="prose">
                 I think about all the times she's been down a set and a break, but found it in herself to come back. I think about
-                the way she roars "Come on!" with fists pumped, willing herself to win. I think about how, over 20 years into
-                her career, she is still playing the best tennis of her life. I think about how, unlike Federer who
+                the way she roars "Come on!" with fists pumped, willing herself to win. I think about how, unlike Federer who
                 makes it look easy, she makes tennis look effortful, the way she runs down every ball, fights for every point,
                 and claws her way back into a match.
               </p>

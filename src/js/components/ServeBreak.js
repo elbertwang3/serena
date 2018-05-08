@@ -313,6 +313,35 @@ export default class ServeBreak extends Component {
 								return scaleY(d['percent_returnpt_won']) + 7.5
 							})
 					});
+          console.log(data)
+
+          const highest = plot.selectAll(".highest")
+            .data([{percent_returnpt_won: 0.5, percent_servept_won: 0.65}])
+
+          highest.exit().remove()
+          highest
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("class", "highest")
+            .attr("opacity", 0.5)
+          .merge(highest)
+            .attr("cx", d => scaleX(d['percent_servept_won']))
+            .attr("cy", d => scaleY(d['percent_returnpt_won']))
+
+
+          const highestanno = svg.selectAll(".highestanno")
+            .data([{percent_returnpt_won: 0.5, percent_servept_won: 0.65}])
+
+            highestanno.exit().remove()
+            highestanno
+              .enter()
+              .append("text")
+              .attr("class", "highestanno")
+              .text("The closer to here the better")
+              .attr("text-anchor", "middle")
+            .merge(highestanno)
+              .attr('transform',  d => translate(width/2, scaleY(d['percent_returnpt_won']) + margin * 0.75))
         /*  const highest = data.filter(d => d['percent_servept_won'] > 0.61 || d['percent_returnpt_won'] > 0.475)
           console.log(highest)
           const rotation2 = `rotate(${angle} 0 ${scaleY.range()[0]})`

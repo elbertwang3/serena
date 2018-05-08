@@ -404,10 +404,7 @@
   z-index: 2;
 }
 
-#sections1 {
-  position: relative;
 
-}
 
 .sections .step:first-child {
   padding-top: 200px;
@@ -618,6 +615,12 @@ h2 {
   position: relative;
 }
 
+.servebreak-container .highestanno {
+  font-family: "Roboto";
+  font-size: 14px;
+
+}
+
 .slider {
   display: block;
   margin: 0 auto;
@@ -726,7 +729,7 @@ h2 {
 
 .serve-circle {
   fill: black;
-  opacity: 0.5;
+  opacity: 0.4;
 
 }
 
@@ -910,8 +913,12 @@ h3 {
   .title-container .subhed {
   }
 }
+@media only screen and (max-width: 1000px) {
+  #sections1 {
+    position: relative;
 
-
+  }
+}
 @media only screen and (max-width: 600px) {
   .title-container .title {
     /*font-size: 55px;*/
