@@ -372,7 +372,7 @@ export default class UnderPressure extends Component {
 
 	    scroll.on('active', function (index) {
 	      // highlight current step text
-	      d3.selectAll('#sections5 .step')
+	      d3.selectAll('#sections6 .step')
 	        .style('opacity', function (d, i) {
 	          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600) {
 	              return i === index ? 0.8 : 0.1;

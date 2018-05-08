@@ -401,8 +401,12 @@
 }
 
 .sections {
-  position: relative;
   z-index: 2;
+}
+
+#sections1 {
+  position: relative;
+
 }
 
 .sections .step:first-child {
