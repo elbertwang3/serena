@@ -57,6 +57,13 @@ export default class ServeDirection extends Component {
       	gEnter.append('g').attr('class', 'g-court')
       	gEnter.append('g').attr("class", 'serve-rects')
 
+        gEnter.append("text")
+          .text("Serve Accuracy")
+          .attr("class", "title2")
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
+          .attr("transform", translate(scaleLength(18), scaleLength(4.5)))
+
 			}
 			function exit({ container, data }) {
 			}
@@ -93,8 +100,9 @@ export default class ServeDirection extends Component {
 					.attr("x", 0)
 					.attr("y", 0)
           .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
         .merge(title)
-          .attr("transform", `translate(${chartWidth/2},${chartHeight*4/5})`)
+          .attr("transform", translate(scaleLength(18), scaleLength(66)))
           .text(() => {
             switch(currentServe) {
               case 0:
@@ -109,7 +117,7 @@ export default class ServeDirection extends Component {
                 return "Serena's first serve direction"
             }
           })
-          .call(that.wrap, chartWidth)
+          .call(that.wrap, width)
 
 
 
@@ -141,35 +149,44 @@ export default class ServeDirection extends Component {
 					.attr("y2", d => scaleLength(d['y2']))
 					.attr("class", "court-line")
 
-
 				const d = data[currentServe]
 				let serveData = [d['Sum_deuce_wide']/d['total_deuce_serves'],d['Sum_deuce_middle']/d['total_deuce_serves'],d['Sum_deuce_t']/d['total_deuce_serves'],d['Sum_ad_wide']/d['total_ad_serves'],d['Sum_ad_middle']/d['total_ad_serves'],d['Sum_ad_t']/d['total_ad_serves']]
-				serveData = serveData.map((d,i) => {
-					let sum = d3.sum(serveData.slice(0, i))
-					return {percent: d, xoffset: sum}
-				})
 
 
+        const list = [1/3,2/3,3/3,4/3,5/3,6/3]
 				const serveRects = g.select(".serve-rects")
-        const serve = serveRects.selectAll(".serve-rect")
-					.data(serveData)
+
+        const serves = []
+        for (let i = 0; i < 200; i++) {
+          let cat = randomNumber(list, serveData)
+          let min = cat - 1/3
+          let rand = Math.random() * (cat - min) + min
+          serves.push({i: i, x: scaleLength(serveScale(rand)), y: scaleLength(Math.random() * 21)})
+        }
+        const serve = serveRects.selectAll(".serve-circle")
+					.data(serves)
 
         serve.exit().remove()
         serve
           .enter()
-          .append("rect")
-          .attr("class", "serve-rect")
+          .append("circle")
+          .attr("class", "serve-circle")
+          .attr("r", 2.5)
+          .attr("transform", d => {
+
+  					return translate(scaleLength(4.5) ,scaleLength(18))
+  				})
 				.merge(serve)
-          .attr("height", scaleLength(21))
-          //.attr("transform", `translate(0, ${scaleLength(18)})`)
           .transition()
           .duration(1000)
-  				.attr("width", d => scaleLength(serveScale(d['percent'])))
+          .attr("cx", d => {
+            return d['x']})
+          .attr("cy", d => d['y'])
+          //.attr("transform", `translate(0, ${scaleLength(18)})`)
 
-  				.attr("transform", d => {
 
-  					return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset']))),scaleLength(18))
-  				})
+
+
 
 
 
@@ -183,12 +200,12 @@ export default class ServeDirection extends Component {
           .append("line")
           .attr("class", "serve-anno-line")
         .merge(annoLine)
-          .transition()
-          .duration(1000)
-          .attr("x1", d => scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2)
-          .attr("x2", d => scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2)
-          .attr("y1", (d, i) => i === 1 || i === 4 ? scaleLength(40) : scaleLength(17))
-          .attr("y2", (d, i) => i === 1 || i === 4 ? scaleLength(38) : scaleLength(19))
+          //.transition()
+          //.duration(1000)
+          .attr("x1", (d, i) => scaleLength(serveScale((i+1)/3)))
+          .attr("x2", (d, i) => scaleLength(serveScale((i+1)/3)))
+          .attr("y1", (d, i) =>  scaleLength(18))
+          .attr("y2", (d, i) =>  scaleLength(39))
 
         const serveAnno = serveRects.selectAll(".serve-rect-anno")
 					.data(serveData)
@@ -198,24 +215,20 @@ export default class ServeDirection extends Component {
           .enter()
           .append("text")
           .attr("text-anchor", "middle")
+          .attr("alignment-baseline", i === 1 || i === 4 ? "hanging" : "baseline")
           .attr("class", "serve-rect-anno")
-          .text(d => d['percent'])
+          .text(d => d)
+          .attr("transform", (d,i) => translate(scaleLength(4.5) + scaleLength(serveScale((i+0.5)/3)), scaleLength(17)))
         .merge(serveAnno)
 
           .transition()
           .duration(1000)
-          .attr("transform", (d,i) => {
-  	         if (i === 1 || i === 4) {
-               return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2),scaleLength(42))
-             } else {
-               return translate((scaleLength(4.5) + scaleLength(serveScale(d['xoffset'])) + scaleLength(serveScale(d['percent']))/2),scaleLength(16))
-             }
-  				})
+
           .tween("text", function(d,i,nodes) {
             var textElement = d3.select(this).node()
             var currentValue = +textElement.textContent;
             // create interpolator and do not show nasty floating numbers
-            var interpolator = d3.interpolateNumber( currentValue, d['percent'] );
+            var interpolator = d3.interpolateNumber( currentValue, d );
 
             // this returned function will be called a couple
             // of times to animate anything you want inside
@@ -226,13 +239,57 @@ export default class ServeDirection extends Component {
               textElement.textContent = formatPercent(interpolator( t ));
             };
           });
+
+        const addeuce = g.selectAll(".addeuce")
+          .data(["Ad", "Deuce"])
+        addeuce.exit().remove()
+        addeuce
+          .enter()
+          .append("text")
+          .text(d => d)
+          .attr("text-anchor", "middle")
+          .attr("class", "addeuce")
+          .attr("alignment-baseline", "middle")
+          .attr("transform", (d, i) => translate(scaleLength(11.25 + 13.5*i), scaleLength(48)))
+
+          const directionlabel = g.selectAll(".directionlabel")
+            .data(["Wide", "Middle", "T", "T", "Middle", "Wide"])
+          directionlabel.exit().remove()
+          directionlabel
+            .enter()
+            .append("text")
+            .attr("class", "directionlabel")
+            .text(d => d)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("transform", (d, i) => translate(scaleLength(6.75 + 4.5*i), scaleLength(14)))
+
+          function randomNumber(list, weight) {
+            var total_weight = weight.reduce(function (prev, cur, i, arr) {
+              return prev + cur;
+            });
+            var random_num = Math.random() * total_weight;
+            var weight_sum = 0;
+
+            for (var i = 0; i < list.length; i++) {
+              weight_sum += weight[i];
+              weight_sum = +weight_sum;
+
+              if (random_num <= weight_sum) {
+                  return list[i];
+              }
+            }
+
+          }
 			}
+
 
 			function chart(container) {
 				const data = container.datum()
+        	updateScales({ container, data })
 				enter({ container, data })
 				exit({ container, data })
-				updateScales({ container, data })
+
 				updateDom({ container, data })
 				//updateAxis({ container, data })
 			}

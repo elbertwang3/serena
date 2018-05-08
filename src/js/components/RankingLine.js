@@ -9,7 +9,7 @@ export default class RankingLine extends Component {
 
 	constructor(props){
     super(props);
-    this.divRef = React.createRef(); 
+    this.divRef = React.createRef();
     this.gRef = React.createRef();
     this.svgRef = React.createRef();
     this.tooltipRef = React.createRef();
@@ -24,7 +24,7 @@ export default class RankingLine extends Component {
       flags: null,
       currSlamData: null,
       tooltipStyle: {
-        position: 'absolute', 
+        position: 'absolute',
         background: 'black',
         color: 'white',
         left: 0,
@@ -46,7 +46,7 @@ export default class RankingLine extends Component {
     return images;
   }
   importAllFlags(r) {
- 
+
     let images = {};
     r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
     return images;
@@ -56,7 +56,7 @@ export default class RankingLine extends Component {
   componentDidMount() {
     var files = ["data/serenaranking.csv", "data/slamresultsmatches.csv", "data/rankingannotations.csv"];
     var types = [this.type, this.type2, this.type3];
-    Promise.all(files.map((url,i) => { 
+    Promise.all(files.map((url,i) => {
       return d3.csv(url, types[i].bind(this))
     })).then(values => {
       const images = this.importAll(require.context('../../images/originaltrophies', false, /\.(png|jpe?g|svg)$/));
@@ -79,7 +79,7 @@ export default class RankingLine extends Component {
       var chartHeight = chart.getAttribute("height")
       var aspect = chartWidth / chartHeight
       var parentcontainer = this.divRef.current
-  
+
       var targetWidth = parentcontainer.offsetWidth;
       if (targetWidth < 500) {
         console.log("Getting here");
@@ -93,16 +93,16 @@ export default class RankingLine extends Component {
         chart.setAttribute('height', 8000)
       }
     })
-    
+
     window.dispatchEvent(new Event('resize'));
   }
 
-   
-  
-  
+
+
+
   componentWillReceiveProps() {
   }
-  
+
    /*componentDidUpdate() {
       this.createLineChart()
    }*/
@@ -116,9 +116,9 @@ export default class RankingLine extends Component {
         map[obj.ranking_date] = obj.ranking;
         return map;
       }, {});
-    
+
       const parseDate = d3.timeParse('%Y-%m-%d');
-      const yExtent = d3.extent(linedata, d => 
+      const yExtent = d3.extent(linedata, d =>
         parseDate(d['ranking_date'])
       );
 
@@ -184,7 +184,7 @@ export default class RankingLine extends Component {
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "middle")
 
-    
+
       //const images = this.importAll(require.context('../../images/trophies', false, /\.(png|jpe?g|svg)$/));
       var wins = d3.select(this.gRef.current).append("g")
         .attr("class", "slamwins")
@@ -225,6 +225,11 @@ export default class RankingLine extends Component {
         .tickValues([500,100,10,5,3,2,1]))
         .attr("class", "intro-ranking-axis")
         .attr("id", "intro-ranking-x-axis")
+			d3.select("#intro-ranking-x-axis").append("text")
+				.text("Ranking")
+				.attr("x", innerWidth)
+				.attr("y", -25)
+				.attr("text-anchor", "end")
 
       d3.select(this.gRef.current).append("g")
         .call(d3.axisLeft(yScale)
@@ -253,11 +258,11 @@ export default class RankingLine extends Component {
 
       ranking_annotation.append("text")
         .text(function(d) { return d['annotation']})
-       
+
         // .attr("x", d => d['x1'])
         // .attr("y", d => d['y1'])
         .attr("x", d => (d['x1'] > d['x2'] ? 10 : -10))
-        
+
           //(d['y1'] > d['y2']) ? -d3.select(this).node().getBBox().height : d3.select(this).node().getBBox().height )
         .attr("dy", "1.25em")
         .attr("text-anchor", d => (d['x1'] > d['x2'] ? "start" : "end"))
@@ -267,7 +272,7 @@ export default class RankingLine extends Component {
         .attr("y", function(d) {
           return -d3.select(this).node().getBBox().height/2;
         })
-   
+
 
       ranking_annotation.append("path")
         .attr('marker-end', 'url(#arrowhead)')
@@ -276,7 +281,7 @@ export default class RankingLine extends Component {
         })
         .attr("d", swoopy)
         .attr("class", "swoopy-arrow")
-      
+
       const noAbsences = slamdata.filter(d => d['result'] !== 'A')
       let prevSlam = null;
       let currSlam = null;
@@ -289,35 +294,35 @@ export default class RankingLine extends Component {
         const offset = window.innerHeight/2
         const realHeight = bottomoffset - topoffset
         const ratio = realHeight/this.state.height;
-        var pageYOffset = (window.pageYOffset)/ratio 
+        var pageYOffset = (window.pageYOffset)/ratio
         pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
            xAxis.attr('transform', `translate(0, ${pageYOffset - window.innerHeight})`)
-     
-           
+
+
         } else if (window.pageYOffset <= topoffset) {
 
           xAxis.attr('transform', `translate(0, 0)`);
-          
+
         }
-        
+
         if (window.pageYOffset >= topoffset - offset && window.pageYOffset <= bottomoffset - offset) {
           var y_pos = pageYOffset - topoffset + window.innerHeight/2
           var x_pos = this.findXatYbyBisection(y_pos, mainpath.node())
           var gohere = getLengthAtPoint(mainpath.node(), {x: x_pos, y: y_pos})
-    
+
           mainpath
             .attr("stroke-dashoffset", function(d) {
               return lineLength-gohere;
             })
 
             d3.selectAll(".slam")
-              .filter(function(d){ 
-                return y_pos >= yScale(parseDate(d['date'])); 
+              .filter(function(d){
+                return y_pos >= yScale(parseDate(d['date']));
               })
-   
+
               .attr("opacity", 1)
-            let currentList = noAbsences.filter(function(d){ 
+            let currentList = noAbsences.filter(function(d){
                 return y_pos >= yScale(parseDate(d['date']))
               });
             if (currentList.length !== 0) {
@@ -331,13 +336,13 @@ export default class RankingLine extends Component {
                 //console.log(currSlam['slam'])
               }
             }
-      
+
             //tooltipcontainer.select
-         
-  
+
+
             d3.selectAll(".ranking-annotation")
-              .filter(function(d){ 
-                return y_pos >= d['y2']; 
+              .filter(function(d){
+                return y_pos >= d['y2'];
               })
               .attr("opacity", 1)
 
@@ -347,20 +352,20 @@ export default class RankingLine extends Component {
             .data(nowins)
 
             d3.selectAll(".slam")
-              .filter(function(d){ 
-                return y_pos < yScale(parseDate(d['date'])); 
+              .filter(function(d){
+                return y_pos < yScale(parseDate(d['date']));
               })
               .attr("opacity", 0)
 
             d3.selectAll(".ranking-annotation")
-              .filter(function(d){ 
-                return y_pos < d['y2']; 
+              .filter(function(d){
+                return y_pos < d['y2'];
               })
               .attr("opacity", 0)
         } else if (window.pageYOffset <= topoffset - offset) {
           mainpath
             .attr("stroke-dashoffset", lineLength);
-        } 
+        }
 
 
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - topoffset) {
@@ -386,7 +391,7 @@ export default class RankingLine extends Component {
           }))
           //this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
         } else if (window.pageYOffset <= topoffset) {
-          
+
           this.setState(prevState => ({
             tooltipStyle: {
               ...prevState.tooltipStyle,
@@ -396,20 +401,20 @@ export default class RankingLine extends Component {
           }))
           //this.setState({position: {position:'absolute', top: 500}})
         }
-    })  
+    })
 
    }
-    type(d) { 
+    type(d) {
       d['ranking'] = +d['ranking'];
       return d;
     }
-    type2(d) { 
+    type2(d) {
       const parseDate2 = d3.timeParse('%d %B %Y');
       const formatDate = d3.timeFormat('%Y-%m-%d');
       d['date'] = formatDate(parseDate2(d['date']));
       return d;
     }
-    type3(d) { 
+    type3(d) {
       d['x1'] = +d['x1'];
       d['y1'] = +d['y1'];
       d['x2'] = +d['x2'];
@@ -467,15 +472,15 @@ export default class RankingLine extends Component {
       return point.x
     }
 
-    
 
-    
+
+
     render() {
       const {margin, width, height, tooltipStyle, currSlamData, border} = this.state
       var slamTooltip;
       //const emptySlamData = ['year','result','date','date_1','result2','round','tourney_date,tourney_id,tourney_year,tourney_name,surface,draw_size,tourney_level,match_num,winner_id,winner_seed,winner_entry,winner_name,winner_hand,winner_ht,winner_ioc,winner_age,winner_rank,winner_rank_point]
       if (this.state.currSlamData != null) {
-   
+
         slamTooltip = <SlamTooltip data={currSlamData} tooltipStyle={tooltipStyle} border={border}/>
       } else {
 

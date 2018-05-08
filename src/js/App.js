@@ -267,9 +267,9 @@ class App extends Component {
                   <section className="step">
                     <p className="prose dark">Serena's story starts before she and older sister Venus were even born.
                    Their father, the inimitable Richard Williams, had already had conceived a vision for his future
-                   daughters. It was in 1980--after flipping through channels on television and coming across
+                   daughters. It was in 1980--after seeing
                     Romanian tennis player Virginia Ruzici collecting a $40,000 check for winning a small tournament
-                    in Salt Lake City--that he decided that his not-yet-existent daughters would be tennis stars.
+                    in Salt Lake City on TV--that he decided that his not-yet-existent daughters would be tennis stars.
                  </p>
                  <p className="prose dark">He started to take tennis lessons from a man who went by Old Whiskey, lessons
                    he paid for with booze. He then drafted a 78-page plan, a manifesto of sorts, on how he was going to make
@@ -317,8 +317,8 @@ class App extends Component {
                     <p className="prose dark">
                       Asked to comment on the match years later, Miller said, smiling, "In my mind I had every shot of winning the match [because I had]
                       a little more experience than she had at the time, so I played a good match, and won. I thought it was just another
-                      day at the tennis courts." While Miller left tennis a couple years later and sought out a normal life,
-                      Serena went on to accomplish something quite extraordinary.
+                      day at the tennis courts." Few could have predicted that Serena would grow into the champion that she has become,
+                      but
                     </p>
                   </section>
                 </div>
@@ -383,7 +383,7 @@ class App extends Component {
                   <section className="step">
                     <p className="prose dark">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
                        out wide or up the T. With speed combined with placement, many of her first serves are unreturnable. On any given serve,
-                     her likelihood of hitting an ace is <a href="http://www.latimes.com/projects/la-sp-serena-williams-greatest-all-time/">13%</a>, a rate three times higher than the average WTA player.  </p>
+                     her likelihood of hitting an ace is 13%, a rate three times higher than the average WTA player.  </p>
                   </section>
                   <section className="step">
                     <p className="prose dark">The average WTA player serves down the middle three times as often as Serena does, making it easier to return. </p>

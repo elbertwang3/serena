@@ -99,6 +99,7 @@ export default class ServeBreak extends Component {
 					.attr("y", 40)
 					.attr("class", "title")*/
 				gEnter.append('g').attr('class', 'g-plot')
+        gEnter.append('g').attr('class', 'names')
 
 				const axis = gEnter.append('g').attr('class', 'g-axis')
 
@@ -191,6 +192,7 @@ export default class ServeBreak extends Component {
 				g.attr('transform', transform)
 
 				const plot = g.select('.g-plot')
+        const names = g.select('.names')
 				const serenaData = data.filter(d => d['winner_name'] === 'Serena Williams')[0]
 
 				let xLine = plot.selectAll(".guide-line-x")
@@ -228,8 +230,7 @@ export default class ServeBreak extends Component {
             .y(d => scaleY(d['percent_returnpt_won']) - 7.5)
             .size([plotAreaWidth, plotAreaHeight])(data);*/
 
-
-				const item = plot.selectAll('.item').data(d => d, d => d.winner_name)
+				const item =  plot.selectAll('.item').data(d => d, d => d.winner_name)
 
 
 
@@ -312,6 +313,22 @@ export default class ServeBreak extends Component {
 								return scaleY(d['percent_returnpt_won']) + 7.5
 							})
 					});
+        /*  const highest = data.filter(d => d['percent_servept_won'] > 0.61 || d['percent_returnpt_won'] > 0.475)
+          console.log(highest)
+          const rotation2 = `rotate(${angle} 0 ${scaleY.range()[0]})`
+          const name = names.selectAll('.name').data(highest, d => d.winner_name)
+          console.log(name)
+          name.exit().remove()
+          name.enter().append('text')
+            .attr('class', 'name')
+          .merge(name)
+            .text(d => d['winner_name'])
+            .attr('transform',  d => `translate(${scaleX(d['percent_servept_won']) - offsetX - 5}, ${scaleY(d['percent_returnpt_won']) - offsetY + 45}) ${rotation2}`)
+            .attr("x", 15)
+            .attr("y", 0)*/
+
+
+
 
 
 

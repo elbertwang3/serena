@@ -675,6 +675,12 @@ h2 {
   font-size: 10px;
 }
 
+.name {
+  font-family: "Roboto";
+  font-size: 12px;
+
+}
+
 .guide-line-x {
   fill: none;
   stroke: #808080;
@@ -693,20 +699,49 @@ h2 {
   fill: blue;
 }
 
+
 .servedirection-container {
   background-color: #4CBB17;
 }
 
 .servedirection-container .title{
   font-family: "Source Sans Pro";
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   fill: white;
 }
-.serve-rect {
+
+
+.servedirection-container .title2{
+  font-family: "Source Sans Pro";
+  font-size: 32px;
+  font-weight: 700;
+  fill: white;
+}
+/*.serve-rect {
   fill: black;
   opacity: 0.4;
   stroke: white;
+}*/
+
+.serve-circle {
+  fill: black;
+  opacity: 0.5;
+
+}
+
+.addeuce {
+  font-family: "Roboto";
+  font-size: 24px;
+  fill: white;
+  font-weight: 600;
+}
+
+.directionlabel {
+  font-size: 12px;
+  font-family: "Roboto";
+  fill: white;
+
 }
 .serve-rect-anno {
   font-family: "Roboto";
