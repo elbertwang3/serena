@@ -221,17 +221,6 @@ class App extends Component {
 
     return (
       <div className="wrapper">
-        <MetaTags>
-          <title>Serena the Great</title>
-          <meta name="description" content="A visual story of the most dominant player in tennis" />
-          <meta property="og:title" content="Serena the Great" />
-          <meta property="og:image" content="https://www.dremio.com/img/stories/serena/preview.png" />
-          <meta property="og:type" content="article" />
-          <meta property="og:url" content="https://www.dremio.com/serena/" />
-          <meta property="twitter:title" content="The Winter Olympics" />
-           <meta property="twitter:image" content="https://www.dremio.com/img/stories/serena/preview.png" />
-           <meta property="twitter:description" content="A visual story of the Winter Games." />
-        </MetaTags>
         <div className="content">
           <div className="header">
             <div className="background-container">
