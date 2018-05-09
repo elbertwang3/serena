@@ -316,8 +316,7 @@ class App extends Component {
                     <p className="prose dark">
                       Asked to comment on the match years later, Miller said, smiling, "In my mind I had every shot of winning the match [because I had]
                       a little more experience than she had at the time, so I played a good match, and won. I thought it was just another
-                      day at the tennis courts." Few could have predicted that Serena would grow into the champion that she has become,
-                      but
+                      day at the tennis courts." Few could have predicted that Serena would grow into the champion that she has become.
                     </p>
                   </section>
                 </div>
