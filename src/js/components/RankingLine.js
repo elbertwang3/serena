@@ -396,7 +396,7 @@ export default class RankingLine extends Component {
             tooltipStyle: {
               ...prevState.tooltipStyle,
               position: 'absolute',
-              top: 500,
+              top: window.innerHeight*3/4,
             }
           }))
           //this.setState({position: {position:'absolute', top: 500}})

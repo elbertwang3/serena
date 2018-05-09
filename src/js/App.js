@@ -298,7 +298,7 @@ class App extends Component {
                     <p className="prose dark">When Serena turned 9, the family moved to West Palm Beach, FL
                       to train at Rick Macci's tennis academy. Macci and Richard sometimes clashed, and in 1995,
                       he pulled his daughters out of the academy, coaching them himself. He also took them out
-                      of the junior circuit, citing the intensity of the other parents and how time consuming it was.
+                      of the junior circuit, citing the intensity of the other parents and how time-consuming it was.
                     </p>
                     {/*<p className="prose dark">
                       More important than tennis, Richard wanted his daughters to receive and education and develop
@@ -355,7 +355,7 @@ class App extends Component {
                   {servegraphic}
                 </div>
                 <div className='sections' id='sections2'>
-              
+
                   <section className="step">
                     <p className="prose dark">Serena is consistently one of the WTA tour's fastest servers. </p>
                   </section>
