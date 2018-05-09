@@ -473,7 +473,7 @@ class App extends Component {
               </p>
               <p className="prose">
                 On the men's tour, Roger Federer seemed like he was on the decline when he went slamless for four years,
-                but over the past year and half he's been in the middle of a late-career renaissance, winning the Australian Open
+                but over the past year and half, he's been in the middle of a late-career renaissance, winning the Australian Open
                 and Wimbledon last year. Like Serena, he's avoided injury and burnout by choosing tournaments carefully
                 and prioritizing the slams, a strategy that has allowed them to be successful well into their 30s.
               </p>

@@ -45,20 +45,20 @@ export default class ServeBreak extends Component {
 		if (currOpponentData != null) {
       if (currOpponentData === "Serena Williams") {
         return <div>
-  				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
+  				<input id="myinput" className="awesomplete" placeholder="Enter a player..."></input>
             <p className="prose">Although Serena has never played herself, tennis commentators have often said that
             Serena is her own worst enemy. </p>
   			</div>
 
       } else {
   			return <div>
-  				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
+  				<input id="myinput" className="awesomplete" placeholder="Enter a player..."></input>
   				<Rivalry data={currOpponentData} margin={{top:25, bottom: 25, right: 25, left: 25}} />
   			</div>
       }
 		} else {
 			return <div>
-				<input id="myinput" className="awesomplete" placeholder="Enter a term..."></input>
+				<input id="myinput" className="awesomplete" placeholder="Enter a player..."></input>
 			</div>
 		}
 	}

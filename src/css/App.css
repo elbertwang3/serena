@@ -776,10 +776,10 @@ h2 {
 }
 
 #myinput {
-  width: 250px;
   font-family: 'Roboto';
    display: block;
-  margin: 0 auto;
+  margin: auto;
+  width: 234px;
   padding: 8px;
   font-size: 14px;
   outline: 0;
