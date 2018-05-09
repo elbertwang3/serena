@@ -611,6 +611,9 @@ h2 {
   margin: 0 auto;
 }
 
+.overlay {
+  cursor: pointer;
+}
 .servebreak-container {
   position: relative;
 }
