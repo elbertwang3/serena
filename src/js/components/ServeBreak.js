@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/App.css';
+import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
 
 
@@ -78,6 +79,7 @@ export default class ServeBreak extends Component {
 			let chartWidth = 0
 			let chartHeight = 0
 
+
 			let weightX = 50
 			let weightY = 50
 			let hypotenuse = 0
@@ -116,6 +118,12 @@ export default class ServeBreak extends Component {
 					.attr('text-anchor', 'end')
 					.text('% return points won')
 
+        gEnter.append('circle')
+          .attr('class', 'highlight-circle')
+          .attr('r', 8) // slightly larger than our points
+          .style('fill', 'none')
+          .style('display', 'none');
+
 			}
 
 			function exit({ container, data }) {
@@ -137,53 +145,21 @@ export default class ServeBreak extends Component {
 			}
 
 			function updateDom({ container, data }) {
+
 				const svg = container.select('svg')
 
 				svg
 					.attr('width', width)
 					.attr('height', height)
 
-          /*const title = svg.selectAll(".chart-title")
-            .data([data])
-          title.exit().remove()
 
-          title
-            .enter()
-            .append("text")
-          .merge(title)
-    					.text("Dominating on Serve and Return")
-    					.attr("class", "chart-title")
-    					.attr("text-anchor", "start")
-              .attr("dy", "1.25em")
-    					.attr("x", 0)
-    					.attr("y", 0)
-              //.attr("transform", "translate(0, 40)")
-              .call(that.wrap, width)
-          const subtitle = svg.selectAll(".chart-subtitle")
-            .data([data])
-          subtitle.exit().remove()
-          subtitle
-            .enter()
-            .append("text")
-          .merge(subtitle)
-  					.text("Serena wins the most serve points by a large margin, and is not far behind leader Justin Henin on return")
-  					.attr("class", "chart-subtitle")
-  					.attr("text-anchor", "start")
 
-            .attr("dy", "1.25em")
-  					.attr("x", 0)
-  					.attr("y", svg.select(".chart-title").node().getBBox().height + 10)
-            .call(that.wrap, width)*/
-
-				/*svg.select(".title")
-					.attr("x", width/2)
-					.attr("y", 40)
-					.attr("class", "title")*/
 				const g = svg.select('g')
 
 				const maxY = scaleY.range()[0]
 				const offsetX = chartWidth / 2
 				const offsetY = chartHeight - maxY
+        const voronoiRadius = chartWidth/5;
 				const rad = Math.acos(weightX / hypotenuse)
 				const angle = 90 - (rad * 180 / Math.PI)
 				const rotation = `rotate(${-angle} 0 ${scaleY.range()[0]})`
@@ -192,7 +168,6 @@ export default class ServeBreak extends Component {
 				g.attr('transform', transform)
 
 				const plot = g.select('.g-plot')
-        const names = g.select('.names')
 				const serenaData = data.filter(d => d['winner_name'] === 'Serena Williams')[0]
 
 				let xLine = plot.selectAll(".guide-line-x")
@@ -225,10 +200,10 @@ export default class ServeBreak extends Component {
 					})
 					.attr("class", "guide-line-y")
 
-          /*const voronoi = d3.voronoi()
-            .x(d => scaleX(d['percent_servept_won']) - 7.5)
-            .y(d => scaleY(d['percent_returnpt_won']) - 7.5)
-            .size([plotAreaWidth, plotAreaHeight])(data);*/
+        const voronoiDiagram = d3.voronoi()
+          .x(d => scaleX(d['percent_servept_won']) - 7.5)
+          .y(d => scaleY(d['percent_returnpt_won']) - 7.5)
+          .size([chartWidth, chartHeight])(data);
 
 				const item =  plot.selectAll('.item').data(d => d, d => d.winner_name)
 
@@ -246,74 +221,110 @@ export default class ServeBreak extends Component {
 					.attr('width', 15)
           .attr("height", 15)
 					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_returnpt_won']) - 7.5))
-					.on("mouseover", function(d){
-						tooltip.text(d['winner_name'])
-						tooltip.style("display", "block");
-						xLine = plot.selectAll(".guide-line-x")
-							.data([d])
-
-						yLine = plot.selectAll(".guide-line-y")
-							.data([d])
-
-						xLine
-							.attr("opacity", 1)
-							.attr("x1", -margin/2)
-							.attr("x2", d => {
-								return scaleX(d['percent_servept_won']) - 7.5
-							})
-							.attr("y1", d => scaleY(d['percent_returnpt_won']))
-							.attr("y2", d => scaleY(d['percent_returnpt_won']))
-
-						yLine
-							.attr("opacity", 1)
-							.attr("x1", d => scaleX(d['percent_servept_won']))
-							.attr("x2", d => scaleX(d['percent_servept_won']))
-							.attr("y1", maxY + margin/2)
-							.attr("y2", d => {
-								return scaleY(d['percent_returnpt_won']) + 7.5
-							})
-						 //tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");
-						 /*tooltip
-							.style('left', `${scaleX(d['percent_servept_won']) - 7.5}px`)
-							.style('top', `${scaleY(d['percent_returnpt_won']) - 7.5}px`)
-							.text(d['winner_name'])*/
-
-
-					})
-					.on("mousemove", function(){ tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px");})
-					.on("mouseout", function(){
-						/*xLine.attr("opacity", 0)
-						yLine.attr("opacity", 0)*/
-						tooltip.style("display", "none");
-						const d = serenaData
 
 
 
-						xLine = plot.selectAll(".guide-line-x")
-							.data([d])
 
-						yLine = plot.selectAll(".guide-line-y")
-							.data([d])
+          function highlight(d) {
+            // no point to highlight - hide the circle
+            if (!d) {
+              d3.select('.highlight-circle').style('display', 'none');
+              tooltip.style("display", "none");
+              tooltip.style(d => "top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px")
+  						const d = serenaData
 
-						xLine
-							.attr("opacity", 1)
-							.attr("x1", -margin/2)
-							.attr("x2", d => {
-								return scaleX(d['percent_servept_won']) - 7.5
-							})
-							.attr("y1", d => scaleY(d['percent_returnpt_won']))
-							.attr("y2", d => scaleY(d['percent_returnpt_won']))
+  						xLine = plot.selectAll(".guide-line-x")
+  							.data([d])
 
-						yLine
-							.attr("opacity", 1)
-							.attr("x1", d => scaleX(d['percent_servept_won']))
-							.attr("x2", d => scaleX(d['percent_servept_won']))
-							.attr("y1", maxY + margin/2)
-							.attr("y2", d => {
-								return scaleY(d['percent_returnpt_won']) + 7.5
-							})
-					});
-          console.log(data)
+  						yLine = plot.selectAll(".guide-line-y")
+  							.data([d])
+
+  						xLine
+  							.attr("opacity", 1)
+  							.attr("x1", -margin/2)
+  							.attr("x2", d => {
+  								return scaleX(d['percent_servept_won']) - 7.5
+  							})
+  							.attr("y1", d => scaleY(d['percent_returnpt_won']))
+  							.attr("y2", d => scaleY(d['percent_returnpt_won']))
+
+  						yLine
+  							.attr("opacity", 1)
+  							.attr("x1", d => scaleX(d['percent_servept_won']))
+  							.attr("x2", d => scaleX(d['percent_servept_won']))
+  							.attr("y1", maxY + margin/2)
+  							.attr("y2", d => {
+  								return scaleY(d['percent_returnpt_won']) + 7.5
+  							})
+
+            // otherwise, show the highlight circle at the correct position
+            } else {
+              d3.select('.highlight-circle')
+                .style('display', '')
+                .style('stroke', "black")
+                .attr('cx', scaleX(d['percent_servept_won']))
+                .attr('cy', scaleY(d['percent_returnpt_won']));
+
+                tooltip.text(d['winner_name'])
+    						tooltip.style("display", "block");
+                tooltip.style("top", (d3.event.pageY)+"px").style("left",(d3.event.pageX+20)+"px")
+    						xLine = plot.selectAll(".guide-line-x")
+    							.data([d])
+
+    						yLine = plot.selectAll(".guide-line-y")
+    							.data([d])
+
+    						xLine
+    							.attr("opacity", 1)
+    							.attr("x1", -margin/2)
+    							.attr("x2", d => {
+    								return scaleX(d['percent_servept_won']) - 7.5
+    							})
+    							.attr("y1", d => scaleY(d['percent_returnpt_won']))
+    							.attr("y2", d => scaleY(d['percent_returnpt_won']))
+
+    						yLine
+    							.attr("opacity", 1)
+    							.attr("x1", d => scaleX(d['percent_servept_won']))
+    							.attr("x2", d => scaleX(d['percent_servept_won']))
+    							.attr("y1", maxY + margin/2)
+    							.attr("y2", d => {
+    								return scaleY(d['percent_returnpt_won']) + 7.5
+    							})
+            }
+          }
+
+          // callback for when the mouse moves across the overlay
+          function mouseMoveHandler() {
+            // get the current mouse position
+            const [mx, my] = d3.mouse(this);
+
+            // use the new diagram.find() function to find the Voronoi site
+            // closest to the mouse, limited by max distance voronoiRadius
+            const site = voronoiDiagram.find(mx, my, voronoiRadius);
+            // highlight the point if we found one
+            highlight(site && site.data);
+          }
+
+          // add the overlay on top of everything to take the mouse events
+          const overlay = g.selectAll(".overlay")
+            .data([data])
+          overlay.exit().remove()
+          overlay
+            .enter()
+            .append('rect')
+
+          .merge(overlay)
+            .attr('class', 'overlay')
+            .attr('width', width)
+            .attr('height', height)
+            .style('fill', '#f00')
+            .style('opacity', 0)
+            .on('mousemove', mouseMoveHandler)
+            .on('mouseout', () => {
+              // hide the highlight circle when the mouse leaves the chart
+              highlight(null);
+            });
 
           const highest = plot.selectAll(".highest")
             .data([{percent_returnpt_won: 0.5, percent_servept_won: 0.65}])
@@ -342,19 +353,7 @@ export default class ServeBreak extends Component {
               .attr("text-anchor", "middle")
             .merge(highestanno)
               .attr('transform',  d => translate(width/2, scaleY(d['percent_returnpt_won']) + margin * 0.75))
-        /*  const highest = data.filter(d => d['percent_servept_won'] > 0.61 || d['percent_returnpt_won'] > 0.475)
-          console.log(highest)
-          const rotation2 = `rotate(${angle} 0 ${scaleY.range()[0]})`
-          const name = names.selectAll('.name').data(highest, d => d.winner_name)
-          console.log(name)
-          name.exit().remove()
-          name.enter().append('text')
-            .attr('class', 'name')
-          .merge(name)
-            .text(d => d['winner_name'])
-            .attr('transform',  d => `translate(${scaleX(d['percent_servept_won']) - offsetX - 5}, ${scaleY(d['percent_returnpt_won']) - offsetY + 45}) ${rotation2}`)
-            .attr("x", 15)
-            .attr("y", 0)*/
+
 
 
 

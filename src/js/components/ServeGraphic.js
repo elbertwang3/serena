@@ -353,7 +353,6 @@ export default class ServeGraphic extends Component {
     function fastest() {
 			el.call(chart)
 
-      console.log("fastest")
       d3.selectAll('.arc')
         .filter(d => d['type'] === 'first')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
@@ -368,7 +367,6 @@ export default class ServeGraphic extends Component {
     }
     function averages() {
 			el.call(chart)
-      console.log("averages")
       d3.selectAll('.arc')
         .filter(d => d['type'] === 'second')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
@@ -385,7 +383,6 @@ export default class ServeGraphic extends Component {
 
      function all() {
 			 el.call(chart)
-      console.log("all")
       d3.selectAll('.arc')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
         .transition()
