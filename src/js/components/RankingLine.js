@@ -29,7 +29,7 @@ export default class RankingLine extends Component {
         color: 'white',
         left: 0,
         right: 0,
-        top: 500,
+        top: window.innerHeight*3/4,
         margin: 'auto',
         opacity: 1,
         display: 'none'
