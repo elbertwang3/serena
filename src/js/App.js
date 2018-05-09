@@ -355,6 +355,7 @@ class App extends Component {
                   {servegraphic}
                 </div>
                 <div className='sections' id='sections2'>
+              
                   <section className="step">
                     <p className="prose dark">Serena is consistently one of the WTA tour's fastest servers. </p>
                   </section>
@@ -378,6 +379,8 @@ class App extends Component {
                   {servedirection}
                 </div>
                 <div className='sections' id='sections4'>
+                  <section className="step">
+                  </section>
                   <section className="step">
                     <p className="prose dark">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
                        out wide or up the T. With speed combined with placement, many of her first serves are unreturnable. On any given serve,
@@ -508,7 +511,7 @@ class App extends Component {
                   <section className="step">
                     <p className="prose dark">Navratilova won her last grand slam title when she won Wimbledon at 33, and
                       Flavia Pennetta won her first and last slam at the U.S. Open at 33. Serena won the 2017 Australian Open at 35,
-                      and if she wins another slam, she will join Evonne Goolagang and Kim Clijsters as mothers who have won
+                      and if she wins another slam, she will join Evonne Goolagong and Kim Clijsters as mothers who have won
                     a grand slam title.</p>
                   </section>
 

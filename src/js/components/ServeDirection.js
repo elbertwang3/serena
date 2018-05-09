@@ -329,7 +329,6 @@ export default class ServeDirection extends Component {
       const height = window.innerHeight
 			const width = height / 2
 			chart.width(width).height(height)
-			serenafirst()
 			window.addEventListener('resize', resize)
 			//graphic.select('.slider input').on('input', handleInput)
 		}
@@ -379,10 +378,10 @@ export default class ServeDirection extends Component {
     for (var i = 0; i < d3.selectAll('#sections4 .step').size(); i++) {
       activateFunctions[i] = function () {};
     }
-    activateFunctions[0] = serenafirst;
-    activateFunctions[1] = wtafirst;
-    activateFunctions[2] = serenasecond;
-    activateFunctions[3] = wtasecond;
+    activateFunctions[1] = serenafirst;
+    activateFunctions[2] = wtafirst;
+    activateFunctions[3] = serenasecond;
+    activateFunctions[4] = wtasecond;
 
     var scroll = scroller()
       .container(d3.select('#graphic4'));
