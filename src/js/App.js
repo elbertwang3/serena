@@ -60,7 +60,6 @@ class App extends Component {
 };
 		const mobile = window.mobilecheck()
     if (mobile) {
-      console.log("mobile")
       $('.onhover-toggle-child-class').on(
         'touchstart',
         function() {
