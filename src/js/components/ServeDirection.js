@@ -57,18 +57,14 @@ export default class ServeDirection extends Component {
       	gEnter.append('g').attr('class', 'g-court')
       	gEnter.append('g').attr("class", 'serve-rects')
 
-        gEnter.append("text")
-          .text("Serve Accuracy")
-          .attr("class", "title2")
-          .attr("text-anchor", "middle")
-          .attr("alignment-baseline", "middle")
-          .attr("transform", translate(scaleLength(18), scaleLength(4.5)))
+
 
 			}
 			function exit({ container, data }) {
 			}
 
 			function updateScales({ data }) {
+        console.log(chartHeight)
 					scaleLength
 						.domain([0, 78])
 						.range([0, chartHeight])
@@ -120,7 +116,18 @@ export default class ServeDirection extends Component {
           .call(that.wrap, width)
 
 
-
+          const title2 = g.selectAll(".title2")
+            .data([data])
+          title2.exit().remove()
+          title2
+            .enter()
+            .append("text")
+          .merge(title2)
+            .text("Serve Accuracy")
+            .attr("class", "title2")
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("transform", translate(scaleLength(18), scaleLength(4.5)))
 
 
 				const court = g.select(".g-court")
@@ -155,6 +162,7 @@ export default class ServeDirection extends Component {
 
         const list = [1/3,2/3,3/3,4/3,5/3,6/3]
 				const serveRects = g.select(".serve-rects")
+          .attr("transform", translate(scaleLength(4.5) ,scaleLength(18)))
 
         const serves = []
         for (let i = 0; i < 200; i++) {
@@ -165,17 +173,14 @@ export default class ServeDirection extends Component {
         }
         const serve = serveRects.selectAll(".serve-circle")
 					.data(serves)
-
+        console.log(serves)
+        console.log(scaleLength(18))
         serve.exit().remove()
         serve
           .enter()
           .append("circle")
           .attr("class", "serve-circle")
           .attr("r", 2.5)
-          .attr("transform", d => {
-
-  					return translate(scaleLength(4.5) ,scaleLength(18))
-  				})
 				.merge(serve)
           .transition()
           .duration(1000)
@@ -204,8 +209,8 @@ export default class ServeDirection extends Component {
           //.duration(1000)
           .attr("x1", (d, i) => scaleLength(serveScale((i+1)/3)))
           .attr("x2", (d, i) => scaleLength(serveScale((i+1)/3)))
-          .attr("y1", (d, i) =>  scaleLength(18))
-          .attr("y2", (d, i) =>  scaleLength(39))
+          .attr("y1", (d, i) =>  scaleLength(0))
+          .attr("y2", (d, i) =>  scaleLength(21))
 
         const serveAnno = serveRects.selectAll(".serve-rect-anno")
 					.data(serveData)
@@ -215,12 +220,12 @@ export default class ServeDirection extends Component {
           .enter()
           .append("text")
           .attr("text-anchor", "middle")
-          .attr("alignment-baseline", i === 1 || i === 4 ? "hanging" : "baseline")
+          .attr("alignment-baseline", "middle")
           .attr("class", "serve-rect-anno")
           .text(d => d)
-          .attr("transform", (d,i) => translate(scaleLength(4.5) + scaleLength(serveScale((i+0.5)/3)), scaleLength(17)))
-        .merge(serveAnno)
 
+        .merge(serveAnno)
+          .attr("transform", (d,i) => translate(scaleLength(serveScale((i+0.5)/3)), -scaleLength(1)))
           .transition()
           .duration(1000)
 
@@ -246,23 +251,25 @@ export default class ServeDirection extends Component {
         addeuce
           .enter()
           .append("text")
+        .merge(addeuce)
           .text(d => d)
           .attr("text-anchor", "middle")
           .attr("class", "addeuce")
           .attr("alignment-baseline", "middle")
           .attr("transform", (d, i) => translate(scaleLength(11.25 + 13.5*i), scaleLength(48)))
 
-          const directionlabel = g.selectAll(".directionlabel")
+          const directionlabel = serveRects.selectAll(".directionlabel")
             .data(["Wide", "Middle", "T", "T", "Middle", "Wide"])
           directionlabel.exit().remove()
           directionlabel
             .enter()
             .append("text")
+          .merge(directionlabel)
             .attr("class", "directionlabel")
             .text(d => d)
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "middle")
-            .attr("transform", (d, i) => translate(scaleLength(6.75 + 4.5*i), scaleLength(14)))
+            .attr("transform", (d,i) => translate(scaleLength(serveScale((i+0.5)/3)), -scaleLength(3)))
 
           function randomNumber(list, weight) {
             var total_weight = weight.reduce(function (prev, cur, i, arr) {
@@ -286,10 +293,10 @@ export default class ServeDirection extends Component {
 
 			function chart(container) {
 				const data = container.datum()
-        	updateScales({ container, data })
+        //updateScales({ container, data })
 				enter({ container, data })
 				exit({ container, data })
-
+        updateScales({ container, data })
 				updateDom({ container, data })
 				//updateAxis({ container, data })
 			}

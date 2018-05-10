@@ -253,7 +253,7 @@ class App extends Component {
                      </span>
                    </a> reads a shirt she wore during a press conference at Wimbledon in 2009. She has won 23 Grand Slam titles, more than any man or woman
                      in the open era. She has nothing left to prove, and yet she's back after giving birth to her daughter. This time, perhaps, it's to prove to herself
-                     that she's still got it. That she can still win again, and again, and again.
+                     that she's still got it. That like all the other times she's bounced back, she can still win again, and again, and again.
 
                   </p>
 
