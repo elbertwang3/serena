@@ -233,6 +233,9 @@ class App extends Component {
               <div className="subhed">
                 A visual story of the most dominant player in tennis
               </div>
+              <div className="byline">
+                by <a href="https://twitter.com/elbertwang1" target="_blank">Elbert Wang</a>
+              </div>
             </div>
 
           </div>
