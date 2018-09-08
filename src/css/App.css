@@ -208,7 +208,7 @@
   font-family: "Source Sans Pro";
   font-size: 18px;
   max-width: 650px;
-     text-shadow: 1px 1px #000000;
+  text-shadow: 1px 1px #000000;
 
 }
 
@@ -1039,18 +1039,17 @@ h3 {
 }
 @media only screen and (max-width: 600px) {
   .title-container .title {
-    font-size: 20vw;
+    font-size: 18vw;
   }
   .title-container .subhed {
     font-size: 3.75vw;
   }
+
+  .title-container .byline {
+    font-size: 3.75vw;
+  }
   h2 {
     font-size: 40px;
-  }
-
-  .title-container {
-    top: 75%;
-
   }
 
 
