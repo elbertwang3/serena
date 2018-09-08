@@ -14,9 +14,9 @@ export default class RankingLine extends Component {
     this.svgRef = React.createRef();
     this.tooltipRef = React.createRef();
     this.state = {
-      margin: {top: 50, right: 25, bottom: 25, left: 50},
+      margin: {top: 50, right: 25, bottom: 200, left: 50},
       width: 500,
-      height: 8000,
+      height: 8400,
       linedata: null,
       slamdata: null,
       annotationdata: null,
@@ -27,10 +27,7 @@ export default class RankingLine extends Component {
         position: 'absolute',
         background: 'black',
         color: 'white',
-        left: 0,
-        right: 0,
-        top: window.innerHeight*3/4,
-        margin: 'auto',
+        top: window.innerHeight*7/10,
         opacity: 1,
         display: 'none'
       },
@@ -82,7 +79,7 @@ export default class RankingLine extends Component {
 
       var targetWidth = parentcontainer.offsetWidth;
       if (targetWidth < 500) {
-        console.log("Getting here");
+        
         //this.setState({width: targetWidth})
         chart.setAttribute('width', targetWidth)
         chart.setAttribute('height', targetWidth/aspect)
@@ -116,11 +113,11 @@ export default class RankingLine extends Component {
         map[obj.ranking_date] = obj.ranking;
         return map;
       }, {});
-
       const parseDate = d3.timeParse('%Y-%m-%d');
       const yExtent = d3.extent(linedata, d =>
         parseDate(d['ranking_date'])
       );
+
 
 
 
@@ -168,7 +165,9 @@ export default class RankingLine extends Component {
       slams.append("rect")
         .attr("class", "slam-circle")
         .attr("fill", "black")
-        .attr("x", d => xScale(linedatadict[d['date']])-12)
+        .attr("x", d => {
+          return xScale(linedatadict[d['date']])-12
+        })
         .attr("y", d => yScale(parseDate(d['date']))-12)
         .attr("width", 24)
         .attr("height", 24)
@@ -203,7 +202,6 @@ export default class RankingLine extends Component {
         .attr("width", 28)
         .attr("height", 28)
         .on("mouseover", function(d) {
-          console.log("hello")
           //d3.select(this).attr("fill", "white")
         })
 
@@ -290,10 +288,12 @@ export default class RankingLine extends Component {
 
         const topoffset = divRect.top + window.pageYOffset
         const bottomoffset = divRect.bottom + window.pageYOffset
+       
         const lineLength = mainpath.node().getTotalLength()
         const offset = window.innerHeight/2
         const realHeight = bottomoffset - topoffset
         const ratio = realHeight/this.state.height;
+       
         var pageYOffset = (window.pageYOffset)/ratio
         pageYOffset = pageYOffset - (window.innerHeight * (1-ratio))
         if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - 75) {
@@ -368,25 +368,28 @@ export default class RankingLine extends Component {
         }
 
 
-        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - topoffset) {
+        if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - topoffset + margin.bottom*0.9  * ratio/2) {
 
           this.setState(prevState => ({
             tooltipStyle: {
               ...prevState.tooltipStyle,
               position: 'fixed',
               opacity: 1,
-              display: 'block'
+              display: 'block',
+              top: window.innerHeight*7/10,
+              bottom: 'auto'
             }
           }))
         }
-        else if (window.pageYOffset > bottomoffset - topoffset){
+        else if (window.pageYOffset > bottomoffset - topoffset + margin.bottom*0.9*ratio/2){
+        
           this.setState(prevState => ({
             tooltipStyle: {
               ...prevState.tooltipStyle,
               position: 'absolute',
-              opacity: 0,
+              opacity: 1,
               top: 'auto',
-              bottom: 100
+              bottom: 0
             }
           }))
           //this.setState({position: {position:'absolute', top: 'auto', bottom: 100, opacity: 0}})
@@ -396,7 +399,7 @@ export default class RankingLine extends Component {
             tooltipStyle: {
               ...prevState.tooltipStyle,
               position: 'absolute',
-              top: window.innerHeight*3/4,
+              top: window.innerHeight*7/10,
             }
           }))
           //this.setState({position: {position:'absolute', top: 500}})

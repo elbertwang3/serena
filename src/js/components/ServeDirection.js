@@ -64,7 +64,6 @@ export default class ServeDirection extends Component {
 			}
 
 			function updateScales({ data }) {
-        console.log(chartHeight)
 					scaleLength
 						.domain([0, 78])
 						.range([0, chartHeight])
@@ -98,7 +97,7 @@ export default class ServeDirection extends Component {
           .attr("text-anchor", "middle")
           .attr("alignment-baseline", "middle")
         .merge(title)
-          .attr("transform", translate(scaleLength(18), scaleLength(66)))
+          .attr("transform", translate(scaleLength(18), scaleLength(4.5)))
           .text(() => {
             switch(currentServe) {
               case 0:
@@ -113,10 +112,10 @@ export default class ServeDirection extends Component {
                 return "Serena's first serve direction"
             }
           })
-          .call(that.wrap, width)
+          .call(that.wrap, 300)
 
 
-          const title2 = g.selectAll(".title2")
+          /*const title2 = g.selectAll(".title2")
             .data([data])
           title2.exit().remove()
           title2
@@ -127,7 +126,7 @@ export default class ServeDirection extends Component {
             .attr("class", "title2")
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "middle")
-            .attr("transform", translate(scaleLength(18), scaleLength(4.5)))
+            .attr("transform", translate(scaleLength(18), scaleLength(4.5)))*/
 
 
 				const court = g.select(".g-court")
@@ -171,10 +170,11 @@ export default class ServeDirection extends Component {
           let rand = Math.random() * (cat - min) + min
           serves.push({i: i, x: scaleLength(serveScale(rand)), y: scaleLength(Math.random() * 21)})
         }
+
+        console.log(serves)
         const serve = serveRects.selectAll(".serve-circle")
 					.data(serves)
-        console.log(serves)
-        console.log(scaleLength(18))
+
         serve.exit().remove()
         serve
           .enter()

@@ -20,7 +20,7 @@ export default class UnderPressure extends Component {
 
     componentDidMount() {
     	const that = this
-      const margin = {top: 25, bottom: 25, right: 40, left: 145}
+      const margin = {top: 75, bottom: 25, right: 50, left: 145}
 
       const chart = stackedbar()
 
@@ -59,6 +59,8 @@ export default class UnderPressure extends Component {
           axis.append('g').attr('class', 'x-axis')
           axis.append('g').attr("class", 'y-axis')
           gEnter.append('g').attr("class", "stacked-bars")
+          gEnter.append('g').attr("class", "labels")
+          gEnter.append('text').attr("class", "title")
         }
 
         function updateScales({ container, data }) {
@@ -88,6 +90,51 @@ export default class UnderPressure extends Component {
 
 
           const bars = g.select(".stacked-bars")
+          const labels = g.select(".labels")
+
+          const label = labels.selectAll(".label")
+            .data(["matches won", "lost", "win %"])
+
+          label
+            .enter()
+            .append("text")
+            .attr("class", "label")
+          .merge(label)
+            .text(d => d)
+            .attr("x", (d, i) => {
+              switch(i) {
+                case 0:
+                  return 0
+                case 1:
+                  return chartWidth
+                case 2:
+                  return chartWidth + 10
+              }
+            })
+            .attr("y", -7.5)
+            .attr("text-anchor", (d, i) => i == 0 || i == 2 ? "start" : "end")
+
+          const title = g.select(".title")
+          title
+            .text(d => {
+              switch(cut) {
+                case "total":
+                  return "Total win-loss record"
+
+                case "three":
+                  return "Win-loss for 3-set matches"
+
+                case "down":
+                  return "Win-loss when down first set"
+
+                case "tiebreak":
+                  return "Win-loss record for tiebreaks"
+                default:
+                  return [d['totalwin'] / d['total']]
+                }
+              })
+            .attr("x", -margin.left + 10)
+            .attr("y", -30)
 
           const barg = bars.selectAll(".stacked-bar-g")
             .data(data, d => d['player'])
@@ -179,10 +226,11 @@ export default class UnderPressure extends Component {
               .enter()
               .append("rect")
               .attr("class", "stacked-bar")
-              .attr("height", playerScale.bandwidth())
+              
               .attr("y", 0)
               .attr("fill", (d, i) => i === 0 ? "#1A80C4" : "#CC3D3D")
             .merge(bar)
+              .attr("height", playerScale.bandwidth())
 
 
               .transition()

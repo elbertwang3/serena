@@ -218,6 +218,7 @@ export default class ServeBreak extends Component {
 				.merge(item)
 					.attr('x', 0)
 					.attr('y', 0)
+					.attr("opacity", 0.6)
 					.attr('width', 15)
           .attr("height", 15)
 					.attr('transform',  d => translate(scaleX(d['percent_servept_won']) - 7.5, scaleY(d['percent_returnpt_won']) - 7.5))
@@ -478,15 +479,18 @@ export default class ServeBreak extends Component {
 	}
   render() {
   	const {sliderValue} = this.state
-  	return <div><div className="servebreak-container" ref={this.divRef}>
-
-   	</div>
-   	<div className='slider'>
-  			<div className="before">% return points won</div>
-  		<input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input>
-  			<div className="after">% serve points won</div>
-  		</div>
-  	</div>
-
+  	return (
+  		<div>
+	  		<div className='slider'>
+		  			<div className="before">% return points won</div>
+		  		<input id='input-slider' type='range' min='0' max='100' value={sliderValue} onInput={this.handleChange} onChange={this.handleChange}></input>
+		  			<div className="after">% serve points won</div>
+		  	</div>
+	  		<div>
+	  			<div className="servebreak-container" ref={this.divRef}></div>
+	   		</div>
+   		</div>
+	   	
+   	)
   }
 }

@@ -34,7 +34,7 @@ export default class ServeGraphic extends Component {
 
   componentDidMount() {
 		const that = this
-		const margin = {top: 60, bottom: 25, right: 25, left: 45}
+		const margin = {top: 25, bottom: 25, right: 40, left: 35}
 
 		let chart = servechart()
 		const el = d3.select('.serve-graphic')
@@ -74,7 +74,7 @@ export default class ServeGraphic extends Component {
 		      .attr("class", "arcs")
 				/*const arcgroupprofile = .append("g")
 		      .attr("class", "arc-group-profile")*/
-				gEnter.append("text")
+				/*gEnter.append("text")
 					.text("Serve Speed")
 					.attr("class", "chart-title")
 					.attr("text-anchor", "start")
@@ -87,13 +87,13 @@ export default class ServeGraphic extends Component {
 					.attr("dy", "1.25em")
 					.attr("x", 0)
 					.attr("y", 0)
-					.call(that.wrap, chartWidth)
+					.call(that.wrap, chartWidth)*/
 			}
 
 			function updateScales({ container, data }) {
 				yScale
 				.domain([0, data.length])
-				.range([chartHeight/10, chartHeight])
+				.range([chartHeight/20, chartHeight])
 
 				offsetScaleX
 					.domain([700, 400])
@@ -127,7 +127,9 @@ export default class ServeGraphic extends Component {
 		      .append('g')
 				.merge(arcgroup)
 		      .attr("class", "arc-group")
-		      .attr("transform", (d, i) => `translate(0, ${yScale(i)})`)
+		      .attr("transform", (d, i) => {
+		      	return `translate(0, ${yScale(i)})`
+		      })
 
 				var arcGenerator = d3.arc()
 					.innerRadius(chartWidth/2)
@@ -238,8 +240,8 @@ export default class ServeGraphic extends Component {
 	          return that.state.serves[`${d['player']} serve.gif`]
 	        })
 	        .attr("class", "arc-photo")
-	        .attr("width", 50)
-	        .attr("height", 50)
+	        .attr("width", 40)
+	        .attr("height", 40)
 	        .attr("transform", "translate(100,0)")
 
 
@@ -307,14 +309,9 @@ export default class ServeGraphic extends Component {
 		}
 
 		function init() {
-
 			defaultchart()
-
-			//resize()
 			el.datum(that.props.data)
 			resize()
-
-
 			window.addEventListener('resize', resize)
 			//graphic.select('.slider input').on('input', handleInput)
 		}
@@ -337,11 +334,18 @@ export default class ServeGraphic extends Component {
   	}
 		function transitionBall(type) {
 			d3.selectAll(".tennis-ball")
+
+	      .attr("transform", d => {
+						let path = d3.select('.arc').node()
+
+		       	var p = path.getPointAtLength(0);
+		      	return "translate(" + (p.x + chartWidth/2 + offsetScaleX(width)) + "," + (p.y + chartWidth/2 - 2.5 - offsetScaleY(width)) + ")";
+			  	})
 				.filter(d => type.includes(d['type']))
 				.transition()
-				.ease(d3.easeLinear)
+				.ease(d3.easeCubicOut)
 				.duration(d => {
-					return 100/d['speed'] * 500
+					return 100/d['speed'] * 750
 				})
 				.attrTween("transform", d => translateAlong(d3.select('.arc').node()))
 				//.on("end", transitionBall);
@@ -351,29 +355,31 @@ export default class ServeGraphic extends Component {
 
 		}
     function fastest() {
-			el.call(chart)
+			//el.call(chart)
 
       d3.selectAll('.arc')
+        .attr("stroke-dashoffset", function(d) { 
+        	return d3.select(this).node().getTotalLength(); })
         .filter(d => d['type'] === 'first')
-        .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
         .transition()
-        .ease(d3.easeLinear)
+        .ease(d3.easeCubicOut)
         .duration(d => {
-          return 100/d['speed'] * 1000
+          return 100/d['speed'] * 2000
         })
         .attr("stroke-dashoffset", function(d) { return 0; })
 
       transitionBall(['first'])
     }
+    
     function averages() {
-			el.call(chart)
+			//el.call(chart)
       d3.selectAll('.arc')
-        .filter(d => d['type'] === 'second')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
+        .filter(d => d['type'] === 'second')
         .transition()
-        .ease(d3.easeLinear)
+        .ease(d3.easeCubicOut)
         .duration(d => {
-          return 100/d['speed'] * 1000
+          return 100/d['speed'] * 2000
         })
         .attr("stroke-dashoffset", function(d) { return 0; })
 
@@ -381,14 +387,14 @@ export default class ServeGraphic extends Component {
 
     }
 
-     function all() {
-			 el.call(chart)
+    function all() {
+			//el.call(chart)
       d3.selectAll('.arc')
         .attr("stroke-dashoffset", function(d) { return d3.select(this).node().getTotalLength(); })
         .transition()
-        .ease(d3.easeLinear)
+        .ease(d3.easeCubicOut)
         .duration(d => {
-          return 100/d['speed'] * 1000
+          return 100/d['speed'] * 2000
         })
         .attr("stroke-dashoffset", function(d) { return 0; })
 

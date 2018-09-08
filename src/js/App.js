@@ -14,7 +14,7 @@ import * as d3 from 'd3';
 import * as _ from 'lodash';
 import * as $ from 'jquery';
 import ReactGA from 'react-ga';
-import MetaTags from 'react-meta-tags';
+import dremiologo from '../images/dremiologo.svg';
 
 
 class App extends Component {
@@ -85,7 +85,6 @@ class App extends Component {
         }
       );
     } else {
-      console.log("not mobile")
       $('.onhover-toggle-child-class').on(
         'mouseenter mouseleave',
         function() {
@@ -202,7 +201,8 @@ class App extends Component {
     var rivalries, servestats, servedirection, input, goat, pressure, servegraphic
     if (renderReady) {
       rivalries = <div> <Rivalry data={venusdata} annotations={venusannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
-             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a <a href="https://www.vox.com/culture/2017/9/15/16297562/maria-sharapova-feud-serena-williams-explained">feud</a> off the court. On the court, however, Serena has had the last word, winning the last 18 matches.</p>
+             <p className="prose"> Serena has had a long, one-sided rivalry with Maria Sharapova, but in recent years it has translated somewhat of a <a href="https://www.vox.com/culture/2017/9/15/16297562/maria-sharapova-feud-serena-williams-explained">feud</a> off the court. 
+             On the court, however, Serena has had the last word, winning 18 consecutive matches.</p>
             <Rivalry data={mariadata} annotations={mariaannotation} margin={{top:25, bottom: 25, right: 25, left: 25}} />
             </div>
       servestats = <div className="serveStatsGraphic"><ServeBreak data={servedata} /></div>
@@ -213,7 +213,7 @@ class App extends Component {
       servegraphic = <ServeGraphic data={servespeed}/>
 
     }
-    const serveTemplate = _.range(1,33).map((i) =>
+    const serveTemplate = _.range(1,30).map((i) =>
     <section className="smallerstep" key={i}>
       <p className="prose"></p>
     </section>)
@@ -222,6 +222,7 @@ class App extends Component {
       <div className="wrapper">
         <div className="content">
           <div className="header">
+             <a href="https://www.dremio.com/" target="_blank" rel="noopener noreferrer" className="logo"> <img src={dremiologo} height="40" alt="dremio-logo"/></a>
             <div className="background-container">
 
             </div>
@@ -252,8 +253,8 @@ class App extends Component {
                        <img className="mytitles" src={images['titles.jpg']} alt="title" height="200" ref={this.titlesRef}></img>
                      </span>
                    </a> reads a shirt she wore during a press conference at Wimbledon in 2009. She has won 23 Grand Slam titles, more than any man or woman
-                     in the open era. She has nothing left to prove, and yet she's back after giving birth to her daughter. This time, perhaps, it's to prove to herself
-                     that she's still got it. That like all the other times she's bounced back, she can still win again, and again, and again.
+                     in the Open Era, and she was eight weeks pregnant for her 23rd. She has nothing left to prove. Yet she's back,
+                     and when she steps out onto the court, we have every reason to believe she can still win again, and again, and again.
 
                   </p>
 
@@ -265,13 +266,13 @@ class App extends Component {
                 <div className='sections' id='sections1'>
 
                   <section className="step">
-                    <p className="prose dark">Serena's story starts before she and older sister Venus were even born.
+                    <p className="prose light">Serena's story starts before she and older sister Venus were even born.
                    Their father, the inimitable Richard Williams, had already had conceived a vision for his future
                    daughters. It was in 1980--after seeing
                     Romanian tennis player Virginia Ruzici collecting a $40,000 check for winning a small tournament
                     in Salt Lake City on TV--that he decided that his not-yet-existent daughters would be tennis stars.
                  </p>
-                 <p className="prose dark">He started to take tennis lessons from a man who went by Old Whiskey, lessons
+                 <p className="prose light">He started to take tennis lessons from a man who went by Old Whiskey, lessons
                    he paid for with booze. He then drafted a 78-page plan, a manifesto of sorts, on how he was going to make
                    his daughters champions. In 1990, when Venus was just 10 years old, he predicted that she was going to be No. 1
                    in the world, and that Serena, then 9, would be even better than Venus. When film producer Arnon Milchan met
@@ -279,15 +280,15 @@ class App extends Component {
                    Looking back, history has judged him the latter, and his wild proclamations seem almost prophetic today. </p>
                   </section>
                   <section className="step">
-                    <p className="prose dark">Serena was born in Saginaw, Michigan on September 26, 1981, a little over a year after Venus was born. </p>
+                    <p className="prose light">Serena was born in Saginaw, Michigan on September 26, 1981, a little over a year after Venus was born. </p>
                   </section>
                   <section className="step">
-                    <p className="prose dark">Shortly after, the family, including their three older sisters, relocated to Compton, California.
+                    <p className="prose light">Shortly after, the family, including their three older sisters, relocated to Compton, California.
                     Their journey began on the rough public tennis courts of East Compton Park, where they once had to stop practice
                     to duck for cover when they heard gunshots. With weeds poking through the ground and broken glass and beer bottles strewn about,
                     the courts were a far cry from the manicured lawns of Centre Court at Wimbledon.
                   </p>
-                    <p className="prose dark">
+                    <p className="prose light">
                     Yet Compton "would make them tough, give them a fighter's mentality," Richard wrote
                     in his autobiography. "And how much easier would it be to play in front of thousands of
                     white people if they had already learned to play in front of scores of armed gang members?"
@@ -296,7 +297,7 @@ class App extends Component {
                   </p>
                   </section>
                   <section className="step">
-                    <p className="prose dark">When Serena turned 9, the family moved to West Palm Beach, FL
+                    <p className="prose light">When Serena turned 9, the family moved to West Palm Beach, FL
                       to train at Rick Macci's tennis academy. Macci and Richard sometimes clashed, and in 1995,
                       he pulled his daughters out of the academy, coaching them himself. He also took them out
                       of the junior circuit, citing the intensity of the other parents and how time-consuming it was.
@@ -311,10 +312,10 @@ class App extends Component {
                       long after most players retire. </p>*/}
                   </section>
                   <section className="step">
-                    <p className="prose dark">On October 28, 1995, Serena played her very first pro match for a qualifying round
+                    <p className="prose light">On October 28, 1995, Serena played her very first pro match for a qualifying round
                       at the Bell Challenge in Quebec against American Annie Miller. Serena lost, 1-6, 1-6.
                     </p>
-                    <p className="prose dark">
+                    <p className="prose light">
                       Asked to comment on the match years later, Miller said, smiling, "In my mind I had every shot of winning the match [because I had]
                       a little more experience than she had at the time, so I played a good match, and won. I thought it was just another
                       day at the tennis courts." Few could have predicted that Serena would grow into the champion that she has become.
@@ -350,6 +351,10 @@ class App extends Component {
                 </div>
 
               </div>
+              <h2> Serve Speed </h2>
+              <p className="prose"> Serena has one of the consistently fastest serves on tour. Here's how her fastest serve stacks up against 
+              the fastest serves ever recorded by women, and her average first and second serves against the that of the average WTA player.
+              </p>
               <div className='graphic' id='graphic2'>
                 <div className="viz" id="viz2">
 
@@ -358,20 +363,22 @@ class App extends Component {
                 <div className='sections' id='sections2'>
 
                   <section className="step">
-                    <p className="prose dark">Serena is consistently one of the WTA tour's fastest servers. </p>
+                    <p className="prose"></p>
                   </section>
                   <section className="step">
-                    <p className="prose dark">Here are the top 5 fastest serves on the WTA tour. </p>
+                    <p className="prose dark">Serena hit the 3rd fastest serve ever at the 2013 Australian Open, and she's 
+                    joined by sister Venus, Lisicki, and Görges, and McCarthy to round out the top 5 fastest serves. </p>
                   </section>
                   <section className="step">
                     <p className="prose dark">Here are the average first and second serve speeds of Serena
-                    vs. the average WTA player. She has about 10mph on the average WTA player on both serves. </p>
+                    versus the average WTA player. She has about 10 miles per hour on the average WTA player on both serves. </p>
                   </section>
                   <section className="step">
                   </section>
                 </div>
 
               </div>
+              <h2> Serve Direction </h2>
               <p className="prose">Yet serve speed doesn't tell the whole story. Plenty of players serve fast,
                 but they aren't nearly as successful as Serena is on serve. One difference is that Serena hits
                 her spots.</p>
@@ -383,34 +390,34 @@ class App extends Component {
                   <section className="step">
                   </section>
                   <section className="step">
-                    <p className="prose dark">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
+                    <p className="prose light">On first serves, Serena rarely serves in the middle of the box, hitting the vast majority
                        out wide or up the T. With speed combined with placement, many of her first serves are unreturnable. On any given serve,
                      her likelihood of hitting an ace is 13%, a rate three times higher than the average WTA player.  </p>
                   </section>
                   <section className="step">
-                    <p className="prose dark">The average WTA player serves down the middle three times as often as Serena does, making it easier to return. </p>
+                    <p className="prose light">The average WTA player serves down the middle three times as often as Serena does, making it easier to return. </p>
                   </section>
-                  <section className="step">
+                  {/*<section className="step">
                     <p className="prose dark">She prefers to hit her second serve with topspin and toward her opponent's body.</p>
                   </section>
                   <section className="step">
                     <p className="prose dark">The average WTA player also hits 2nd serves down the middle to minimize double faults.</p>
-                  </section>
+                  </section>*/}
 
                 </div>
 
               </div>
 
 
-              <p className="prose">Serena's serve allows her to get ahead during the rally, end points quickly,
+              <p className="prose">Serena's serve allows her to get ahead during rallies, end points quickly,
                 and wipe away break points easily when she's down. When it's on, no one can break her serve.
                  It has been the key to her success.</p>
               <h2> Dominating on Serve and Return </h2>
-              <p className="prose"> Serena wins the highest percentage of serve points by a large margin, and she's
-                not far behind leader Justine Henin on return. Punishing opponents with weak serves, she hits return
-                winners on serves that sit up for her to pummel back. This is a cornerstone of her power game,
-                a playstyle that she and would Venus popularize, and what tennis commentator Mary Carillo has affectionately
-                dubbed "Big Babe Tennis."
+              <p className="prose"> Serena wins the highest percentage of points on serve by a large margin, and she's
+                not far behind leader Justine Henin on return. She can punish opponents with weak serves by 
+                hitting winners on serves that sit up for her to pummel back. This along with her serve are 
+                cornerstones of her power game, a playstyle that she and would Venus popularize, and what tennis 
+                commentator Mary Carillo has affectionately dubbed "Big Babe Tennis."
               </p>
                 {/*<p className="prose">
               When the sisters debuted on the tour, the no. 1 player at the time was Martina Hingis.
@@ -420,15 +427,17 @@ class App extends Component {
              </p>*/}
               {servestats}
               <h2> Serena's Rivals </h2>
-              <p className="prose">While the men's tour has been dominated by the Big 4 for the last decade, the
-                women's tour has not had quite an equivalent cohort of players. Although several players have taken
+              <p className="prose">While the Big 4 (Federer, Nadal, Djokovic, and Murray) has dominated the men's tour 
+               for the last decade, the women's tour has not had quite an equivalent cohort of players. Although several players have taken
                 the No. 1 spot (some even without a grand slam), they've come and gone. For most of her career,
                 Serena has been a league of her own. Still, throughout the years, she has had her share of rivals,
                 with Venus being her fiercest one for all these years.  </p>
-              <p className="prose"><span style={{color: "#91ceff"}}>Hard court</span> matches are in blue, <span style={{color: "#f28b02"}}>clay</span> in orange, and <span style={{color: "#4ec291"}}>grass</span> in green.</p>
+              <p className="prose"><span style={{color: "#91ceff"}}>Hard court</span> matches are in blue, <span style={{color: "#f28b02"}}>clay</span> in orange, 
+              and <span style={{color: "#4ec291"}}>grass</span> in green.
+               Grand slam matches are <span style={{textDecoration: "underline"}}>outlined</span>.</p>
 
               {rivalries}
-              <h3> Search for a Head-to-Head </h3>
+              <h2> Search for a Head-to-Head </h2>
 
               <p className="prose"> After all these years, no one Serena has played more than two matches against has had a winning
                 record against her, except for one player--Arantxa Sanchez Vicario. Search for her,
@@ -538,15 +547,15 @@ class App extends Component {
                 and claws her way back into a match.
               </p>
               <p className="prose">
-                Coming back from her pregnancy may be the toughest hurdle in her career yet.
+                Coming back from giving birth to her daughter may be the toughest hurdle in her career yet.
                 But if anyone is up to the challenge, it's Serena.
               </p>
 
               <div className="credits">
-                <h3> Credits and Methodology </h3>
-                <p className="creditsp">
+                <h2> Credits and Methodology </h2>
+                <p className="prose">
                   Analysis done in <a href="https://www.dremio.com/">Dremio</a> and Python. Created using d3.js and <a href="https://github.com/facebook/create-react-app">create-react-app</a>.
-                  Cover photo image credits go to Getty Images. Data is from Wikipedia and Jeff Sackmann's <a href="https://github.com/JeffSackmann/tennis_wta">database</a>. Design inspiration from Swiss
+                  Cover photo image credit goes to Getty Images. Data is from Wikipedia and Jeff Sackmann's <a href="https://github.com/JeffSackmann/tennis_wta">database</a>. Design inspiration from Swiss
                   Info's <a href="https://interactive.swissinfo.ch/2018_01_28_federer20/en.html">20 Years, 20 Titles</a>.
                   The <a href="https://bl.ocks.org/russellgoldenberg/aba5f81a8bd0633a399d692289ab97eb">weighted pivot scatter
                   plot</a> is based on Russell Goldenberg's chart.

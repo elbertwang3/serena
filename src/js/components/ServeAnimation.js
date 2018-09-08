@@ -35,21 +35,16 @@ export default class ServeAnimation extends Component {
       const topoffset = divRect.top + window.pageYOffset
 			//console.log(topoffset);
       const bottomoffset = divRect.bottom + window.pageYOffset
-      /*console.log(topoffset)
-      console.log(bottomoffset-window.innerHeight)
-      console.log(window.pageYOffset)*/
       if (window.pageYOffset >= topoffset && window.pageYOffset <= bottomoffset - window.innerHeight) {
         //console.log("fixed")
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", true)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
       } else if (window.pageYOffset > bottomoffset - window.innerHeight) {
-         //console.log("bottom")
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", true)
       } else {
-        //console.log("unfixed")
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_fixed", false)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_unfixed", true)
         d3.select(ReactDOM.findDOMNode(this).parentNode).classed("is_bottom", false)
@@ -64,7 +59,7 @@ export default class ServeAnimation extends Component {
 
   scroll(d3.selectAll('#sections3 .smallerstep'), "scroller3");
   scroll.on('active', function (index) {
-
+    console.log(index)
     // highlight current step text
     d3.selectAll('#sections3 .smallerstep')
       .style('opacity', function (d, i) {

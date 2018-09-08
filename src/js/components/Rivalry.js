@@ -121,7 +121,7 @@ export default class Rivalry extends Component {
               ...prevState.tooltipStyle,
               position: 'absolute',
               display: 'block',
-              left: (window.innerWidth/2 - 155),
+              //left: (window.innerWidth/2 - 155),
               top: (d3.event.pageY + 30 - this.state.topoffset)
 
             }
@@ -281,8 +281,7 @@ export default class Rivalry extends Component {
               ...prevState.tooltipStyle,
               position: 'absolute',
               display: 'block',
-              left: (window.innerWidth/2 - 155),
-              top: (d3.event.pageY + 30 - this.state.topoffset)
+              top: (d3.event.pageY + 15 - this.state.topoffset)
 
             }
           }))

@@ -40,7 +40,7 @@ export default class No1Weeks extends Component {
 
   componentDidMount() {
     const that = this
-    const margin = {top: 25, bottom: 50, right: 25, left: 70}
+    const margin = {top: 35, bottom: 50, right: 70, left: 25}
 
     const dateParser = d3.timeParse("%b %e, %Y")
     const birthdayParser = d3.timeParse("%Y%m%d")
@@ -176,7 +176,7 @@ export default class No1Weeks extends Component {
               return '#FF8A4F'
             }
           })
-          .attr("opacity", d => d['key'] === 'Serena Williams' ? 1 : 0.5)
+          .attr("opacity", d => d['key'] === 'Serena Williams' ? 1 : 0.75)
           .attr("stroke-width", d => d['key'] === 'Serena Williams' ? "3px" : "1px")
 
         const voronoiLines = g.select(".voronoi-lines")
@@ -200,7 +200,7 @@ export default class No1Weeks extends Component {
             //line.parentNode.appendChild(line);
             //d3.select(".focus").attr("transform", "translate(" + currXScale(d.data.date) + "," + currYScale(d.data.value) + ")")
             //d3.select(".focus").select("text").text(d.data.city.name);
-            d3.selectAll(".player-line").attr("opacity", 0.25)
+            d3.selectAll(".player-line").attr("opacity", 0.75)
             line.attr("opacity", 1)
 
 
@@ -301,7 +301,7 @@ export default class No1Weeks extends Component {
 
               }
 
-            d3.selectAll(".player-line").attr("opacity", d => d['key'] === 'Serena Williams' ? 1 : 0.25)
+            d3.selectAll(".player-line").attr("opacity", d => d['key'] === 'Serena Williams' ? 1 : 0.75)
             //d3.select(".focus").attr("transform", "translate(-100,-100)");
           })
           .attr("class", "voronoi")
@@ -361,40 +361,68 @@ export default class No1Weeks extends Component {
       function updateAxis({ container, data }) {
         const axis = container.select('.g-axis')
 
-        const axisLeft = d3.axisLeft(currYScale)
+        const axisRight = d3.axisRight(currYScale)
         const axisBottom = d3.axisBottom(currXScale)
         //axisBottom.selectAll(".domain").remove()
         //axisBottom.selectAll(".tick").remove()
 
-        axisLeft.ticks(Math.floor(currYScale.range()[0] / 100))
+        axisRight.ticks(Math.floor(currYScale.range()[0] / 100))
         axisBottom.ticks(Math.floor(currXScale.range()[1]/ 100)); //for yearscale
         //axisBottom.ticks(d3.range(scaleX.domain()[0], scaleX.domain()[1], 5)) //for agescale
         //axisLeft.ticks(d3.range(scaleY.domain()[0], scaleY.domain()[1], 100)) //for weeks
         //axisLeft.ticks(d3.range(scaleY.domain([0], scaleY.domain([1], 5)))) //for slams
         const x = axis.select('.x-axis')
 
-
-
-
+        x.select('.axis__label')
+          .attr("transform", `translate(${chartWidth/2}, ${margin.bottom*1.5/2})`)
+        
         x
           .attr('transform', translate(0, chartHeight))
           .call(axisBottom)
 
+
+        x.select(".axis__label")
+          .text(xCut)
+
+       
+
+        x.select(".domain").remove()
+        //x.selectAll(".tick").append("")
+        /*y.selectAll(".tick")
+          .filter(d => d === 0)
+          .select("line")
+          .remove()*/
+        x.selectAll(".tick")
+          //.filter(d => d != 0)
+          .select("line")
+          .attr("y1", 0)
+          .attr("y2", -chartHeight)
+          .attr("fill", "none")
+          //.attr("stroke-dasharray", "4,4")
+          .attr("stroke", "#a9a9a9")
+          .attr("x1", 0)
+          .attr("x2", 0)
+           .attr("opacity", 0.25)
+
         const y = axis.select('.y-axis')
 
-        y.call(axisLeft)
+        y.select(".axis__label")
+          .text(yCut === "numslams" ? "slams" : "weeks at no. 1")
 
-        x.select('.axis__label')
-          .attr("transform", `translate(${chartWidth/2}, ${margin.bottom*1.5/2})`)
+        y.call(axisRight)
+          .attr("transform", `translate(${chartWidth}, 0)`)
+
+       
 
         y.select('.axis__label')
-          .attr('transform', `translate(${-margin.left/2}, ${chartHeight/2}) rotate(-90)`)
+          .attr('transform', `translate(${25}, ${-10}) `)
+          .attr("text-anchor", "end")
 
         //x.select(".domain").remove()
         y.select(".domain").remove()
         //x.selectAll(".tick").append("")
         y.selectAll(".tick")
-          .filter(d => d === 0)
+          .filter(d => d === 0 || d === 25 || d === 400)
           .select("line")
           .remove()
         y.selectAll(".tick")
@@ -403,18 +431,14 @@ export default class No1Weeks extends Component {
           .attr("y1", 0)
           .attr("y2", 0)
           .attr("fill", "none")
-          .attr("stroke-dasharray", "4,4")
+          //.attr("stroke-dasharray", "4,4")
           .attr("stroke", "#a9a9a9")
           .attr("x1", 0)
-          .attr("x2", chartWidth)
+          .attr("x2", -chartWidth)
+          .attr("opacity", 0.25)
 
 
 
-        x.select(".axis__label")
-          .text(xCut)
-
-        y.select(".axis__label")
-          .text(yCut === "numslams" ? "slams" : "weeks at no. 1")
 
 
       }
