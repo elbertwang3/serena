@@ -127,31 +127,31 @@
 @font-face {
     font-family: 'Quarto';
     font-weight: 700;
-    src: url("../fonts/Quarto-Bold [TheFontsMaster.com].otf") format("opentype");
+    src: url("../fonts/Quarto-Bold.otf") format("opentype");
 }
 
 @font-face {
     font-family: 'Quarto';
     font-weight: 500;
-    src: url("../fonts/Quarto-Medium [TheFontsMaster.com].otf") format("opentype");
+    src: url("../fonts/Quarto-Medium.otf") format("opentype");
 }
 
 @font-face {
     font-family: 'Quarto';
     font-weight: 600;
-    src: url("../fonts/Quarto-Semibold [TheFontsMaster.com].otf") format("opentype");
+    src: url("../fonts/Quarto-Semibold.otf") format("opentype");
 }
 
 @font-face {
     font-family: 'Quarto';
     font-weight: 400;
-    src: url("../fonts/Quarto-Medium1 [TheFontsMaster.com].otf") format("opentype");
+    src: url("../fonts/Quarto-Medium1.otf") format("opentype");
 }
 
 @font-face {
     font-family: 'Quarto';
     font-weight: 300;
-    src: url("../fonts/Quarto-Light [TheFontsMaster.com].otf") format("opentype");
+    src: url("../fonts/Quarto-Light.otf") format("opentype");
 }
 
 
